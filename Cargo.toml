@@ -3,6 +3,7 @@ members = [
     "examples/ch01-intro",
     "examples/ch02-crisis",
     "examples/ch03-trueno",
+    "examples/ch04-bft",
     "examples/ch05-pmat",
 ]
 resolver = "2"

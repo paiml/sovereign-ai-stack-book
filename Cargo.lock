@@ -107,6 +107,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "ch04-bft"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "criterion",
+ "proptest",
+ "serde",
+ "serde_json",
+ "trueno",
+]
+
+[[package]]
 name = "ch05-pmat"
 version = "0.1.0"
 dependencies = [

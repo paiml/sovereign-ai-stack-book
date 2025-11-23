@@ -1,0 +1,28 @@
+[package]
+name = "ch04-bft"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[[bin]]
+name = "dual_model_consensus"
+path = "src/dual_model_consensus.rs"
+
+[[bin]]
+name = "byzantine_simulation"
+path = "src/byzantine_simulation.rs"
+
+[[bin]]
+name = "reliability_test"
+path = "src/reliability_test.rs"
+
+[dependencies]
+trueno.workspace = true
+anyhow.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true
+criterion.workspace = true
