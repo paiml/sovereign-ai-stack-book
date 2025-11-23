@@ -1,0 +1,28 @@
+# PMAT Quality Gate Configuration
+# Sovereign AI Stack Book - EXTREME TDD Standards
+# Generated from paiml-mcp-agent-toolkit patterns
+
+[gates]
+# Run clippy linter
+run_clippy = true
+
+# Enforce strict clippy (-D warnings)
+clippy_strict = true
+
+# Run test suite
+run_tests = true
+
+# Test timeout in seconds (fast tests < 5min per SPEC)
+test_timeout = 300
+
+# Check code coverage
+check_coverage = true
+
+# Minimum coverage percentage (95% per SPEC.md requirement)
+min_coverage = 95.0
+
+# Check cyclomatic complexity
+check_complexity = true
+
+# Maximum cyclomatic complexity per function
+max_complexity = 15

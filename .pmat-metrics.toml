@@ -1,0 +1,43 @@
+# O(1) Quality Gate Metric Thresholds
+# Sovereign AI Stack Book - Scientific Reproducibility Standards
+# Pattern: Toyota Way - Jidoka (warnings = errors)
+
+[thresholds]
+# Hard limits (block commits)
+lint_max_ms = 30_000              # 30s pre-commit
+test_fast_max_ms = 300_000        # 5min (SPEC requirement)
+coverage_max_ms = 600_000         # 10min coverage check
+binary_max_bytes = 10_000_000     # 10 MB (book examples should be small)
+
+[staleness]
+# Metrics older than this trigger warnings
+max_age_days = 7
+
+[enforcement]
+# Pre-commit behavior (EXTREME TDD mode)
+fail_on_stale_metrics = false
+fail_on_missing_metrics = false
+fail_on_threshold_violation = true  # Block on violations
+
+[trend_analysis]
+# Track metrics for Kaizen
+enabled = true
+retention_days = 90
+alert_on_regression = true
+regression_threshold_pct = 5.0      # Alert if >5% slower
+
+# PMAT-specific quality gates
+[quality_gates]
+# EXTREME TDD standards (SPEC.md requirements)
+min_coverage_pct = 95.0             # ≥95% line coverage (SPEC requirement)
+min_mutation_score_pct = 80.0       # ≥80% mutation score
+max_cyclomatic_complexity = 15      # ≤15 per function
+min_tdg_grade = "A-"                # A- or better (≥90 per SPEC)
+max_unwrap_calls = 10               # Minimize panics
+
+# Performance budgets
+[performance]
+# Benchmark requirements
+min_benchmark_runs = 100             # Statistical significance
+max_benchmark_variance_pct = 5.0     # ±5% tolerance (SPEC requirement)
+require_criterion_reports = true     # HTML reports mandatory

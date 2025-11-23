@@ -1,0 +1,40 @@
+[workspace]
+members = [
+    "examples/ch01-intro",
+    "examples/ch03-trueno",
+]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+authors = ["Noah Gift <consulting@noahgift.com>"]
+repository = "https://github.com/nogibjj/sovereign-ai-stack-book"
+
+[workspace.dependencies]
+# Core Sovereign AI Stack dependencies
+trueno = "0.1"
+# aprender = "0.1"
+# realizar = "0.1"
+# trueno-db = "0.1"
+# trueno-graph = "0.1"
+# renacer = "0.1"
+# batuta = "0.1"
+# depyler = "0.1"
+# decy = "0.1"
+# entrenar = "0.1"
+# bashrs = "0.1"
+# repartir = "0.1"
+
+# Testing & benchmarking
+criterion = { version = "0.5", features = ["html_reports"] }
+proptest = "1.0"
+
+# Serialization (GDPR-compliant SafeTensors)
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Error handling
+anyhow = "1.0"
+thiserror = "1.0"

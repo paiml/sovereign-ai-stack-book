@@ -1,0 +1,18 @@
+[package]
+name = "ch01-intro"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[[bin]]
+name = "hello_sovereign"
+path = "src/hello_sovereign.rs"
+
+[dependencies]
+trueno.workspace = true
+anyhow.workspace = true
+
+[dev-dependencies]
+criterion.workspace = true
+proptest.workspace = true

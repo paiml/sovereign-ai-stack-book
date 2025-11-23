@@ -1,0 +1,23 @@
+[package]
+name = "ch03-trueno"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[[bin]]
+name = "simd_speedup"
+path = "src/simd_speedup.rs"
+
+[[bin]]
+name = "gpu_comparison"
+path = "src/gpu_comparison.rs"
+
+[dependencies]
+trueno.workspace = true
+anyhow.workspace = true
+serde.workspace = true
+
+[dev-dependencies]
+criterion.workspace = true
+proptest.workspace = true
