@@ -85,6 +85,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "ch02-crisis"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proptest",
+ "serde",
+ "serde_json",
+ "trueno",
+]
+
+[[package]]
 name = "ch03-trueno"
 version = "0.1.0"
 dependencies = [

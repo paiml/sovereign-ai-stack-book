@@ -1,6 +1,7 @@
 [workspace]
 members = [
     "examples/ch01-intro",
+    "examples/ch02-crisis",
     "examples/ch03-trueno",
     "examples/ch05-pmat",
 ]

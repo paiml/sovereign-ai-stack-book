@@ -186,6 +186,35 @@ bench-ch01:
 	@echo "⚡ Benchmarking Chapter 1..."
 	@cargo bench --package ch01-intro
 
+# Chapter 2: Crisis of Determinism in the Age of Generative AI
+run-ch02:
+	@echo "🎯 Running Chapter 2 examples: Crisis of Determinism"
+	@echo ""
+	@echo "Example 1: Deterministic Baseline (Traditional ML)"
+	@cargo run --package ch02-crisis --bin deterministic_baseline
+	@echo ""
+	@echo "Example 2: LLM Variance (Non-Deterministic Generation)"
+	@cargo run --package ch02-crisis --bin llm_variance
+	@echo ""
+	@echo "Example 3: Toyota Andon Cord (Rust Compiler as Quality Gate)"
+	@cargo run --package ch02-crisis --bin toyota_andon
+
+run-ch02-baseline:
+	@echo "📊 Running: Deterministic Baseline"
+	@cargo run --package ch02-crisis --bin deterministic_baseline
+
+run-ch02-llm:
+	@echo "🤖 Running: LLM Variance Demo"
+	@cargo run --package ch02-crisis --bin llm_variance
+
+run-ch02-andon:
+	@echo "🏭 Running: Toyota Andon Cord"
+	@cargo run --package ch02-crisis --bin toyota_andon
+
+test-ch02:
+	@echo "🧪 Testing Chapter 2..."
+	@cargo nextest run --package ch02-crisis || cargo test --package ch02-crisis
+
 # Chapter 3: trueno - SIMD-Accelerated Tensor Operations
 run-ch03:
 	@echo "🚀 Running Chapter 3 examples: trueno SIMD speedups"
@@ -232,7 +261,7 @@ test-ch05:
 	@cargo nextest run --package ch05-pmat || cargo test --package ch05-pmat
 
 # Run all chapter examples
-run-all: run-ch01 run-ch03 run-ch05
+run-all: run-ch01 run-ch02 run-ch03 run-ch05
 	@echo "✅ All chapter examples executed!"
 
 # === VALIDATION ===

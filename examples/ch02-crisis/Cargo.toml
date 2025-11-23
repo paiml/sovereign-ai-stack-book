@@ -1,0 +1,27 @@
+[package]
+name = "ch02-crisis"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[[bin]]
+name = "deterministic_baseline"
+path = "src/deterministic_baseline.rs"
+
+[[bin]]
+name = "llm_variance"
+path = "src/llm_variance.rs"
+
+[[bin]]
+name = "toyota_andon"
+path = "src/toyota_andon.rs"
+
+[dependencies]
+trueno.workspace = true
+anyhow.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true
