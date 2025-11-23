@@ -1,0 +1,26 @@
+[package]
+name = "ch05-pmat"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[[bin]]
+name = "quality_gates"
+path = "src/quality_gates.rs"
+
+[[bin]]
+name = "tdg_analysis"
+path = "src/tdg_analysis.rs"
+
+[[bin]]
+name = "coverage_demo"
+path = "src/coverage_demo.rs"
+
+[dependencies]
+anyhow.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true

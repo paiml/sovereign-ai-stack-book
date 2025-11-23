@@ -1,179 +1,158 @@
-# Sovereign AI Stack Book - Development Roadmap
-# CODE-FIRST Implementation Tracker
-# Pattern: EXTREME TDD - Write code first, documentation second
+roadmap_version: '1.0'
+github_enabled: true
+github_repo: nogibjj/sovereign-ai-stack-book
+roadmap:
+- id: CH02-001
+  github_issue: null
+  item_type: task
+  title: 'Chapter 2: Crisis of Determinism in the Age of Generative AI'
+  status: planned
+  priority: high
+  assigned_to: null
+  created: 2025-11-23T18:30:00+00:00
+  updated: 2025-11-23T18:30:00+00:00
+  spec: null
+  acceptance_criteria:
+  - examples/ch02-crisis/ directory with 3 working binaries
+  - All examples compile with zero warnings
+  - make test-ch02 passes with ≥95% coverage
+  - Benchmarks prove determinism claims
+  - Documentation shows actual variance numbers (not 'unpredictable')
+  phases: []
+  subtasks: []
+  estimated_effort: 2 days
+  labels:
+  - chapter
+  - part0
+  - extreme-tdd
+  notes: |
+    CODE-FIRST approach:
+    - examples/ch02-crisis/deterministic_baseline.rs (traditional ML)
+    - examples/ch02-crisis/llm_variance.rs (demonstrate LLM non-determinism)
+    - examples/ch02-crisis/toyota_andon.rs (show Rust compiler as quality gate)
 
-version: "1.0"
-project: "Sovereign AI Stack Book"
-repository: "nogibjj/sovereign-ai-stack-book"
+    Validation: make run-ch02, make test-ch02
+- id: CH04-001
+  github_issue: null
+  item_type: task
+  title: 'Chapter 4: Byzantine Fault Tolerance for Multi-Agent Systems'
+  status: planned
+  priority: medium
+  assigned_to: null
+  created: 2025-11-23T18:30:00+00:00
+  updated: 2025-11-23T18:30:00+00:00
+  spec: null
+  acceptance_criteria:
+  - Dual-model verification working example
+  - Benchmark proving 98% reliability claim
+  - Monte Carlo simulation showing failure modes
+  - All code compiles and tests pass
+  phases: []
+  subtasks: []
+  estimated_effort: 3 days
+  labels:
+  - chapter
+  - part0
+  - extreme-tdd
+  notes: |
+    CODE-FIRST approach:
+    - examples/ch04-bft/dual_model_consensus.rs (Claude + DeepSeek)
+    - examples/ch04-bft/byzantine_simulation.rs (simulate failures)
+    - examples/ch04-bft/reliability_test.rs (prove 98% vs 77% claim)
 
-milestones:
-  - id: "PART0"
-    name: "Part 0: Foundation & Principles"
-    description: "Establish Toyota Way/EU compliance framework"
-    target_date: "2026-02-01"
+    Validation: make bench-ch04 (reproduce reliability numbers)
+- id: PMAT-001
+  github_issue: null
+  item_type: task
+  title: 'Chapter 5: pmat - Quality Enforcement Toolkit'
+  status: inprogress
+  priority: critical
+  assigned_to: null
+  created: 2025-11-23T18:30:00+00:00
+  updated: 2025-11-23T18:07:48.060649758+00:00
+  spec: null
+  acceptance_criteria:
+  - Working quality gate examples
+  - TDG calculation demonstration
+  - Coverage enforcement example
+  - Integration with this book's pmat config
+  - Benchmark showing <30ms pre-commit validation
+  phases: []
+  subtasks: []
+  estimated_effort: 4 days
+  labels:
+  - chapter
+  - part1
+  - extreme-tdd
+  - pmat
+  notes: |
+    Deep dive into pmat usage for Sovereign AI Stack Book quality enforcement.
 
-  - id: "PART1"
-    name: "Part I: Infrastructure Foundations"
-    description: "Quality enforcement and tensor operations"
-    target_date: "2026-03-01"
+    CODE-FIRST approach:
+    - examples/ch05-pmat/quality_gates.rs (O(1) pre-commit validation)
+    - examples/ch05-pmat/tdg_analysis.rs (Test-Driven Grade calculation)
+    - examples/ch05-pmat/coverage_demo.rs (≥95% enforcement)
+    - examples/ch05-pmat/mutation_testing.rs (≥80% mutation score)
 
-  - id: "PART2"
-    name: "Part II: Transpilation Layer"
-    description: "Python→Rust, Deno→Rust, Bash→Rust transpilers"
-    target_date: "2026-04-01"
+    Validation: make run-ch05 (show actual quality metrics)
+- id: DEPYLER-001
+  github_issue: null
+  item_type: task
+  title: 'Chapter 11: depyler - Python→Rust Transpiler'
+  status: planned
+  priority: medium
+  assigned_to: null
+  created: 2025-11-23T18:30:00+00:00
+  updated: 2025-11-23T18:30:00+00:00
+  spec: null
+  acceptance_criteria:
+  - Working transpiler examples
+  - Performance benchmarks showing speedup
+  - Side-by-side Python vs Rust comparison
+  - Correctness verification tests
+  phases: []
+  subtasks: []
+  estimated_effort: 3 days
+  labels:
+  - chapter
+  - part2
+  - extreme-tdd
+  - transpiler
+  notes: |
+    Implement examples showing Python to Rust transpilation for performance.
 
-  - id: "PART3"
-    name: "Part III: Machine Learning Pipeline"
-    description: "Training, inference, model management"
-    target_date: "2026-05-01"
+    CODE-FIRST approach:
+    - examples/ch11-depyler/numpy_to_trueno.py → .rs
+    - examples/ch11-depyler/sklearn_to_aprender.py → .rs
+    - examples/ch11-depyler/benchmark_speedup.rs (prove performance claims)
 
-  - id: "PART4"
-    name: "Part IV: Database & Graph Infrastructure"
-    description: "trueno-db and trueno-graph integration"
-    target_date: "2026-06-01"
+    Validation: make bench-ch11 (verify transpilation speedup)
+- id: DECY-001
+  github_issue: null
+  item_type: task
+  title: 'Chapter 12: decy - Deno/TypeScript→Rust Transpiler'
+  status: planned
+  priority: low
+  assigned_to: null
+  created: 2025-11-23T18:30:00+00:00
+  updated: 2025-11-23T18:30:00+00:00
+  spec: null
+  acceptance_criteria:
+  - Working transpiler examples
+  - WASM integration demonstration
+  - Performance comparison benchmarks
+  phases: []
+  subtasks: []
+  estimated_effort: 2 days
+  labels:
+  - chapter
+  - part2
+  - extreme-tdd
+  - transpiler
+  notes: |
+    Implement examples showing Deno/TS to Rust transpilation.
 
-  - id: "PART5"
-    name: "Part V: Orchestration & Profiling"
-    description: "batuta, renacer, repartir"
-    target_date: "2026-07-01"
-
-  - id: "PART6"
-    name: "Part VI: Real-World Applications"
-    description: "Production deployment examples"
-    target_date: "2026-08-01"
-
-tickets:
-  # CURRENT STATUS: Ch01 and Ch03 complete
-  # Next logical step: Ch02 or Ch04-Ch22 implementation
-
-  - id: "CH02-001"
-    title: "Chapter 2: Crisis of Determinism in the Age of Generative AI"
-    description: |
-      Implement working examples demonstrating deterministic vs non-deterministic AI.
-
-      CODE-FIRST approach:
-      - examples/ch02-crisis/deterministic_baseline.rs (traditional ML)
-      - examples/ch02-crisis/llm_variance.rs (demonstrate LLM non-determinism)
-      - examples/ch02-crisis/toyota_andon.rs (show Rust compiler as quality gate)
-
-      Validation: make run-ch02, make test-ch02
-    status: "todo"
-    priority: "high"
-    assignee: null
-    labels: ["chapter", "part0", "extreme-tdd"]
-    milestone: "PART0"
-    created: "2025-11-23T18:30:00Z"
-    updated: "2025-11-23T18:30:00Z"
-    acceptance_criteria:
-      - "examples/ch02-crisis/ directory with 3 working binaries"
-      - "All examples compile with zero warnings"
-      - "make test-ch02 passes with ≥95% coverage"
-      - "Benchmarks prove determinism claims"
-      - "Documentation shows actual variance numbers (not 'unpredictable')"
-
-  - id: "CH04-001"
-    title: "Chapter 4: Byzantine Fault Tolerance for Multi-Agent Systems"
-    description: |
-      Implement BFT patterns for dual-model verification.
-
-      CODE-FIRST approach:
-      - examples/ch04-bft/dual_model_consensus.rs (Claude + DeepSeek)
-      - examples/ch04-bft/byzantine_simulation.rs (simulate failures)
-      - examples/ch04-bft/reliability_test.rs (prove 98% vs 77% claim)
-
-      Validation: make bench-ch04 (reproducereliability numbers)
-    status: "todo"
-    priority: "medium"
-    assignee: null
-    labels: ["chapter", "part0", "extreme-tdd"]
-    milestone: "PART0"
-    created: "2025-11-23T18:30:00Z"
-    updated: "2025-11-23T18:30:00Z"
-    acceptance_criteria:
-      - "Dual-model verification working example"
-      - "Benchmark proving 98% reliability claim"
-      - "Monte Carlo simulation showing failure modes"
-      - "All code compiles and tests pass"
-
-  - id: "PMAT-001"
-    title: "Chapter 5: pmat - Quality Enforcement Toolkit (PRIORITY)"
-    description: |
-      Deep dive into pmat usage for Sovereign AI Stack Book quality enforcement.
-
-      CODE-FIRST approach:
-      - examples/ch05-pmat/quality_gates.rs (O(1) pre-commit validation)
-      - examples/ch05-pmat/tdg_analysis.rs (Test-Driven Grade calculation)
-      - examples/ch05-pmat/coverage_demo.rs (≥95% enforcement)
-      - examples/ch05-pmat/mutation_testing.rs (≥80% mutation score)
-
-      Validation: make run-ch05 (show actual quality metrics)
-    status: "todo"
-    priority: "critical"
-    assignee: null
-    labels: ["chapter", "part1", "extreme-tdd", "pmat"]
-    milestone: "PART1"
-    created: "2025-11-23T18:30:00Z"
-    updated: "2025-11-23T18:30:00Z"
-    acceptance_criteria:
-      - "Working quality gate examples"
-      - "TDG calculation demonstration"
-      - "Coverage enforcement example"
-      - "Integration with this book's pmat config"
-      - "Benchmark showing <30ms pre-commit validation"
-
-  - id: "DEPYLER-001"
-    title: "Chapter 11: depyler - Python→Rust Transpiler"
-    description: |
-      Implement examples showing Python to Rust transpilation for performance.
-
-      CODE-FIRST approach:
-      - examples/ch11-depyler/numpy_to_trueno.py → .rs
-      - examples/ch11-depyler/sklearn_to_aprender.py → .rs
-      - examples/ch11-depyler/benchmark_speedup.rs (prove performance claims)
-
-      Validation: make bench-ch11 (verify transpilation speedup)
-    status: "todo"
-    priority: "medium"
-    assignee: null
-    labels: ["chapter", "part2", "extreme-tdd", "transpiler"]
-    milestone: "PART2"
-    created: "2025-11-23T18:30:00Z"
-    updated: "2025-11-23T18:30:00Z"
-    acceptance_criteria:
-      - "Working transpiler examples"
-      - "Performance benchmarks showing speedup"
-      - "Side-by-side Python vs Rust comparison"
-      - "Correctness verification tests"
-
-  - id: "DECY-001"
-    title: "Chapter 12: decy - Deno/TypeScript→Rust Transpiler"
-    description: |
-      Implement examples showing Deno/TS to Rust transpilation.
-
-      CODE-FIRST approach:
-      - examples/ch12-decy/fetch_to_reqwest.ts → .rs
-      - examples/ch12-decy/wasm_integration.ts → .rs
-      - examples/ch12-decy/benchmark_node_vs_rust.rs
-    status: "todo"
-    priority: "low"
-    assignee: null
-    labels: ["chapter", "part2", "extreme-tdd", "transpiler"]
-    milestone: "PART2"
-    created: "2025-11-23T18:30:00Z"
-    updated: "2025-11-23T18:30:00Z"
-    acceptance_criteria:
-      - "Working transpiler examples"
-      - "WASM integration demonstration"
-      - "Performance comparison benchmarks"
-
-github:
-  enabled: true
-  repo: "nogibjj/sovereign-ai-stack-book"
-  sync_interval: "manual"
-  auto_create_issues: false
-
-config:
-  spec_dir: "docs/specifications"
-  changelog_path: "CHANGELOG.md"
-  quality_gates_on_complete: true
-  auto_update_changelog: true
+    CODE-FIRST approach:
+    - examples/ch12-decy/fetch_to_reqwest.ts → .rs
+    - examples/ch12-decy/wasm_integration.ts → .rs
+    - examples/ch12-decy/benchmark_node_vs_rust.rs

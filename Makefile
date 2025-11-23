@@ -202,8 +202,37 @@ bench-ch03:
 	@echo "⚡ Benchmarking Chapter 3 (verifying SIMD claims)..."
 	@cargo bench --package ch03-trueno
 
+# Chapter 5: pmat - Quality Enforcement Toolkit
+run-ch05:
+	@echo "🛡️  Running Chapter 5 examples: pmat quality enforcement"
+	@echo ""
+	@echo "Example 1: O(1) Quality Gates (hash-based validation)"
+	@cargo run --package ch05-pmat --bin quality_gates
+	@echo ""
+	@echo "Example 2: TDG Analysis (Test-Driven Grade calculation)"
+	@cargo run --package ch05-pmat --bin tdg_analysis
+	@echo ""
+	@echo "Example 3: Coverage Enforcement (≥95% requirement)"
+	@cargo run --package ch05-pmat --bin coverage_demo
+
+run-ch05-quality-gates:
+	@echo "🛡️  Running: O(1) Quality Gates"
+	@cargo run --package ch05-pmat --bin quality_gates
+
+run-ch05-tdg:
+	@echo "📊 Running: TDG Analysis"
+	@cargo run --package ch05-pmat --bin tdg_analysis
+
+run-ch05-coverage:
+	@echo "📊 Running: Coverage Enforcement Demo"
+	@cargo run --package ch05-pmat --bin coverage_demo
+
+test-ch05:
+	@echo "🧪 Testing Chapter 5..."
+	@cargo nextest run --package ch05-pmat || cargo test --package ch05-pmat
+
 # Run all chapter examples
-run-all: run-ch01 run-ch03
+run-all: run-ch01 run-ch03 run-ch05
 	@echo "✅ All chapter examples executed!"
 
 # === VALIDATION ===
