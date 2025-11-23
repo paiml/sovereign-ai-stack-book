@@ -73,9 +73,9 @@ Following academic standards:
 
 ### Part 0: The Crisis and The Response
 - **Chapter 1:** Hello Sovereign AI ✅ *(complete)*
-- **Chapter 2:** Crisis of Determinism *(in progress)*
+- **Chapter 2:** Crisis of Determinism ✅ *(complete)*
 - **Chapter 3:** trueno - SIMD Operations ✅ *(complete)*
-- **Chapter 4:** Byzantine Fault Tolerance *(planned)*
+- **Chapter 4:** Byzantine Fault Tolerance ✅ *(complete)*
 
 ### Part I: Infrastructure Foundations
 - **Chapter 5:** pmat - Quality Enforcement ✅ *(complete)*
@@ -85,7 +85,7 @@ Following academic standards:
 ### Part II-VI: Complete Toolchain
 Transpilers, ML pipeline, databases, orchestration, production deployment *(22 chapters total)*
 
-**Status:** 3 of 22 chapters complete with working code
+**Status:** 5 of 22 chapters complete with working code (Part 0: 100% complete!)
 
 ## 🛡️ Quality Standards (EXTREME TDD)
 
@@ -96,7 +96,7 @@ This book enforces production-grade quality:
 | **Test Coverage** | ≥95% | 95.3% | ✅ |
 | **TDG Grade** | ≥A- (90) | A (91.2) | ✅ |
 | **Compiler Warnings** | 0 | 0 | ✅ |
-| **Tests Passing** | 100% | 23/23 | ✅ |
+| **Tests Passing** | 100% | 44/44 | ✅ |
 | **CI/CD** | All checks pass | ✅ | ✅ |
 
 **Quality enforcement via pmat:**
