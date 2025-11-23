@@ -218,12 +218,12 @@ mod tests {
         // This test verifies the concept, actual prevention is compile-time
         // If this compiles, Rust's guarantees are working
 
-        let data = vec![1, 2, 3];
+        let data = [1, 2, 3];
         let _reference = &data[0];
         // Cannot drop(data) here - compiler won't allow it
         // This test passes because the bug is impossible to write
 
-        assert!(true, "Compile success proves memory safety");
+        // Compilation success itself proves memory safety
     }
 
     #[test]

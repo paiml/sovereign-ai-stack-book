@@ -13,7 +13,6 @@
 /// - ✅ Runs completely offline
 /// - ✅ No network syscalls (verifiable with strace)
 /// - ✅ Output is deterministic and reproducible
-
 use trueno::Vector;
 use anyhow::Result;
 
@@ -87,6 +86,6 @@ mod tests {
     fn test_no_network_dependencies() {
         // This test verifies we can compile without network features
         // If this compiles, we have zero network dependencies
-        assert!(true, "Compilation success proves no network deps");
+        // Compilation success itself proves no network deps
     }
 }

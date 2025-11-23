@@ -13,7 +13,6 @@
 /// - Show which lines are NOT covered (not just percentage)
 /// - Explain WHY certain code can't be tested
 /// - Demonstrate property-based testing for edge cases
-
 use anyhow::Result;
 use std::collections::HashMap;
 
@@ -270,7 +269,7 @@ mod tests {
 
     #[test]
     fn test_coverage_threshold_enforcement() {
-        let mut report = CoverageReport {
+        let report = CoverageReport {
             total_lines: 100,
             covered_lines: 94,
             file_coverage: HashMap::new(),

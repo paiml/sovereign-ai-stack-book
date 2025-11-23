@@ -16,7 +16,6 @@
 /// - This example shows actual timings
 /// - Demonstrates PCIe transfer cost
 /// - Explains when to use GPU vs CPU
-
 use trueno::Vector;
 use anyhow::Result;
 use std::time::Instant;

@@ -14,7 +14,6 @@
 /// - Not "good quality" → "TDG grade: A- (91.2)"
 /// - Not "well-tested" → "95.3% coverage, 82% mutation score"
 /// - Not "maintainable" → "Cyclomatic complexity: 8.3 avg"
-
 use anyhow::Result;
 use std::fmt;
 
@@ -60,6 +59,7 @@ impl fmt::Display for Grade {
 
 /// Quality metrics from various tools
 #[derive(Debug, Clone)]
+#[allow(dead_code)]
 struct QualityMetrics {
     // Coverage metrics
     line_coverage_pct: f64,         // From cargo-tarpaulin

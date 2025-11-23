@@ -11,7 +11,6 @@
 /// - METRICS OVER ADJECTIVES: "11.9x faster" not "blazing fast"
 /// - BRUTAL HONESTY: Show the actual numbers, not marketing speak
 /// - ZERO VAPORWARE: All code runs, all claims verified
-
 use trueno::Vector;
 use anyhow::Result;
 use std::time::Instant;

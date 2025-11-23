@@ -13,13 +13,13 @@
 /// - Compiler = Andon cord (stops on defects)
 /// - Pre-commit hooks = Quality gates (prevent bad code from entering)
 /// - Hash-based caching = Kaizen (continuous improvement without waste)
-
 use anyhow::Result;
 use std::collections::HashMap;
 use std::time::Instant;
 
 /// Quality gate configuration matching .pmat-metrics.toml
 #[derive(Debug)]
+#[allow(dead_code)]
 struct QualityGate {
     name: &'static str,
     threshold_ms: u64,
@@ -51,6 +51,7 @@ struct MetricsCache {
 }
 
 #[derive(Debug, Clone)]
+#[allow(dead_code)]
 struct CachedMetric {
     source_hash: String,
     duration_ms: u64,
