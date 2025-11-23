@@ -1,0 +1,36 @@
+[book]
+title = "Sovereign AI Stack: EXTREME TDD for EU-Compliant AI Systems"
+authors = ["Noah Gift"]
+description = "A CODE-FIRST guide to building sovereign AI systems with Rust, covering the complete Pragmatic AI Labs toolchain. Every claim is scientifically reproducible via `make test`."
+language = "en"
+multilingual = false
+src = "src"
+
+[preprocessor.links]
+# Enable {{#include}} for code examples
+
+[output.html]
+default-theme = "rust"
+preferred-dark-theme = "navy"
+git-repository-url = "https://github.com/nogibjj/sovereign-ai-stack-book"
+git-repository-icon = "fa-github"
+edit-url-template = "https://github.com/nogibjj/sovereign-ai-stack-book/edit/main/{path}"
+
+[output.html.search]
+enable = true
+
+[output.html.playground]
+editable = true
+copyable = true
+line-numbers = true
+
+[output.html.fold]
+enable = true
+level = 1
+
+[output.html.print]
+enable = true
+
+[build]
+build-dir = "book"
+create-missing = true
