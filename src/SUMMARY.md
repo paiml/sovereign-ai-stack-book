@@ -58,6 +58,7 @@
 - [Chapter 20: Building a Sovereign ML Pipeline](./ch20-ml-pipeline.md)
 - [Chapter 21: EU Regulatory Compliance](./ch21-compliance.md)
 - [Chapter 22: Production Deployment](./ch22-deployment.md)
+- [Chapter 23: CITL - Compiler-in-the-Loop Learning](./ch23-citl.md)
 
 ---
 
