@@ -215,6 +215,28 @@ test-ch02:
 	@echo "🧪 Testing Chapter 2..."
 	@cargo nextest run --package ch02-crisis || cargo test --package ch02-crisis
 
+# Chapter 4: Byzantine Fault Tolerance for Multi-Agent Systems
+run-ch04:
+	@echo "🛡️  Running Chapter 4 examples: Byzantine Fault Tolerance"
+	@echo ""
+	@echo "Example 1: BFT Demonstration"
+	@cargo run --package ch04-bft --bin bft_demo
+	@echo ""
+	@echo "Example 2: Dual-Model Validation"
+	@cargo run --package ch04-bft --bin dual_model
+
+run-ch04-bft:
+	@echo "🛡️  Running: BFT Demonstration"
+	@cargo run --package ch04-bft --bin bft_demo
+
+run-ch04-dual:
+	@echo "🔍 Running: Dual-Model Validation"
+	@cargo run --package ch04-bft --bin dual_model
+
+test-ch04:
+	@echo "🧪 Testing Chapter 4..."
+	@cargo nextest run --package ch04-bft || cargo test --package ch04-bft
+
 # Chapter 3: trueno - SIMD-Accelerated Tensor Operations
 run-ch03:
 	@echo "🚀 Running Chapter 3 examples: trueno SIMD speedups"
@@ -261,7 +283,7 @@ test-ch05:
 	@cargo nextest run --package ch05-pmat || cargo test --package ch05-pmat
 
 # Run all chapter examples
-run-all: run-ch01 run-ch02 run-ch03 run-ch05
+run-all: run-ch01 run-ch02 run-ch03 run-ch04 run-ch05
 	@echo "✅ All chapter examples executed!"
 
 # === VALIDATION ===

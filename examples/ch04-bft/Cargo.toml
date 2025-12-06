@@ -1,0 +1,22 @@
+[package]
+name = "ch04-bft"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[[bin]]
+name = "bft_demo"
+path = "src/bft_demo.rs"
+
+[[bin]]
+name = "dual_model"
+path = "src/dual_model.rs"
+
+[dependencies]
+anyhow.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true
