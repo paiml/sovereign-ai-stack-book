@@ -294,7 +294,10 @@ mod tests {
         // Dual validation produces results - the error counts are computed
         // This test validates that both approaches complete without panicking
         // and produce valid boolean results
-        assert!(single_errors <= 100, "Single model error count should be valid");
+        assert!(
+            single_errors <= 100,
+            "Single model error count should be valid"
+        );
         assert!(dual_errors <= 100, "Dual model error count should be valid");
     }
 
