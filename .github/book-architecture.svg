@@ -152,14 +152,12 @@
   <!-- Transpilers -->
   <g transform="translate(730, 350)">
     <text x="70" y="0" text-anchor="middle" fill="#a371f7" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">Transpilers</text>
-    <rect x="0" y="10" width="65" height="30" rx="4" fill="#21262d"/>
-    <text x="32" y="30" text-anchor="middle" fill="#8b949e" font-family="monospace" font-size="9">Py→Rust</text>
-    <rect x="75" y="10" width="65" height="30" rx="4" fill="#21262d"/>
-    <text x="107" y="30" text-anchor="middle" fill="#8b949e" font-family="monospace" font-size="9">TS→Rust</text>
-    <rect x="0" y="45" width="65" height="30" rx="4" fill="#21262d"/>
-    <text x="32" y="65" text-anchor="middle" fill="#8b949e" font-family="monospace" font-size="9">Bash→Rust</text>
-    <rect x="75" y="45" width="65" height="30" rx="4" fill="#21262d"/>
-    <text x="107" y="65" text-anchor="middle" fill="#8b949e" font-family="monospace" font-size="9">C→Rust</text>
+    <rect x="0" y="10" width="140" height="25" rx="4" fill="#21262d"/>
+    <text x="70" y="27" text-anchor="middle" fill="#8b949e" font-family="monospace" font-size="9">Py→Rust (depyler)</text>
+    <rect x="0" y="40" width="140" height="25" rx="4" fill="#21262d"/>
+    <text x="70" y="57" text-anchor="middle" fill="#8b949e" font-family="monospace" font-size="9">Bash→Rust (bashrs)</text>
+    <rect x="0" y="70" width="140" height="25" rx="4" fill="#21262d"/>
+    <text x="70" y="87" text-anchor="middle" fill="#8b949e" font-family="monospace" font-size="9">C→Rust (decy)</text>
   </g>
 
   <!-- Footer -->
