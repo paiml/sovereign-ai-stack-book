@@ -392,8 +392,17 @@ test-ch10:
 	@echo "🧪 Testing Chapter 10..."
 	@cargo nextest run --package ch10-depyler || cargo test --package ch10-depyler
 
+# Chapter 11: decy - C to Rust Transpilation
+run-ch11:
+	@echo "🔧 Running Chapter 11 examples: decy"
+	@cargo run --package ch11-decy --bin c_transpilation
+
+test-ch11:
+	@echo "🧪 Testing Chapter 11..."
+	@cargo nextest run --package ch11-decy || cargo test --package ch11-decy
+
 # Run all chapter examples
-run-all: run-ch01 run-ch02 run-ch03 run-ch04 run-ch05 run-ch06 run-ch07 run-ch08 run-ch09 run-ch10
+run-all: run-ch01 run-ch02 run-ch03 run-ch04 run-ch05 run-ch06 run-ch07 run-ch08 run-ch09 run-ch10 run-ch11
 	@echo "✅ All chapter examples executed!"
 
 # === VALIDATION ===
