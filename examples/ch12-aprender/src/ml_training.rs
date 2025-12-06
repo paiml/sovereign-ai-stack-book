@@ -107,7 +107,7 @@ fn basic_training_demo() {
     println!("   After 100 epochs:");
     println!("   Weights: {:.4}", model.weights[0]);
     println!("   Bias: {:.4}", model.bias);
-    println!("   Final MSE: {:.6}", losses.last().unwrap());
+    println!("   Final MSE: {:.6}", losses.last().expect("at least one loss recorded"));
     println!();
 
     // Predictions

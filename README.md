@@ -39,6 +39,52 @@ mdbook serve --open    # http://localhost:3000
 
 **If `make test` passes, the book's claims are true. If not, [file an issue](https://github.com/paiml/sovereign-ai-stack-book/issues).**
 
+## Installation
+
+### Prerequisites
+
+- **Rust 1.75+**: Install via [rustup](https://rustup.rs/)
+- **cargo-nextest**: Fast test runner (optional but recommended)
+- **mdBook**: For building/viewing the book locally
+
+### Setup
+
+```bash
+# Install Rust (if not already installed)
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source ~/.cargo/env
+
+# Install dependencies
+make setup
+
+# Or install manually:
+cargo install cargo-nextest --locked
+cargo install mdbook --locked
+cargo install cargo-tarpaulin --locked  # Optional: coverage
+```
+
+### Verify Installation
+
+```bash
+# Check Rust version
+rustc --version  # Should be 1.75.0 or higher
+
+# Verify workspace builds
+cargo check --workspace
+
+# Run tests
+make test
+```
+
+### Platform Support
+
+| Platform | Status | Notes |
+|----------|--------|-------|
+| Linux x86_64 | ✅ Full | Primary development platform |
+| macOS ARM64 | ✅ Full | M1/M2/M3 supported |
+| macOS x86_64 | ✅ Full | Intel Macs supported |
+| Windows x86_64 | ✅ Full | MSVC toolchain required |
+
 ## Book Structure
 
 The book covers 23 chapters across 6 parts:

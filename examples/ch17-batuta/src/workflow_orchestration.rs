@@ -77,8 +77,8 @@ impl Workflow {
                 if !self.tasks.contains_key(dep) {
                     return Err(format!("Unknown dependency: {}", dep));
                 }
-                *in_degree.get_mut(id).unwrap() += 1;
-                dependents.get_mut(dep).unwrap().push(id.clone());
+                *in_degree.get_mut(id).expect("task exists in in_degree") += 1;
+                dependents.get_mut(dep).expect("dependency exists in dependents").push(id.clone());
             }
         }
 
@@ -105,7 +105,7 @@ impl Workflow {
             deps.sort();
 
             for dep_id in deps {
-                let deg = in_degree.get_mut(&dep_id).unwrap();
+                let deg = in_degree.get_mut(&dep_id).expect("dependent task exists");
                 *deg -= 1;
                 if *deg == 0 {
                     queue.push_back(dep_id);
@@ -154,7 +154,7 @@ fn basic_demo() {
     workflow.add_task(Task::new("evaluate").depends_on("train_model"));
     workflow.add_task(Task::new("deploy").depends_on("evaluate"));
 
-    workflow.compute_execution_order().unwrap();
+    workflow.compute_execution_order().expect("valid DAG");
 
     println!("   Task count: {}", workflow.task_count());
     println!("   Execution order: {:?}", workflow.execution_order);
@@ -182,7 +182,7 @@ fn parallel_demo() {
             .depends_on("branch_b"),
     );
 
-    workflow.compute_execution_order().unwrap();
+    workflow.compute_execution_order().expect("valid DAG");
 
     println!("   Diamond pattern workflow:");
     println!("        start");
@@ -210,7 +210,7 @@ fn determinism_demo() {
         workflow.add_task(Task::new("c").depends_on("a").depends_on("b"));
         workflow.add_task(Task::new("d").depends_on("c"));
 
-        workflow.compute_execution_order().unwrap();
+        workflow.compute_execution_order().expect("valid DAG");
         let order = workflow.execution_order.clone();
         println!("   Run {}: {:?}", run, order);
         results.push(order);
@@ -335,7 +335,7 @@ mod tests {
         workflow.add_task(Task::new("b").depends_on("a"));
         workflow.add_task(Task::new("c").depends_on("b"));
 
-        workflow.compute_execution_order().unwrap();
+        workflow.compute_execution_order().expect("valid DAG");
         assert_eq!(workflow.execution_order, vec!["a", "b", "c"]);
     }
 
@@ -347,7 +347,7 @@ mod tests {
         workflow.add_task(Task::new("b").depends_on("start"));
         workflow.add_task(Task::new("end").depends_on("a").depends_on("b"));
 
-        workflow.compute_execution_order().unwrap();
+        workflow.compute_execution_order().expect("valid DAG");
 
         // start first, end last
         assert_eq!(workflow.execution_order[0], "start");
@@ -370,7 +370,7 @@ mod tests {
         workflow.add_task(Task::new("a"));
         workflow.add_task(Task::new("b").depends_on("a"));
 
-        workflow.compute_execution_order().unwrap();
+        workflow.compute_execution_order().expect("valid DAG");
         let executed = workflow.execute();
 
         assert_eq!(executed, vec!["a", "b"]);
@@ -385,7 +385,7 @@ mod tests {
             workflow.add_task(Task::new("y"));
             workflow.add_task(Task::new("z").depends_on("x").depends_on("y"));
 
-            workflow.compute_execution_order().unwrap();
+            workflow.compute_execution_order().expect("valid DAG");
             results.push(workflow.execution_order.clone());
         }
 

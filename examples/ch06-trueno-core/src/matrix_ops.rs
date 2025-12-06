@@ -146,8 +146,8 @@ fn matrix_determinism() {
     let mut results = Vec::new();
 
     for run in 1..=5 {
-        let a = Matrix::from_vec(2, 2, a_data.clone()).unwrap();
-        let b = Matrix::from_vec(2, 2, b_data.clone()).unwrap();
+        let a = Matrix::from_vec(2, 2, a_data.clone()).expect("valid 2x2 matrix A");
+        let b = Matrix::from_vec(2, 2, b_data.clone()).expect("valid 2x2 matrix B");
 
         // Manual 2x2 matrix multiplication
         let mut c = [0.0f32; 4];
@@ -183,7 +183,7 @@ fn ml_operations() {
 
     // Simulate a neural network layer: y = Wx + b
     let weights = vec![0.1, 0.2, 0.3, 0.4, 0.5, 0.6];
-    let w = Matrix::from_vec(2, 3, weights).unwrap();
+    let w = Matrix::from_vec(2, 3, weights).expect("valid 2x3 weight matrix");
 
     let input = vec![1.0, 2.0, 3.0];
     let bias = vec![0.1, 0.2];
@@ -296,7 +296,7 @@ mod tests {
 
     #[test]
     fn test_matrix_creation() {
-        let m = Matrix::from_vec(2, 3, vec![1.0, 2.0, 3.0, 4.0, 5.0, 6.0]).unwrap();
+        let m = Matrix::from_vec(2, 3, vec![1.0, 2.0, 3.0, 4.0, 5.0, 6.0]).expect("valid 2x3 matrix");
         assert_eq!(m.rows(), 2);
         assert_eq!(m.cols(), 3);
         assert_eq!(m.as_slice().len(), 6);
@@ -305,8 +305,8 @@ mod tests {
     #[test]
     fn test_matrix_multiplication() {
         // A: 2x2, B: 2x2
-        let a = Matrix::from_vec(2, 2, vec![1.0, 2.0, 3.0, 4.0]).unwrap();
-        let b = Matrix::from_vec(2, 2, vec![5.0, 6.0, 7.0, 8.0]).unwrap();
+        let a = Matrix::from_vec(2, 2, vec![1.0, 2.0, 3.0, 4.0]).expect("valid matrix A");
+        let b = Matrix::from_vec(2, 2, vec![5.0, 6.0, 7.0, 8.0]).expect("valid matrix B");
 
         let mut c = [0.0f32; 4];
         for i in 0..2 {
@@ -333,7 +333,7 @@ mod tests {
         let mut sums = Vec::new();
 
         for _ in 0..10 {
-            let m = Matrix::from_vec(2, 2, data.clone()).unwrap();
+            let m = Matrix::from_vec(2, 2, data.clone()).expect("valid test matrix");
             let sum: f32 = m.as_slice().iter().sum();
             sums.push(sum);
         }

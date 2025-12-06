@@ -305,7 +305,7 @@ fn semantic_preservation_demo() {
         vars.insert("x".to_string(), x);
         vars.insert("y".to_string(), y);
 
-        let actual = evaluate(&expr, &vars).unwrap();
+        let actual = evaluate(&expr, &vars).expect("evaluation should succeed");
         let status = if actual == expected { "✅" } else { "❌" };
 
         println!(
@@ -413,7 +413,7 @@ mod tests {
         for (x, y, expected) in [(1, 2, 5), (0, 0, 0), (10, -5, 0)] {
             vars.insert("x".to_string(), x);
             vars.insert("y".to_string(), y);
-            let result = evaluate(&expr, &vars).unwrap();
+            let result = evaluate(&expr, &vars).expect("evaluation should succeed");
             assert_eq!(result, expected, "x={}, y={}", x, y);
         }
     }

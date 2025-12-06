@@ -176,7 +176,7 @@ fn summary_analysis(results: &[BenchResult]) {
     if !gpu_wins.is_empty() {
         let avg_gpu_speedup: f64 =
             gpu_wins.iter().map(|r| r.speedup).sum::<f64>() / gpu_wins.len() as f64;
-        let min_elements = gpu_wins.iter().map(|r| r.elements).min().unwrap();
+        let min_elements = gpu_wins.iter().map(|r| r.elements).min().expect("at least one GPU win");
 
         println!("   GPU Performance:");
         println!(
@@ -188,7 +188,7 @@ fn summary_analysis(results: &[BenchResult]) {
     }
 
     if !cpu_wins.is_empty() {
-        let max_elements = cpu_wins.iter().map(|r| r.elements).max().unwrap();
+        let max_elements = cpu_wins.iter().map(|r| r.elements).max().expect("at least one CPU win");
 
         println!("   CPU Performance:");
         println!(

@@ -206,7 +206,7 @@ fn monitoring_demo() {
 
     let config = DeploymentConfig::new(Environment::Production, "1.0.0");
     let mut manager = DeploymentManager::new(config);
-    manager.deploy().unwrap();
+    manager.deploy().expect("deployment succeeds");
 
     let overall = manager.health_check();
     println!("   Overall health: {:?}", overall);
@@ -235,7 +235,7 @@ fn determinism_demo() {
     for run in 1..=5 {
         let config = DeploymentConfig::new(Environment::Production, "1.0.0");
         let mut manager = DeploymentManager::new(config);
-        manager.deploy().unwrap();
+        manager.deploy().expect("deployment succeeds");
 
         let health = manager.health_check();
         let uptime = manager.get_metric("uptime").unwrap_or(0.0);
@@ -385,7 +385,7 @@ mod tests {
     fn test_health_check() {
         let config = DeploymentConfig::new(Environment::Production, "1.0.0");
         let mut manager = DeploymentManager::new(config);
-        manager.deploy().unwrap();
+        manager.deploy().expect("deployment succeeds");
 
         let health = manager.health_check();
         assert_eq!(health, HealthStatus::Healthy);
@@ -395,7 +395,7 @@ mod tests {
     fn test_metrics() {
         let config = DeploymentConfig::new(Environment::Production, "1.0.0");
         let mut manager = DeploymentManager::new(config);
-        manager.deploy().unwrap();
+        manager.deploy().expect("deployment succeeds");
 
         assert!(manager.get_metric("uptime").is_some());
         assert!(manager.get_metric("requests_per_sec").is_some());
@@ -408,7 +408,7 @@ mod tests {
         for _ in 0..5 {
             let config = DeploymentConfig::new(Environment::Production, "1.0.0");
             let mut manager = DeploymentManager::new(config);
-            manager.deploy().unwrap();
+            manager.deploy().expect("deployment succeeds");
             results.push(manager.health_check());
         }
 

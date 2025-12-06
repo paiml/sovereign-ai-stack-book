@@ -5,7 +5,7 @@
 Every claim in this book is verifiable:
 
 ```bash
-git clone https://github.com/nogibjj/sovereign-ai-stack-book.git
+git clone https://github.com/paiml/sovereign-ai-stack-book.git
 cd sovereign-ai-stack-book
 make test
 ```

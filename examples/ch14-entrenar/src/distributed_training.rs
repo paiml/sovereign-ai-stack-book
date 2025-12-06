@@ -273,7 +273,7 @@ fn basic_distributed_demo() {
 
     println!("   Training progress:");
     println!("   - Initial MSE: {:.6}", losses[0]);
-    println!("   - Final MSE: {:.6}", losses.last().unwrap());
+    println!("   - Final MSE: {:.6}", losses.last().expect("at least one loss"));
     println!();
 
     println!("   Learned model:");
@@ -378,7 +378,7 @@ fn scaling_demo() {
         let mut trainer = DistributedTrainer::new(1, config);
         let losses = trainer.train(&x, &y);
 
-        let convergence = if *losses.last().unwrap() < 0.01 {
+        let convergence = if *losses.last().expect("at least one loss") < 0.01 {
             "✅ Good"
         } else {
             "⚠️  Slow"
@@ -386,7 +386,7 @@ fn scaling_demo() {
         println!(
             "   {:>8} │ {:>12.6} │ {:>12}",
             num_workers,
-            losses.last().unwrap(),
+            losses.last().expect("at least one loss"),
             convergence
         );
     }
@@ -522,7 +522,7 @@ mod tests {
         let losses = trainer.train(&x, &y);
 
         assert!(
-            losses.last().unwrap() < &losses[0],
+            losses.last().expect("at least one loss") < &losses[0],
             "Training should reduce loss"
         );
     }

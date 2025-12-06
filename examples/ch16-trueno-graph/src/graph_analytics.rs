@@ -126,7 +126,7 @@ impl Graph {
                 }
                 let share = damping * rank / neighbors.len() as f64;
                 for &neighbor in neighbors {
-                    *new_ranks.get_mut(&neighbor).unwrap() += share;
+                    *new_ranks.get_mut(&neighbor).expect("neighbor exists in ranks") += share;
                 }
             }
 
@@ -218,7 +218,7 @@ fn pagerank_demo() {
     println!("   ───────┼───────────");
 
     let mut sorted: Vec<_> = ranks.iter().collect();
-    sorted.sort_by(|a, b| b.1.partial_cmp(a.1).unwrap());
+    sorted.sort_by(|a, b| b.1.partial_cmp(a.1).expect("valid rank comparison"));
 
     for (page, rank) in sorted {
         println!("   {:>6} │ {:>10.4}", page, rank);

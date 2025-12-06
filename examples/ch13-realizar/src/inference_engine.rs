@@ -401,7 +401,7 @@ mod tests {
 
         let pred = engine.predict("test", &[3.0]);
         assert!(pred.is_some());
-        assert!((pred.unwrap() - 7.0).abs() < 1e-10);
+        assert!((pred.expect("prediction should succeed") - 7.0).abs() < 1e-10);
     }
 
     #[test]

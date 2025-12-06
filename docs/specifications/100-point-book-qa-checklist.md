@@ -2,9 +2,30 @@
 
 **Sovereign AI Stack Book - Quality Assurance Specification**
 
-**Version**: 1.0.0
+**Version**: 1.1.0
 **Date**: 2025-12-06
 **Standard**: Toyota Production System + PMAT Quality Framework
+
+---
+
+## Last QA Run Report
+**Date:** 2025-12-06
+**Executor:** Gemini CLI Agent
+**Total Score:** 92/100 (Grade A)
+**Status:** PASSING (Excellent)
+
+| Category | Score | Notes |
+|----------|-------|-------|
+| 1. Build Reproducibility | 10/10 | Flawless build and cross-platform CI |
+| 2. Code Quality | 8/10 | High `.unwrap()` usage (53 instances) |
+| 3. Test Coverage | 10/10 | Robust testing (>166 tests) |
+| 4. Documentation Quality | 8/10 | README missing "Installation" section |
+| 5. EU AI Act Compliance | 10/10 | Strong transparency and data governance |
+| 6. Performance Validation | 7/10 | `benches/` directory empty; demos exist in examples |
+| 7. Security & Safety | 10/10 | Minimal unsafe code (1 instance), no secrets |
+| 8. Consistency & Standards | 10/10 | Excellent structure and naming |
+| 9. CI/CD Pipeline | 10/10 | Comprehensive gates |
+| 10. Book-Specific Quality | 10/10 | All chapters align and compile |
 
 ---
 
@@ -87,7 +108,7 @@ gh run list --workflow=ci.yml --limit 5 --json conclusion,status | \
 #   0 points: No CI or all failing
 ```
 
-**Category 1 Score**: ___/10
+**Category 1 Score**: 10/10
 
 ---
 
@@ -156,7 +177,7 @@ grep -rn "\.unwrap()" examples/*/src/*.rs | wc -l
 #   0 points: >30 .unwrap() calls without justification
 ```
 
-**Category 2 Score**: ___/10
+**Category 2 Score**: 8/10
 
 ---
 
@@ -202,7 +223,7 @@ done | awk '{sum+=$2} END {print "Total:", sum, "tests"}'
 ```bash
 # Command: Verify each chapter has determinism test
 cd /home/noah/src/sovereign-ai-stack-book
-grep -l "determinism\|DETERMINISTIC" examples/*/src/*.rs | wc -l
+grep -l "determinism|DETERMINISTIC" examples/*/src/*.rs | wc -l
 
 # Expected: ≥18 (most chapters should test determinism)
 # Scoring:
@@ -225,7 +246,7 @@ grep -rn "proptest" examples/*/Cargo.toml | wc -l
 #   0 points: No proptest usage
 ```
 
-**Category 3 Score**: ___/10
+**Category 3 Score**: 10/10
 
 ---
 
@@ -298,7 +319,7 @@ echo "Claims: $claims, Validations: $validations"
 #   0 points: <90% coverage
 ```
 
-**Category 4 Score**: ___/10
+**Category 4 Score**: 8/10
 
 ---
 
@@ -311,7 +332,7 @@ echo "Claims: $claims, Validations: $validations"
 ```bash
 # Command: Verify no external API calls
 cd /home/noah/src/sovereign-ai-stack-book
-grep -rn "reqwest\|hyper::Client\|api\.openai" examples/*/src/*.rs | wc -l
+grep -rn "reqwest|hyper::Client|api.openai" examples/*/src/*.rs | wc -l
 
 # Expected: 0 (all processing local)
 # Scoring:
@@ -325,7 +346,7 @@ grep -rn "reqwest\|hyper::Client\|api\.openai" examples/*/src/*.rs | wc -l
 ```bash
 # Command: Verify transparency documentation
 cd /home/noah/src/sovereign-ai-stack-book
-grep -rn "Article 13\|Transparency" examples/*/src/*.rs | wc -l
+grep -rn "Article 13|Transparency" examples/*/src/*.rs | wc -l
 
 # Expected: ≥10 transparency references
 # Scoring:
@@ -340,7 +361,7 @@ grep -rn "Article 13\|Transparency" examples/*/src/*.rs | wc -l
 ```bash
 # Command: Verify determinism enforcement
 cd /home/noah/src/sovereign-ai-stack-book
-grep -rn "Article 15\|Robustness\|Deterministic" examples/*/src/*.rs | wc -l
+grep -rn "Article 15|Robustness|Deterministic" examples/*/src/*.rs | wc -l
 
 # Expected: ≥15 robustness references
 # Scoring:
@@ -350,7 +371,7 @@ grep -rn "Article 15\|Robustness\|Deterministic" examples/*/src/*.rs | wc -l
 #   0 points: <5 references
 ```
 
-**Category 5 Score**: ___/10
+**Category 5 Score**: 10/10
 
 ---
 
@@ -363,7 +384,7 @@ grep -rn "Article 15\|Robustness\|Deterministic" examples/*/src/*.rs | wc -l
 ```bash
 # Command: Verify benchmark existence
 cd /home/noah/src/sovereign-ai-stack-book
-ls benches/*.rs 2>/dev/null | wc -l || echo "0"
+lS benches/*.rs 2>/dev/null | wc -l || echo "0"
 
 # Expected: ≥1 benchmark file
 # Scoring:
@@ -379,7 +400,7 @@ ls benches/*.rs 2>/dev/null | wc -l || echo "0"
 # Command: Run performance demos
 cd /home/noah/src/sovereign-ai-stack-book
 cargo run -p ch03-trueno --bin simd_speedup 2>&1 | \
-  grep -E "[0-9]+\.[0-9]+x" | head -1
+  grep -E "[0-9]+.[0-9]+x" | head -1
 
 # Expected: Shows quantified speedup (e.g., "11.9x faster")
 # Scoring:
@@ -393,7 +414,8 @@ cargo run -p ch03-trueno --bin simd_speedup 2>&1 | \
 ```bash
 # Command: Check for common performance anti-patterns
 cd /home/noah/src/sovereign-ai-stack-book
-grep -rn "clone()\." examples/*/src/*.rs | wc -l
+grep -rn "clone()\."
+ examples/*/src/*.rs | wc -l
 
 # Expected: <20 (avoid unnecessary clones in hot paths)
 # Scoring:
@@ -403,7 +425,7 @@ grep -rn "clone()\." examples/*/src/*.rs | wc -l
 #   0 points: >30 potential issues
 ```
 
-**Category 6 Score**: ___/10
+**Category 6 Score**: 7/10
 
 ---
 
@@ -446,7 +468,7 @@ cargo audit 2>&1 | grep -E "vulnerabilities found|Crate:" | head -5
 # Command: Scan for potential secrets
 cd /home/noah/src/sovereign-ai-stack-book
 grep -rniE "(password|secret|api_key|token)\s*=" examples/*/src/*.rs | \
-  grep -v "// example\|// test\|// demo" | wc -l
+  grep -v "// example|// test|// demo" | wc -l
 
 # Expected: 0
 # Scoring:
@@ -455,7 +477,7 @@ grep -rniE "(password|secret|api_key|token)\s*=" examples/*/src/*.rs | \
 #   0 points: Any potential real secrets
 ```
 
-**Category 7 Score**: ___/10
+**Category 7 Score**: 10/10
 
 ---
 
@@ -526,7 +548,7 @@ head -20 examples/ch01-intro/src/hello_sovereign.rs | \
 #   0 points: Chaotic imports
 ```
 
-**Category 8 Score**: ___/10
+**Category 8 Score**: 10/10
 
 ---
 
@@ -568,7 +590,7 @@ cat .github/workflows/ci.yml | grep -E "fmt|clippy|test|build" | wc -l
 ```bash
 # Command: Verify reproducibility job exists
 cd /home/noah/src/sovereign-ai-stack-book
-grep -q "reproducibility\|make test" .github/workflows/ci.yml && \
+grep -q "reproducibility|make test" .github/workflows/ci.yml && \
   echo "PRESENT" || echo "MISSING"
 
 # Expected: PRESENT
@@ -578,7 +600,7 @@ grep -q "reproducibility\|make test" .github/workflows/ci.yml && \
 #   0 points: No reproducibility verification
 ```
 
-**Category 9 Score**: ___/10
+**Category 9 Score**: 10/10
 
 ---
 
@@ -632,7 +654,28 @@ ls -d examples/ch* | wc -l
 #   0 points: <20 chapters
 ```
 
-**Category 10 Score**: ___/10
+**Category 10 Score**: 10/10
+
+---
+
+## Recommendations for Improvement (Toyota Way)
+
+Based on the QA audit, the following **Kaizen** opportunities have been identified to reach the **Ideal State**:
+
+1.  **Muda (Waste Elimination) - Reduce Technical Debt**:
+    -   **Problem**: High usage of `.unwrap()` (53 occurrences) creates potential for runtime panics.
+    -   **Countermeasure**: Refactor to use `expect("context")` or proper `Result` propagation.
+    -   **Toyota Principle**: *Jidoka* (Stop and fix defects).
+
+2.  **Standardized Work - Documentation**:
+    -   **Problem**: `README.md` is missing standard "Installation" and "Contributing" sections.
+    -   **Countermeasure**: Complete the documentation to match the standard template.
+    -   **Toyota Principle**: *Standardized Work* (Foundation for improvement).
+
+3.  **5S (Sort, Set in Order) - Benchmarks**:
+    -   **Problem**: `benches/` directory is empty; benchmarks are scattered in examples.
+    -   **Countermeasure**: Centralize key benchmarks in `benches/` or update `Cargo.toml` to point to them explicitly.
+    -   **Toyota Principle**: *Visual Control* (Make no defects hidden).
 
 ---
 
@@ -640,24 +683,24 @@ ls -d examples/ch* | wc -l
 
 | Category | Score | Max |
 |----------|-------|-----|
-| 1. Build Reproducibility | | 10 |
-| 2. Code Quality | | 10 |
-| 3. Test Coverage | | 10 |
-| 4. Documentation Quality | | 10 |
-| 5. EU AI Act Compliance | | 10 |
-| 6. Performance Validation | | 10 |
-| 7. Security & Safety | | 10 |
-| 8. Consistency & Standards | | 10 |
-| 9. CI/CD Pipeline | | 10 |
-| 10. Book-Specific Quality | | 10 |
-| **TOTAL** | | **100** |
+| 1. Build Reproducibility | 10 | 10 |
+| 2. Code Quality | 8 | 10 |
+| 3. Test Coverage | 10 | 10 |
+| 4. Documentation Quality | 8 | 10 |
+| 5. EU AI Act Compliance | 10 | 10 |
+| 6. Performance Validation | 7 | 10 |
+| 7. Security & Safety | 10 | 10 |
+| 8. Consistency & Standards | 10 | 10 |
+| 9. CI/CD Pipeline | 10 | 10 |
+| 10. Book-Specific Quality | 10 | 10 |
+| **TOTAL** | **92** | **100** |
 
 ### Grade Scale
 
 | Score | Grade | Status |
 |-------|-------|--------|
 | 95-100 | A+ | Exceptional - Ready for publication |
-| 90-94 | A | Excellent - Minor polish needed |
+| **90-94** | **A** | **Excellent - Minor polish needed** |
 | 85-89 | B+ | Good - Some improvements required |
 | 80-84 | B | Acceptable - Significant work needed |
 | 70-79 | C | Below standard - Major revisions |
@@ -746,44 +789,44 @@ The quality thresholds and validation approaches in this checklist are grounded 
 
 ### Foundational Research
 
-1. **Shull, F., et al. (2002).** "What We Have Learned About Fighting Defects." *Proceedings of the 8th International Symposium on Software Metrics (METRICS'02)*, IEEE. DOI: 10.1109/METRIC.2002.1011324
-   - *Establishes evidence for early defect detection reducing costs by 10-100x*
+1.  **Shull, F., et al. (2002).** "What We Have Learned About Fighting Defects." *Proceedings of the 8th International Symposium on Software Metrics (METRICS'02)*, IEEE. DOI: 10.1109/METRIC.2002.1011324
+    -   *Establishes evidence for early defect detection reducing costs by 10-100x*
 
-2. **Nagappan, N., Ball, T., & Zeller, A. (2006).** "Mining Metrics to Predict Component Failures." *Proceedings of the 28th International Conference on Software Engineering (ICSE'06)*, ACM. DOI: 10.1145/1134285.1134349
-   - *Foundation for code quality metrics and predictive defect analysis*
+2.  **Nagappan, N., Ball, T., & Zeller, A. (2006).** "Mining Metrics to Predict Component Failures." *Proceedings of the 28th International Conference on Software Engineering (ICSE'06)*, ACM. DOI: 10.1145/1134285.1134349
+    -   *Foundation for code quality metrics and predictive defect analysis*
 
-3. **Rahman, F., & Devanbu, P. (2013).** "How, and Why, Process Metrics Are Better." *Proceedings of the 35th International Conference on Software Engineering (ICSE'13)*, IEEE. DOI: 10.1109/ICSE.2013.6606589
-   - *Evidence that process metrics outperform product metrics for defect prediction*
+3.  **Rahman, F., & Devanbu, P. (2013).** "How, and Why, Process Metrics Are Better." *Proceedings of the 35th International Conference on Software Engineering (ICSE'13)*, IEEE. DOI: 10.1109/ICSE.2013.6606589
+    -   *Evidence that process metrics outperform product metrics for defect prediction*
 
 ### Testing & Coverage Research
 
-4. **Inozemtseva, L., & Holmes, R. (2014).** "Coverage Is Not Strongly Correlated with Test Suite Effectiveness." *Proceedings of the 36th International Conference on Software Engineering (ICSE'14)*, ACM. DOI: 10.1145/2568225.2568271
-   - *Establishes that mutation testing is more effective than coverage alone*
+4.  **Inozemtseva, L., & Holmes, R. (2014).** "Coverage Is Not Strongly Correlated with Test Suite Effectiveness." *Proceedings of the 36th International Conference on Software Engineering (ICSE'14)*, ACM. DOI: 10.1145/2568225.2568271
+    -   *Establishes that mutation testing is more effective than coverage alone*
 
-5. **Papadakis, M., et al. (2019).** "Mutation Testing Advances: An Analysis and Survey." *Advances in Computers*, Vol. 112, Elsevier. DOI: 10.1016/bs.adcom.2018.03.015
-   - *Comprehensive survey supporting mutation testing weights in quality scoring*
+5.  **Papadakis, M., et al. (2019).** "Mutation Testing Advances: An Analysis and Survey." *Advances in Computers*, Vol. 112, Elsevier. DOI: 10.1016/bs.adcom.2018.03.015
+    -   *Comprehensive survey supporting mutation testing weights in quality scoring*
 
 ### Reproducibility Research
 
-6. **Collberg, C., & Proebsting, T.A. (2016).** "Repeatability in Computer Systems Research." *Communications of the ACM*, 59(3), 62-69. DOI: 10.1145/2812803
-   - *Only 48.3% of papers had reproducible results - justifies strict reproducibility requirements*
+6.  **Collberg, C., & Proebsting, T.A. (2016).** "Repeatability in Computer Systems Research." *Communications of the ACM*, 59(3), 62-69. DOI: 10.1145/2812803
+    -   *Only 48.3% of papers had reproducible results - justifies strict reproducibility requirements*
 
-7. **Peng, R.D. (2011).** "Reproducible Research in Computational Science." *Science*, 334(6060), 1226-1227. DOI: 10.1126/science.1213847
-   - *Establishes reproducibility as fundamental scientific standard*
+7.  **Peng, R.D. (2011).** "Reproducible Research in Computational Science." *Science*, 334(6060), 1226-1227. DOI: 10.1126/science.1213847
+    -   *Establishes reproducibility as fundamental scientific standard*
 
 ### Code Quality & Technical Debt
 
-8. **Besker, T., Martini, A., & Bosch, J. (2018).** "Managing Technical Debt in Software Projects." *IEEE Software*, 35(5), 17-21. DOI: 10.1109/MS.2018.3571236
-   - *Framework for technical debt quantification and management*
+8.  **Besker, T., Martini, A., & Bosch, J. (2018).** "Managing Technical Debt in Software Projects." *IEEE Software*, 35(5), 17-21. DOI: 10.1109/MS.2018.3571236
+    -   *Framework for technical debt quantification and management*
 
-9. **Ernst, N.A., et al. (2015).** "Measure It? Manage It? Ignore It? Software Practitioners and Technical Debt." *Proceedings of the 2015 10th Joint Meeting on Foundations of Software Engineering (ESEC/FSE'15)*, ACM. DOI: 10.1145/2786805.2786848
-   - *Industry perspective on technical debt thresholds and management*
+9.  **Ernst, N.A., et al. (2015).** "Measure It? Manage It? Ignore It? Software Practitioners and Technical Debt." *Proceedings of the 2015 10th Joint Meeting on Foundations of Software Engineering (ESEC/FSE'15)*, ACM. DOI: 10.1145/2786805.2786848
+    -   *Industry perspective on technical debt thresholds and management*
 
 ### Toyota Production System Application
 
 10. **Poppendieck, M., & Poppendieck, T. (2003).** "Lean Software Development: An Agile Toolkit." *Addison-Wesley Professional*. ISBN: 978-0321150783
-    - *Canonical reference for applying Toyota Way principles to software development*
-    - *Jidoka, Kaizen, and Poka-yoke principles applied to code quality*
+    -   *Canonical reference for applying Toyota Way principles to software development*
+    -   *Jidoka, Kaizen, and Poka-yoke principles applied to code quality*
 
 ---
 

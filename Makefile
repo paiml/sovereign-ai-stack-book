@@ -613,7 +613,7 @@ help:
 	@echo "  make docs-serve         Serve docs at http://localhost:3000"
 	@echo ""
 	@echo "SCIENTIFIC REPRODUCIBILITY:"
-	@echo "  git clone https://github.com/nogibjj/sovereign-ai-stack-book.git"
+	@echo "  git clone https://github.com/paiml/sovereign-ai-stack-book.git"
 	@echo "  cd sovereign-ai-stack-book"
 	@echo "  make setup              # Install dependencies"
 	@echo "  make test               # Verify all examples work"

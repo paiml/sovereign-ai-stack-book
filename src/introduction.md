@@ -8,7 +8,7 @@ Welcome to the **Sovereign AI Stack Book** - a CODE-FIRST guide to building EU-c
 
 ```bash
 # Clone the book
-git clone https://github.com/nogibjj/sovereign-ai-stack-book.git
+git clone https://github.com/paiml/sovereign-ai-stack-book.git
 cd sovereign-ai-stack-book
 
 # Verify EVERYTHING
@@ -150,7 +150,7 @@ This book enforces **EXTREME TDD** standards:
 
 Found an issue? Example doesn't work?
 
-1. **File an issue:** https://github.com/nogibjj/sovereign-ai-stack-book/issues
+1. **File an issue:** https://github.com/paiml/sovereign-ai-stack-book/issues
 2. **Include:** Chapter number, error message, environment (`rustc --version`)
 3. **Expected:** We fix it (reproducibility is our promise)
 

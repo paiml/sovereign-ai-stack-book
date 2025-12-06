@@ -58,3 +58,17 @@ serde_json = "1.0"
 # Error handling
 anyhow = "1.0"
 thiserror = "1.0"
+
+# Root package for benchmarks
+[package]
+name = "sovereign-ai-stack-book"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+criterion = { workspace = true }
+
+[[bench]]
+name = "sovereign_stack"
+harness = false

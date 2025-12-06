@@ -14,7 +14,7 @@
 
 ```bash
 # Clone the book
-git clone https://github.com/nogibjj/sovereign-ai-stack-book.git
+git clone https://github.com/paiml/sovereign-ai-stack-book.git
 cd sovereign-ai-stack-book
 
 # Verify EVERYTHING
@@ -837,7 +837,7 @@ renacer trace ./inference_service
 
 ### Step 1: Clone and Setup (5 minutes)
 ```bash
-git clone https://github.com/nogibjj/sovereign-ai-stack-book.git
+git clone https://github.com/paiml/sovereign-ai-stack-book.git
 cd sovereign-ai-stack-book
 
 # Install dependencies (Rust, pmat, mdbook)
@@ -1047,7 +1047,7 @@ aprender vs sklearn: 2.8x (claimed) vs 2.9x (measured) → 3.6% variance ✅
 - ⏳ Technical review (reproduce ALL claims externally)
 - ⏳ CI/CD setup (GitHub Actions validates on every commit)
 - ⏳ GitHub Pages deployment
-- **Deliverable:** Published book at https://nogibjj.github.io/sovereign-ai-stack-book/
+- **Deliverable:** Published book at https://paiml.github.io/sovereign-ai-stack-book/
 
 ---
 
@@ -1096,7 +1096,7 @@ This book is not a tutorial. It's a **scientific experiment** you can reproduce.
 Every claim has proof. Every proof is code. Every code example runs.
 
 ```bash
-git clone https://github.com/nogibjj/sovereign-ai-stack-book.git
+git clone https://github.com/paiml/sovereign-ai-stack-book.git
 cd sovereign-ai-stack-book
 make test  # Verify EVERYTHING
 

@@ -329,7 +329,7 @@ mod tests {
 
         assert_eq!(worker.len(), 2);
 
-        let popped = worker.pop().unwrap();
+        let popped = worker.pop().expect("worker has items");
         assert_eq!(popped.id, 1);
     }
 
@@ -339,7 +339,7 @@ mod tests {
         worker.push(WorkUnit::new(1, 1, 10));
         worker.push(WorkUnit::new(2, 1, 20));
 
-        let stolen = worker.steal().unwrap();
+        let stolen = worker.steal().expect("worker has items to steal");
         assert_eq!(stolen.id, 2); // Steal from back
     }
 

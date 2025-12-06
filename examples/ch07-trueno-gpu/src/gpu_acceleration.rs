@@ -28,8 +28,8 @@ const GPU_KERNEL_OVERHEAD_US: u64 = 20;
 /// Measure CPU matrix multiplication time
 fn cpu_matmul(size: usize) -> (f64, Vec<f32>) {
     let data: Vec<f32> = (0..size * size).map(|i| (i % 100) as f32 / 100.0).collect();
-    let a = Matrix::from_vec(size, size, data.clone()).unwrap();
-    let b = Matrix::from_vec(size, size, data).unwrap();
+    let a = Matrix::from_vec(size, size, data.clone()).expect("valid matrix A");
+    let b = Matrix::from_vec(size, size, data).expect("valid matrix B");
 
     let start = Instant::now();
 

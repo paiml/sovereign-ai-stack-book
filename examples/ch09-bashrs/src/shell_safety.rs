@@ -285,7 +285,7 @@ mod tests {
 
     #[test]
     fn test_escaping() {
-        let cmd = SafeCommand::new("echo").unwrap().arg("hello; rm -rf /");
+        let cmd = SafeCommand::new("echo").expect("echo is a safe command").arg("hello; rm -rf /");
         let safe = cmd.to_safe_string();
         // The semicolon should be inside quotes, not executed
         assert!(safe.contains("\"hello; rm -rf /\""));

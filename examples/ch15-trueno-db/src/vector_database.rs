@@ -111,7 +111,7 @@ impl VectorDB {
             })
             .collect();
 
-        results.sort_by(|a, b| a.distance.partial_cmp(&b.distance).unwrap());
+        results.sort_by(|a, b| a.distance.partial_cmp(&b.distance).expect("valid distance comparison"));
         results.truncate(k);
         results
     }
@@ -147,7 +147,7 @@ fn basic_demo() {
     ];
 
     for emb in embeddings {
-        db.insert(emb).unwrap();
+        db.insert(emb).expect("embedding insertion should succeed");
     }
 
     println!("   Inserted {} embeddings", db.len());
@@ -205,7 +205,7 @@ fn determinism_demo() {
 
     for i in 0..10 {
         let v: Vec<f64> = (0..4).map(|j| (i * j) as f64 / 10.0).collect();
-        db.insert(Embedding::new(&format!("v{}", i), v)).unwrap();
+        db.insert(Embedding::new(&format!("v{}", i), v)).expect("embedding insertion should succeed");
     }
 
     let query = vec![0.5, 0.3, 0.2, 0.1];
@@ -238,8 +238,8 @@ fn crud_demo() {
     let mut db = VectorDB::new(2, DistanceMetric::Euclidean);
 
     // Create
-    db.insert(Embedding::new("item1", vec![1.0, 2.0])).unwrap();
-    db.insert(Embedding::new("item2", vec![3.0, 4.0])).unwrap();
+    db.insert(Embedding::new("item1", vec![1.0, 2.0])).expect("insert item1");
+    db.insert(Embedding::new("item2", vec![3.0, 4.0])).expect("insert item2");
     println!("   CREATE: Inserted 2 items");
 
     // Read
@@ -249,7 +249,7 @@ fn crud_demo() {
 
     // Update (delete + insert)
     db.delete("item1");
-    db.insert(Embedding::new("item1", vec![5.0, 6.0])).unwrap();
+    db.insert(Embedding::new("item1", vec![5.0, 6.0])).expect("upsert item1");
     if let Some(emb) = db.get("item1") {
         println!("   UPDATE: item1 = {:?}", emb.vector);
     }
@@ -359,8 +359,8 @@ mod tests {
     #[test]
     fn test_db_insert_and_search() {
         let mut db = VectorDB::new(2, DistanceMetric::Euclidean);
-        db.insert(Embedding::new("a", vec![1.0, 0.0])).unwrap();
-        db.insert(Embedding::new("b", vec![0.0, 1.0])).unwrap();
+        db.insert(Embedding::new("a", vec![1.0, 0.0])).expect("insert a");
+        db.insert(Embedding::new("b", vec![0.0, 1.0])).expect("insert b");
 
         let results = db.search(&[0.9, 0.1], 1);
         assert_eq!(results.len(), 1);
@@ -379,7 +379,7 @@ mod tests {
         let mut db = VectorDB::new(3, DistanceMetric::Euclidean);
         for i in 0..10 {
             let v: Vec<f64> = (0..3).map(|j| (i + j) as f64).collect();
-            db.insert(Embedding::new(&format!("v{}", i), v)).unwrap();
+            db.insert(Embedding::new(&format!("v{}", i), v)).expect("embedding insertion should succeed");
         }
 
         let query = vec![5.0, 5.0, 5.0];
@@ -400,7 +400,7 @@ mod tests {
     #[test]
     fn test_delete() {
         let mut db = VectorDB::new(2, DistanceMetric::Euclidean);
-        db.insert(Embedding::new("a", vec![1.0, 0.0])).unwrap();
+        db.insert(Embedding::new("a", vec![1.0, 0.0])).expect("insert a");
         assert_eq!(db.len(), 1);
 
         let deleted = db.delete("a");
