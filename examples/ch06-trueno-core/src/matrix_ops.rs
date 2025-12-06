@@ -296,7 +296,8 @@ mod tests {
 
     #[test]
     fn test_matrix_creation() {
-        let m = Matrix::from_vec(2, 3, vec![1.0, 2.0, 3.0, 4.0, 5.0, 6.0]).expect("valid 2x3 matrix");
+        let m =
+            Matrix::from_vec(2, 3, vec![1.0, 2.0, 3.0, 4.0, 5.0, 6.0]).expect("valid 2x3 matrix");
         assert_eq!(m.rows(), 2);
         assert_eq!(m.cols(), 3);
         assert_eq!(m.as_slice().len(), 6);

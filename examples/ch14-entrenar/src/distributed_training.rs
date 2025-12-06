@@ -273,7 +273,10 @@ fn basic_distributed_demo() {
 
     println!("   Training progress:");
     println!("   - Initial MSE: {:.6}", losses[0]);
-    println!("   - Final MSE: {:.6}", losses.last().expect("at least one loss"));
+    println!(
+        "   - Final MSE: {:.6}",
+        losses.last().expect("at least one loss")
+    );
     println!();
 
     println!("   Learned model:");

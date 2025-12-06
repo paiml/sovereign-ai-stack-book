@@ -126,7 +126,9 @@ impl Graph {
                 }
                 let share = damping * rank / neighbors.len() as f64;
                 for &neighbor in neighbors {
-                    *new_ranks.get_mut(&neighbor).expect("neighbor exists in ranks") += share;
+                    *new_ranks
+                        .get_mut(&neighbor)
+                        .expect("neighbor exists in ranks") += share;
                 }
             }
 

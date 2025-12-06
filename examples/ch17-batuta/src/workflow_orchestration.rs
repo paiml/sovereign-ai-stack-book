@@ -78,7 +78,10 @@ impl Workflow {
                     return Err(format!("Unknown dependency: {}", dep));
                 }
                 *in_degree.get_mut(id).expect("task exists in in_degree") += 1;
-                dependents.get_mut(dep).expect("dependency exists in dependents").push(id.clone());
+                dependents
+                    .get_mut(dep)
+                    .expect("dependency exists in dependents")
+                    .push(id.clone());
             }
         }
 

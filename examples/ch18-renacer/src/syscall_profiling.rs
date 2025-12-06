@@ -382,7 +382,9 @@ mod tests {
 
         let stats = profiler.aggregate_by_category();
 
-        let compute = stats.get(&EventCategory::Compute).expect("compute stats exist");
+        let compute = stats
+            .get(&EventCategory::Compute)
+            .expect("compute stats exist");
         assert_eq!(compute.count, 2);
         assert_eq!(compute.total_ns, 300);
 
@@ -417,7 +419,12 @@ mod tests {
                 profiler.record(event.clone());
             }
             let stats = profiler.aggregate_by_category();
-            results.push(stats.get(&EventCategory::Compute).expect("compute stats").mean_ns);
+            results.push(
+                stats
+                    .get(&EventCategory::Compute)
+                    .expect("compute stats")
+                    .mean_ns,
+            );
         }
 
         let first = results[0];
