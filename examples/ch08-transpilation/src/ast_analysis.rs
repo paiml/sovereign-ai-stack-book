@@ -29,10 +29,7 @@ enum Expr {
         right: Box<Expr>,
     },
     /// Function call: foo(x, y)
-    Call {
-        name: String,
-        args: Vec<Expr>,
-    },
+    Call { name: String, args: Vec<Expr> },
 }
 
 #[allow(dead_code)]
@@ -167,9 +164,7 @@ fn generate_rust(expr: &Expr) -> String {
             format!("({} {} {})", left_code, op, right_code)
         }
         Expr::Call { name, args } => {
-            let args_code: Vec<String> = args.iter()
-                .map(generate_rust)
-                .collect();
+            let args_code: Vec<String> = args.iter().map(generate_rust).collect();
             format!("{}({})", name, args_code.join(", "))
         }
     }
@@ -199,16 +194,22 @@ fn type_inference_demo() {
         ("3.5", Expr::Float(3.5)),
         ("\"hello\"", Expr::Str("hello".to_string())),
         ("true", Expr::Bool(true)),
-        ("1 + 2", Expr::BinOp {
-            op: BinOperator::Add,
-            left: Box::new(Expr::Int(1)),
-            right: Box::new(Expr::Int(2)),
-        }),
-        ("1.0 + 2", Expr::BinOp {
-            op: BinOperator::Add,
-            left: Box::new(Expr::Float(1.0)),
-            right: Box::new(Expr::Int(2)),
-        }),
+        (
+            "1 + 2",
+            Expr::BinOp {
+                op: BinOperator::Add,
+                left: Box::new(Expr::Int(1)),
+                right: Box::new(Expr::Int(2)),
+            },
+        ),
+        (
+            "1.0 + 2",
+            Expr::BinOp {
+                op: BinOperator::Add,
+                left: Box::new(Expr::Float(1.0)),
+                right: Box::new(Expr::Int(2)),
+            },
+        ),
     ];
 
     println!("   {:>15} │ {:>10}", "Expression", "Type");
@@ -294,7 +295,10 @@ fn semantic_preservation_demo() {
 
     println!("   Testing: x + y * 2");
     println!();
-    println!("   {:>5} {:>5} │ {:>8} │ {:>8}", "x", "y", "Expected", "Actual");
+    println!(
+        "   {:>5} {:>5} │ {:>8} │ {:>8}",
+        "x", "y", "Expected", "Actual"
+    );
     println!("   ────────────┼──────────┼──────────");
 
     for (x, y, expected) in test_cases {
@@ -304,7 +308,10 @@ fn semantic_preservation_demo() {
         let actual = evaluate(&expr, &vars).unwrap();
         let status = if actual == expected { "✅" } else { "❌" };
 
-        println!("   {:>5} {:>5} │ {:>8} │ {:>8} {}", x, y, expected, actual, status);
+        println!(
+            "   {:>5} {:>5} │ {:>8} │ {:>8} {}",
+            x, y, expected, actual, status
+        );
     }
     println!();
 }
@@ -351,7 +358,10 @@ mod tests {
     fn test_ast_construction() {
         let expr = build_example_ast();
         match expr {
-            Expr::BinOp { op: BinOperator::Add, .. } => (),
+            Expr::BinOp {
+                op: BinOperator::Add,
+                ..
+            } => (),
             _ => panic!("Expected BinOp(Add) at root"),
         }
     }
@@ -400,7 +410,7 @@ mod tests {
         let mut vars = std::collections::HashMap::new();
 
         // Test multiple inputs
-        for (x, y, expected) in vec![(1, 2, 5), (0, 0, 0), (10, -5, 0)] {
+        for (x, y, expected) in [(1, 2, 5), (0, 0, 0), (10, -5, 0)] {
             vars.insert("x".to_string(), x);
             vars.insert("y".to_string(), y);
             let result = evaluate(&expr, &vars).unwrap();

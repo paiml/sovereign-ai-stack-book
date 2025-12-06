@@ -295,7 +295,10 @@ mod tests {
     #[test]
     fn test_struct_ownership() {
         #[derive(Debug, PartialEq)]
-        struct Point { x: i32, y: i32 }
+        struct Point {
+            x: i32,
+            y: i32,
+        }
 
         // C: Point* p = malloc(sizeof(Point));
         // Rust: let p = Box::new(Point { x: 1, y: 2 });

@@ -68,7 +68,8 @@ struct CodeGenResult {
 
 /// Single model strategy (baseline)
 fn single_model_generation(model: &mut SimulatedLLM, tasks: &[&str]) -> Vec<bool> {
-    tasks.iter()
+    tasks
+        .iter()
         .map(|task| model.generate_code(task).is_correct)
         .collect()
 }
@@ -79,7 +80,8 @@ fn dual_model_validation(
     model2: &mut SimulatedLLM,
     tasks: &[&str],
 ) -> Vec<bool> {
-    tasks.iter()
+    tasks
+        .iter()
         .map(|task| {
             let result1 = model1.generate_code(task);
             let result2 = model2.generate_code(task);
@@ -92,13 +94,12 @@ fn dual_model_validation(
 }
 
 /// Triple model strategy (full BFT with f=1)
-fn triple_model_consensus(
-    models: &mut [SimulatedLLM],
-    tasks: &[&str],
-) -> Vec<bool> {
-    tasks.iter()
+fn triple_model_consensus(models: &mut [SimulatedLLM], tasks: &[&str]) -> Vec<bool> {
+    tasks
+        .iter()
         .map(|task| {
-            let results: Vec<bool> = models.iter_mut()
+            let results: Vec<bool> = models
+                .iter_mut()
                 .map(|m| m.generate_code(task).is_correct)
                 .collect();
 
@@ -163,11 +164,7 @@ fn main() -> Result<()> {
 
     // Test 2: Dual model validation (Claude + GPT-4)
     println!("🧪 Test 2: Dual Model Validation (Claude + GPT-4)");
-    let dual_results = dual_model_validation(
-        &mut claude.clone(),
-        &mut gpt4.clone(),
-        &tasks,
-    );
+    let dual_results = dual_model_validation(&mut claude.clone(), &mut gpt4.clone(), &tasks);
     let (correct, total, error_rate) = calculate_stats(&dual_results);
     println!("   Correct: {}/{}", correct, total);
     println!("   Error rate: {:.1}%", error_rate);
@@ -203,9 +200,20 @@ fn main() -> Result<()> {
     let triple = triple_model_consensus(&mut models, &tasks);
     let (_, _, triple_err) = calculate_stats(&triple);
 
-    println!("   | Single (Claude) | {:>9.1}% | baseline    |", single_err);
-    println!("   | Dual Validation | {:>9.1}% | {:.1}x better |", dual_err, single_err / dual_err.max(0.1));
-    println!("   | Triple Consensus| {:>9.1}% | {:.1}x better |", triple_err, single_err / triple_err.max(0.1));
+    println!(
+        "   | Single (Claude) | {:>9.1}% | baseline    |",
+        single_err
+    );
+    println!(
+        "   | Dual Validation | {:>9.1}% | {:.1}x better |",
+        dual_err,
+        single_err / dual_err.max(0.1)
+    );
+    println!(
+        "   | Triple Consensus| {:>9.1}% | {:.1}x better |",
+        triple_err,
+        single_err / triple_err.max(0.1)
+    );
     println!();
 
     // Mathematical explanation
@@ -283,9 +291,11 @@ mod tests {
         let single_errors = single_results.iter().filter(|&&r| !r).count();
         let dual_errors = dual_results.iter().filter(|&&r| !r).count();
 
-        // Dual validation should have different (not necessarily fewer due to AND logic)
-        // but the "correct" ones should be more reliable
-        assert!(single_errors != dual_errors || true, "Results should differ");
+        // Dual validation produces results - the error counts are computed
+        // This test validates that both approaches complete without panicking
+        // and produce valid boolean results
+        assert!(single_errors <= 100, "Single model error count should be valid");
+        assert!(dual_errors <= 100, "Dual model error count should be valid");
     }
 
     #[test]

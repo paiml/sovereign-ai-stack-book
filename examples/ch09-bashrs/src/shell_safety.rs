@@ -19,7 +19,10 @@ struct SafeCommand {
 impl SafeCommand {
     /// Create a new command (program name cannot contain spaces or special chars)
     fn new(program: &str) -> Result<Self> {
-        if program.chars().any(|c| c.is_whitespace() || c == ';' || c == '|' || c == '&') {
+        if program
+            .chars()
+            .any(|c| c.is_whitespace() || c == ';' || c == '|' || c == '&')
+        {
             anyhow::bail!("Invalid program name: {}", program);
         }
         Ok(Self {
@@ -36,9 +39,7 @@ impl SafeCommand {
 
     /// Get the safe command representation
     fn to_safe_string(&self) -> String {
-        let escaped_args: Vec<String> = self.args.iter()
-            .map(|a| format!("{:?}", a))
-            .collect();
+        let escaped_args: Vec<String> = self.args.iter().map(|a| format!("{:?}", a)).collect();
         format!("{} {}", self.program, escaped_args.join(" "))
     }
 }
@@ -190,11 +191,11 @@ fn quoting_safety() {
     println!();
 
     let dangerous_strings = vec![
-        "hello world",           // Spaces
-        "file$(whoami).txt",     // Command substitution
-        "name`id`",              // Backticks
-        "$HOME/secret",          // Variable expansion
-        "a; rm -rf /",           // Command chaining
+        "hello world",       // Spaces
+        "file$(whoami).txt", // Command substitution
+        "name`id`",          // Backticks
+        "$HOME/secret",      // Variable expansion
+        "a; rm -rf /",       // Command chaining
     ];
 
     println!("   {:>25} │ {:>30}", "Input", "Escaped Output");
@@ -284,8 +285,7 @@ mod tests {
 
     #[test]
     fn test_escaping() {
-        let cmd = SafeCommand::new("echo").unwrap()
-            .arg("hello; rm -rf /");
+        let cmd = SafeCommand::new("echo").unwrap().arg("hello; rm -rf /");
         let safe = cmd.to_safe_string();
         // The semicolon should be inside quotes, not executed
         assert!(safe.contains("\"hello; rm -rf /\""));

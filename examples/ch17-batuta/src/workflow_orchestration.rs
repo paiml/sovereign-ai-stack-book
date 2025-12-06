@@ -84,11 +84,12 @@ impl Workflow {
 
         // Find initial tasks (no dependencies)
         let initial: Vec<String> = {
-            let mut v: Vec<_> = in_degree.iter()
+            let mut v: Vec<_> = in_degree
+                .iter()
                 .filter(|(_, &deg)| deg == 0)
                 .map(|(id, _)| id.clone())
                 .collect();
-            v.sort();  // Sort for determinism
+            v.sort(); // Sort for determinism
             v
         };
 
@@ -175,7 +176,11 @@ fn parallel_demo() {
     workflow.add_task(Task::new("start"));
     workflow.add_task(Task::new("branch_a").depends_on("start"));
     workflow.add_task(Task::new("branch_b").depends_on("start"));
-    workflow.add_task(Task::new("merge").depends_on("branch_a").depends_on("branch_b"));
+    workflow.add_task(
+        Task::new("merge")
+            .depends_on("branch_a")
+            .depends_on("branch_b"),
+    );
 
     workflow.compute_execution_order().unwrap();
 
@@ -385,7 +390,9 @@ mod tests {
         }
 
         let first = &results[0];
-        assert!(results.iter().all(|r| r == first),
-            "Workflow ordering must be deterministic");
+        assert!(
+            results.iter().all(|r| r == first),
+            "Workflow ordering must be deterministic"
+        );
     }
 }

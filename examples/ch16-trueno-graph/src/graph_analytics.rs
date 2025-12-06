@@ -19,7 +19,10 @@ struct Node {
 
 impl Node {
     fn new(id: usize, label: &str) -> Self {
-        Self { id, label: label.to_string() }
+        Self {
+            id,
+            label: label.to_string(),
+        }
     }
 }
 
@@ -107,12 +110,12 @@ impl Graph {
     /// PageRank algorithm
     fn pagerank(&self, iterations: usize, damping: f64) -> HashMap<usize, f64> {
         let n = self.node_count() as f64;
-        let mut ranks: HashMap<usize, f64> = self.nodes.keys()
-            .map(|&id| (id, 1.0 / n))
-            .collect();
+        let mut ranks: HashMap<usize, f64> = self.nodes.keys().map(|&id| (id, 1.0 / n)).collect();
 
         for _ in 0..iterations {
-            let mut new_ranks: HashMap<usize, f64> = self.nodes.keys()
+            let mut new_ranks: HashMap<usize, f64> = self
+                .nodes
+                .keys()
                 .map(|&id| (id, (1.0 - damping) / n))
                 .collect();
 
@@ -253,7 +256,9 @@ fn determinism_demo() {
     let first_bfs = &bfs_results[0];
     let first_pr = pagerank_results[0];
     let bfs_identical = bfs_results.iter().all(|r| r == first_bfs);
-    let pr_identical = pagerank_results.iter().all(|&r| (r - first_pr).abs() < 1e-10);
+    let pr_identical = pagerank_results
+        .iter()
+        .all(|&r| (r - first_pr).abs() < 1e-10);
 
     println!();
     if bfs_identical && pr_identical {
@@ -418,8 +423,10 @@ mod tests {
         }
 
         let first = &results[0];
-        assert!(results.iter().all(|r| r == first),
-            "BFS must be deterministic");
+        assert!(
+            results.iter().all(|r| r == first),
+            "BFS must be deterministic"
+        );
     }
 
     #[test]
@@ -439,7 +446,9 @@ mod tests {
         }
 
         let first = results[0];
-        assert!(results.iter().all(|&r| (r - first).abs() < 1e-10),
-            "PageRank must be deterministic");
+        assert!(
+            results.iter().all(|&r| (r - first).abs() < 1e-10),
+            "PageRank must be deterministic"
+        );
     }
 }

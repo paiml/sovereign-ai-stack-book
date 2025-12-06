@@ -27,7 +27,9 @@ impl LinearRegression {
 
     /// Forward pass: y = Wx + b
     fn predict(&self, x: &[f64]) -> f64 {
-        let sum: f64 = self.weights.iter()
+        let sum: f64 = self
+            .weights
+            .iter()
             .zip(x.iter())
             .map(|(w, xi)| w * xi)
             .sum();
@@ -37,7 +39,8 @@ impl LinearRegression {
     /// Compute mean squared error
     fn mse(&self, x: &[Vec<f64>], y: &[f64]) -> f64 {
         let n = x.len() as f64;
-        let sum: f64 = x.iter()
+        let sum: f64 = x
+            .iter()
             .zip(y.iter())
             .map(|(xi, yi)| {
                 let pred = self.predict(xi);
@@ -87,15 +90,16 @@ fn basic_training_demo() {
     println!();
 
     // Simple dataset: y = 2x + 1
-    let x: Vec<Vec<f64>> = vec![
-        vec![1.0], vec![2.0], vec![3.0], vec![4.0], vec![5.0],
-    ];
+    let x: Vec<Vec<f64>> = vec![vec![1.0], vec![2.0], vec![3.0], vec![4.0], vec![5.0]];
     let y: Vec<f64> = vec![3.0, 5.0, 7.0, 9.0, 11.0];
 
     let mut model = LinearRegression::new(1, 0.1);
 
     println!("   Dataset: y = 2x + 1");
-    println!("   Initial weights: {:?}, bias: {:.4}", model.weights, model.bias);
+    println!(
+        "   Initial weights: {:?}, bias: {:.4}",
+        model.weights, model.bias
+    );
     println!();
 
     let losses = model.fit(&x, &y, 100);
@@ -150,9 +154,7 @@ fn gradient_descent_demo() {
     println!("📉 Gradient Descent Convergence");
     println!();
 
-    let x: Vec<Vec<f64>> = vec![
-        vec![1.0], vec![2.0], vec![3.0], vec![4.0], vec![5.0],
-    ];
+    let x: Vec<Vec<f64>> = vec![vec![1.0], vec![2.0], vec![3.0], vec![4.0], vec![5.0]];
     let y: Vec<f64> = vec![3.0, 5.0, 7.0, 9.0, 11.0];
 
     let mut model = LinearRegression::new(1, 0.1);
@@ -258,7 +260,7 @@ mod tests {
         model.bias = 0.0;
 
         let x = vec![vec![1.0], vec![2.0]];
-        let y = vec![2.0, 4.0];  // Perfect predictions
+        let y = vec![2.0, 4.0]; // Perfect predictions
 
         let mse = model.mse(&x, &y);
         assert!(mse < 1e-10, "MSE should be ~0 for perfect predictions");
@@ -274,8 +276,12 @@ mod tests {
         model.fit(&x, &y, 100);
         let final_loss = model.mse(&x, &y);
 
-        assert!(final_loss < initial_loss,
-            "Training should reduce loss: {} -> {}", initial_loss, final_loss);
+        assert!(
+            final_loss < initial_loss,
+            "Training should reduce loss: {} -> {}",
+            initial_loss,
+            final_loss
+        );
     }
 
     #[test]
@@ -291,7 +297,9 @@ mod tests {
         }
 
         let first = results[0];
-        assert!(results.iter().all(|&r| (r - first).abs() < 1e-10),
-            "Training must be deterministic");
+        assert!(
+            results.iter().all(|&r| (r - first).abs() < 1e-10),
+            "Training must be deterministic"
+        );
     }
 }

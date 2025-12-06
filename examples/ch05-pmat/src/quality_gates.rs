@@ -166,7 +166,11 @@ fn main() -> Result<()> {
             println!(
                 "cached {:>4}ms  [{}]  (lookup: {:?})",
                 cached.duration_ms,
-                if cached.passed { "✅ PASS" } else { "❌ FAIL" },
+                if cached.passed {
+                    "✅ PASS"
+                } else {
+                    "❌ FAIL"
+                },
                 lookup_time
             );
         } else {
@@ -216,9 +220,15 @@ fn main() -> Result<()> {
     println!();
 
     println!("📈 Performance:");
-    println!("   Full validation: {}s", QUALITY_GATES[2].threshold_ms / 1000);
+    println!(
+        "   Full validation: {}s",
+        QUALITY_GATES[2].threshold_ms / 1000
+    );
     println!("   Cached lookup:   <1ms (O(1) hash table)");
-    println!("   Speedup:         >{}x faster", QUALITY_GATES[2].threshold_ms);
+    println!(
+        "   Speedup:         >{}x faster",
+        QUALITY_GATES[2].threshold_ms
+    );
     println!();
 
     Ok(())
@@ -292,6 +302,10 @@ mod tests {
         let duration = start.elapsed();
 
         // O(1) lookup should be < 1ms
-        assert!(duration.as_millis() < 1, "Lookup took too long: {:?}", duration);
+        assert!(
+            duration.as_millis() < 1,
+            "Lookup took too long: {:?}",
+            duration
+        );
     }
 }

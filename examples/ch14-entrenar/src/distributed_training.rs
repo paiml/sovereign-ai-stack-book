@@ -73,7 +73,9 @@ impl Worker {
     }
 
     fn predict(&self, x: &[f64]) -> f64 {
-        let sum: f64 = self.weights.iter()
+        let sum: f64 = self
+            .weights
+            .iter()
             .zip(x.iter())
             .map(|(w, xi)| w * xi)
             .sum();
@@ -154,7 +156,11 @@ impl DistributedTrainer {
             .collect();
         let server = ParameterServer::new(features, config.num_workers);
 
-        Self { workers, server, config }
+        Self {
+            workers,
+            server,
+            config,
+        }
     }
 
     /// Shard data across workers
@@ -188,16 +194,17 @@ impl DistributedTrainer {
         let shards = self.shard_data(x, y);
 
         // Compute gradients on each worker
-        let gradients: Vec<_> = self.workers.iter()
+        let gradients: Vec<_> = self
+            .workers
+            .iter()
             .zip(shards.iter())
-            .map(|(worker, (x_shard, y_shard))| {
-                worker.compute_gradients(x_shard, y_shard)
-            })
+            .map(|(worker, (x_shard, y_shard))| worker.compute_gradients(x_shard, y_shard))
             .collect();
 
         // Aggregate and apply updates
         let (avg_wg, avg_bg) = self.server.aggregate_gradients(&gradients);
-        self.server.apply_update(&avg_wg, avg_bg, self.config.learning_rate);
+        self.server
+            .apply_update(&avg_wg, avg_bg, self.config.learning_rate);
 
         // Compute loss
         self.compute_loss(x, y)
@@ -205,13 +212,18 @@ impl DistributedTrainer {
 
     fn compute_loss(&self, x: &[Vec<f64>], y: &[f64]) -> f64 {
         let n = x.len() as f64;
-        let sum: f64 = x.iter()
+        let sum: f64 = x
+            .iter()
             .zip(y.iter())
             .map(|(xi, yi)| {
-                let pred: f64 = self.server.weights.iter()
+                let pred: f64 = self
+                    .server
+                    .weights
+                    .iter()
                     .zip(xi.iter())
                     .map(|(w, x)| w * x)
-                    .sum::<f64>() + self.server.bias;
+                    .sum::<f64>()
+                    + self.server.bias;
                 (pred - yi).powi(2)
             })
             .sum();
@@ -288,13 +300,18 @@ fn aggregation_demo() {
 
     println!("   Worker gradients:");
     for (i, (wg, bg)) in gradients.iter().enumerate() {
-        println!("   Worker {}: weight_grad=[{:.3}, {:.3}], bias_grad={:.3}",
-            i, wg[0], wg[1], bg);
+        println!(
+            "   Worker {}: weight_grad=[{:.3}, {:.3}], bias_grad={:.3}",
+            i, wg[0], wg[1], bg
+        );
     }
     println!();
 
     println!("   Aggregated gradients:");
-    println!("   - Weight gradients: [{:.4}, {:.4}]", avg_wg[0], avg_wg[1]);
+    println!(
+        "   - Weight gradients: [{:.4}, {:.4}]",
+        avg_wg[0], avg_wg[1]
+    );
     println!("   - Bias gradient: {:.4}", avg_bg);
     println!();
 }
@@ -344,7 +361,10 @@ fn scaling_demo() {
     let x: Vec<Vec<f64>> = (0..100).map(|i| vec![i as f64 / 10.0]).collect();
     let y: Vec<f64> = x.iter().map(|xi| 2.0 * xi[0] + 1.0).collect();
 
-    println!("   {:>8} │ {:>12} │ {:>12}", "Workers", "Final MSE", "Convergence");
+    println!(
+        "   {:>8} │ {:>12} │ {:>12}",
+        "Workers", "Final MSE", "Convergence"
+    );
     println!("   ─────────┼──────────────┼─────────────");
 
     for num_workers in [1, 2, 4, 8] {
@@ -358,8 +378,17 @@ fn scaling_demo() {
         let mut trainer = DistributedTrainer::new(1, config);
         let losses = trainer.train(&x, &y);
 
-        let convergence = if *losses.last().unwrap() < 0.01 { "✅ Good" } else { "⚠️  Slow" };
-        println!("   {:>8} │ {:>12.6} │ {:>12}", num_workers, losses.last().unwrap(), convergence);
+        let convergence = if *losses.last().unwrap() < 0.01 {
+            "✅ Good"
+        } else {
+            "⚠️  Slow"
+        };
+        println!(
+            "   {:>8} │ {:>12.6} │ {:>12}",
+            num_workers,
+            losses.last().unwrap(),
+            convergence
+        );
     }
     println!();
 }
@@ -468,10 +497,7 @@ mod tests {
     #[test]
     fn test_gradient_aggregation() {
         let server = ParameterServer::new(2, 2);
-        let gradients = vec![
-            (vec![0.1, 0.2], 0.1),
-            (vec![0.3, 0.4], 0.3),
-        ];
+        let gradients = vec![(vec![0.1, 0.2], 0.1), (vec![0.3, 0.4], 0.3)];
 
         let (avg_wg, avg_bg) = server.aggregate_gradients(&gradients);
 
@@ -495,8 +521,10 @@ mod tests {
         let mut trainer = DistributedTrainer::new(1, config);
         let losses = trainer.train(&x, &y);
 
-        assert!(losses.last().unwrap() < &losses[0],
-            "Training should reduce loss");
+        assert!(
+            losses.last().unwrap() < &losses[0],
+            "Training should reduce loss"
+        );
     }
 
     #[test]
@@ -520,8 +548,10 @@ mod tests {
         }
 
         let first = results[0];
-        assert!(results.iter().all(|&r| (r - first).abs() < 1e-10),
-            "Distributed training must be deterministic");
+        assert!(
+            results.iter().all(|&r| (r - first).abs() < 1e-10),
+            "Distributed training must be deterministic"
+        );
     }
 
     #[test]

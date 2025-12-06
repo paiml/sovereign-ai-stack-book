@@ -105,9 +105,12 @@ impl DeploymentManager {
 
     fn deploy(&mut self) -> Result<(), String> {
         // Simulate deployment steps
-        self.services.push(ServiceHealth::new("api", HealthStatus::Healthy, 15));
-        self.services.push(ServiceHealth::new("model", HealthStatus::Healthy, 50));
-        self.services.push(ServiceHealth::new("database", HealthStatus::Healthy, 5));
+        self.services
+            .push(ServiceHealth::new("api", HealthStatus::Healthy, 15));
+        self.services
+            .push(ServiceHealth::new("model", HealthStatus::Healthy, 50));
+        self.services
+            .push(ServiceHealth::new("database", HealthStatus::Healthy, 5));
 
         self.metrics.insert("uptime".to_string(), 99.9);
         self.metrics.insert("requests_per_sec".to_string(), 1000.0);
@@ -117,9 +120,17 @@ impl DeploymentManager {
     }
 
     fn health_check(&self) -> HealthStatus {
-        if self.services.iter().all(|s| s.status == HealthStatus::Healthy) {
+        if self
+            .services
+            .iter()
+            .all(|s| s.status == HealthStatus::Healthy)
+        {
             HealthStatus::Healthy
-        } else if self.services.iter().any(|s| s.status == HealthStatus::Unhealthy) {
+        } else if self
+            .services
+            .iter()
+            .any(|s| s.status == HealthStatus::Unhealthy)
+        {
             HealthStatus::Unhealthy
         } else {
             HealthStatus::Degraded
@@ -142,15 +153,20 @@ fn config_demo() {
         DeploymentConfig::new(Environment::Production, "0.1.0"),
     ];
 
-    println!("   {:>12} │ {:>8} │ {:>8} │ {:>6}", "Environment", "Replicas", "CPU", "Memory");
+    println!(
+        "   {:>12} │ {:>8} │ {:>8} │ {:>6}",
+        "Environment", "Replicas", "CPU", "Memory"
+    );
     println!("   ─────────────┼──────────┼──────────┼────────");
 
     for config in configs {
-        println!("   {:>12?} │ {:>8} │ {:>8} │ {:>6}MB",
+        println!(
+            "   {:>12?} │ {:>8} │ {:>8} │ {:>6}MB",
             config.environment,
             config.replicas,
             config.resources.cpu_cores,
-            config.resources.memory_mb);
+            config.resources.memory_mb
+        );
     }
     println!();
 }
@@ -228,7 +244,9 @@ fn determinism_demo() {
     }
 
     let first = results[0];
-    let all_identical = results.iter().all(|r| r.0 == first.0 && (r.1 - first.1).abs() < 1e-10);
+    let all_identical = results
+        .iter()
+        .all(|r| r.0 == first.0 && (r.1 - first.1).abs() < 1e-10);
 
     println!();
     if all_identical {
@@ -395,7 +413,9 @@ mod tests {
         }
 
         let first = results[0];
-        assert!(results.iter().all(|&r| r == first),
-            "Deployment must be deterministic");
+        assert!(
+            results.iter().all(|&r| r == first),
+            "Deployment must be deterministic"
+        );
     }
 }

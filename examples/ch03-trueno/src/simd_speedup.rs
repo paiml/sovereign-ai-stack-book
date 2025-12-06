@@ -1,3 +1,5 @@
+use anyhow::Result;
+use std::time::Instant;
 /// Chapter 3: trueno - SIMD-Accelerated Tensor Operations
 ///
 /// **CLAIM:** trueno achieves 11.9x speedup over naive scalar operations using SIMD
@@ -12,8 +14,6 @@
 /// - BRUTAL HONESTY: Show the actual numbers, not marketing speak
 /// - ZERO VAPORWARE: All code runs, all claims verified
 use trueno::Vector;
-use anyhow::Result;
-use std::time::Instant;
 
 /// Naive scalar implementation (baseline)
 fn naive_dot_product(a: &[f32], b: &[f32]) -> f32 {
@@ -107,11 +107,17 @@ fn main() -> Result<()> {
     println!("   Naive result: {:.2}", naive_result);
     println!("   SIMD result:  {:.2}", simd_result);
     println!("   Difference:   {:.2e} (numerical precision)", diff);
-    assert!(diff < 0.01, "Results must match within floating-point precision");
+    assert!(
+        diff < 0.01,
+        "Results must match within floating-point precision"
+    );
     println!();
 
     println!("🎯 Key takeaway:");
-    println!("   SIMD acceleration provides {:.1}x speedup for tensor operations", speedup);
+    println!(
+        "   SIMD acceleration provides {:.1}x speedup for tensor operations",
+        speedup
+    );
     println!("   This is WHY trueno is the foundation of the Sovereign AI Stack");
     println!();
 
@@ -132,7 +138,10 @@ mod tests {
         let vec_b = Vector::from_slice(&data_b);
         let simd = simd_dot_product(&vec_a, &vec_b);
 
-        assert!((naive - simd).abs() < 0.001, "SIMD must match naive implementation");
+        assert!(
+            (naive - simd).abs() < 0.001,
+            "SIMD must match naive implementation"
+        );
         Ok(())
     }
 

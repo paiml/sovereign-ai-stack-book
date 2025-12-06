@@ -1,3 +1,4 @@
+use anyhow::Result;
 /// Chapter 1: Introduction to Sovereign AI
 ///
 /// This example demonstrates the core principle of sovereign AI:
@@ -14,7 +15,6 @@
 /// - ✅ No network syscalls (verifiable with strace)
 /// - ✅ Output is deterministic and reproducible
 use trueno::Vector;
-use anyhow::Result;
 
 fn main() -> Result<()> {
     println!("🇪🇺 Sovereign AI Stack - Chapter 1: Hello Sovereign AI");

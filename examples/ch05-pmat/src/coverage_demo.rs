@@ -130,7 +130,10 @@ fn main() -> Result<()> {
     println!("   📊 Total Coverage: {:.1}%", total_pct);
     println!("      Covered: {} lines", report.covered_lines);
     println!("      Total:   {} lines", report.total_lines);
-    println!("      Missing: {} lines", report.total_lines - report.covered_lines);
+    println!(
+        "      Missing: {} lines",
+        report.total_lines - report.covered_lines
+    );
     println!();
 
     // Threshold enforcement (from .pmat-gates.toml)
@@ -144,9 +147,15 @@ fn main() -> Result<()> {
         println!("   ✅ PASS: Coverage meets ≥95% requirement");
     } else {
         println!("   ❌ FAIL: Coverage below 95% requirement");
-        println!("      Shortfall: {:.1} percentage points", min_coverage - total_pct);
-        println!("      Need {} more covered lines",
-            ((min_coverage / 100.0 * report.total_lines as f64) - report.covered_lines as f64).ceil() as u32);
+        println!(
+            "      Shortfall: {:.1} percentage points",
+            min_coverage - total_pct
+        );
+        println!(
+            "      Need {} more covered lines",
+            ((min_coverage / 100.0 * report.total_lines as f64) - report.covered_lines as f64)
+                .ceil() as u32
+        );
     }
     println!();
 
@@ -181,9 +190,11 @@ fn main() -> Result<()> {
     // Example: Show specific uncovered lines
     println!("🔍 Analyzing uncovered lines in src/backend.rs:");
     if let Some(backend_file) = report.file_coverage.get("src/backend.rs") {
-        println!("   {} uncovered lines: {:?}",
+        println!(
+            "   {} uncovered lines: {:?}",
             backend_file.uncovered_lines.len(),
-            backend_file.uncovered_lines);
+            backend_file.uncovered_lines
+        );
         println!();
         println!("   Recommended actions:");
         println!("      1. Add unit tests for lines 23, 45, 67");

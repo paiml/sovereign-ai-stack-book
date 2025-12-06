@@ -135,7 +135,9 @@ impl ComplianceAuditor {
     }
 
     fn is_compliant(&self) -> bool {
-        self.checks.iter().all(|c| c.status == ComplianceStatus::Compliant)
+        self.checks
+            .iter()
+            .all(|c| c.status == ComplianceStatus::Compliant)
     }
 }
 
@@ -167,12 +169,15 @@ struct AuditLog {
 
 impl AuditLog {
     fn new() -> Self {
-        Self { entries: Vec::new() }
+        Self {
+            entries: Vec::new(),
+        }
     }
 
     fn log(&mut self, action: &str, actor: &str, details: &str) {
         let timestamp = self.entries.len() as u64; // Simplified timestamp
-        self.entries.push(AuditEntry::new(timestamp, action, actor, details));
+        self.entries
+            .push(AuditEntry::new(timestamp, action, actor, details));
     }
 
     fn len(&self) -> usize {
@@ -188,7 +193,10 @@ fn audit_demo() {
     let mut auditor = ComplianceAuditor::new();
     auditor.run_all_checks();
 
-    println!("   {:>12} │ {:>30} │ {:>10}", "Article", "Requirement", "Status");
+    println!(
+        "   {:>12} │ {:>30} │ {:>10}",
+        "Article", "Requirement", "Status"
+    );
     println!("   ─────────────┼────────────────────────────────┼───────────");
 
     for check in &auditor.checks {
@@ -197,16 +205,27 @@ fn audit_demo() {
             ComplianceStatus::NonCompliant => "❌",
             ComplianceStatus::Partial => "⚠️",
         };
-        println!("   {:>12} │ {:>30} │ {:>10}",
-            check.article, check.requirement, status);
+        println!(
+            "   {:>12} │ {:>30} │ {:>10}",
+            check.article, check.requirement, status
+        );
     }
 
     println!();
     let summary = auditor.summary();
     println!("   Summary:");
-    println!("   - Compliant: {}", summary.get(&ComplianceStatus::Compliant).unwrap_or(&0));
-    println!("   - Non-Compliant: {}", summary.get(&ComplianceStatus::NonCompliant).unwrap_or(&0));
-    println!("   - Partial: {}", summary.get(&ComplianceStatus::Partial).unwrap_or(&0));
+    println!(
+        "   - Compliant: {}",
+        summary.get(&ComplianceStatus::Compliant).unwrap_or(&0)
+    );
+    println!(
+        "   - Non-Compliant: {}",
+        summary.get(&ComplianceStatus::NonCompliant).unwrap_or(&0)
+    );
+    println!(
+        "   - Partial: {}",
+        summary.get(&ComplianceStatus::Partial).unwrap_or(&0)
+    );
     println!();
 
     if auditor.is_compliant() {
@@ -224,7 +243,11 @@ fn audit_trail_demo() {
 
     let mut log = AuditLog::new();
 
-    log.log("model_train", "system", "Started training with 1000 samples");
+    log.log(
+        "model_train",
+        "system",
+        "Started training with 1000 samples",
+    );
     log.log("model_train", "system", "Epoch 1 complete, loss=0.5");
     log.log("model_train", "system", "Epoch 10 complete, loss=0.01");
     log.log("model_save", "system", "Model saved to models/v1.bin");
@@ -234,8 +257,10 @@ fn audit_trail_demo() {
     println!();
 
     for entry in &log.entries {
-        println!("   [{}] {} - {} - {}",
-            entry.timestamp, entry.actor, entry.action, entry.details);
+        println!(
+            "   [{}] {} - {} - {}",
+            entry.timestamp, entry.actor, entry.action, entry.details
+        );
     }
     println!();
 }
@@ -277,7 +302,10 @@ fn stack_mapping_demo() {
         ("renacer", "Article 15", "Performance monitoring"),
     ];
 
-    println!("   {:>12} │ {:>12} │ {:>30}", "Component", "Article", "Compliance Feature");
+    println!(
+        "   {:>12} │ {:>12} │ {:>30}",
+        "Component", "Article", "Compliance Feature"
+    );
     println!("   ─────────────┼──────────────┼───────────────────────────────");
 
     for (component, article, feature) in mappings {
@@ -375,8 +403,18 @@ mod tests {
     #[test]
     fn test_summary() {
         let mut auditor = ComplianceAuditor::new();
-        auditor.add_check(ComplianceCheck::new("A", "R", ComplianceStatus::Compliant, "E"));
-        auditor.add_check(ComplianceCheck::new("A", "R", ComplianceStatus::Compliant, "E"));
+        auditor.add_check(ComplianceCheck::new(
+            "A",
+            "R",
+            ComplianceStatus::Compliant,
+            "E",
+        ));
+        auditor.add_check(ComplianceCheck::new(
+            "A",
+            "R",
+            ComplianceStatus::Compliant,
+            "E",
+        ));
 
         let summary = auditor.summary();
         assert_eq!(summary.get(&ComplianceStatus::Compliant), Some(&2));
@@ -385,8 +423,18 @@ mod tests {
     #[test]
     fn test_non_compliant_detection() {
         let mut auditor = ComplianceAuditor::new();
-        auditor.add_check(ComplianceCheck::new("A", "R", ComplianceStatus::Compliant, "E"));
-        auditor.add_check(ComplianceCheck::new("A", "R", ComplianceStatus::NonCompliant, "E"));
+        auditor.add_check(ComplianceCheck::new(
+            "A",
+            "R",
+            ComplianceStatus::Compliant,
+            "E",
+        ));
+        auditor.add_check(ComplianceCheck::new(
+            "A",
+            "R",
+            ComplianceStatus::NonCompliant,
+            "E",
+        ));
 
         assert!(!auditor.is_compliant());
     }

@@ -16,16 +16,31 @@ enum PyExpr {
     Float(f64),
     Str(String),
     Name(String),
-    BinOp { left: Box<PyExpr>, op: PyOp, right: Box<PyExpr> },
-    Call { func: String, args: Vec<PyExpr> },
+    BinOp {
+        left: Box<PyExpr>,
+        op: PyOp,
+        right: Box<PyExpr>,
+    },
+    Call {
+        func: String,
+        args: Vec<PyExpr>,
+    },
     List(Vec<PyExpr>),
-    Subscript { value: Box<PyExpr>, index: Box<PyExpr> },
+    Subscript {
+        value: Box<PyExpr>,
+        index: Box<PyExpr>,
+    },
 }
 
 #[allow(dead_code)]
 #[derive(Debug, Clone)]
 enum PyOp {
-    Add, Sub, Mul, Div, Mod, Pow,
+    Add,
+    Sub,
+    Mul,
+    Div,
+    Mod,
+    Pow,
 }
 
 /// Python type annotations
@@ -50,8 +65,11 @@ fn python_to_rust_type(py_type: &PyType) -> String {
         PyType::Str => "String".to_string(),
         PyType::Bool => "bool".to_string(),
         PyType::List(inner) => format!("Vec<{}>", python_to_rust_type(inner)),
-        PyType::Dict(k, v) => format!("HashMap<{}, {}>",
-            python_to_rust_type(k), python_to_rust_type(v)),
+        PyType::Dict(k, v) => format!(
+            "HashMap<{}, {}>",
+            python_to_rust_type(k),
+            python_to_rust_type(v)
+        ),
         PyType::Optional(inner) => format!("Option<{}>", python_to_rust_type(inner)),
         PyType::Any => "Box<dyn Any>".to_string(),
     }
@@ -68,7 +86,10 @@ fn type_mapping_demo() {
         (PyType::Str, "str"),
         (PyType::Bool, "bool"),
         (PyType::List(Box::new(PyType::Int)), "list[int]"),
-        (PyType::Dict(Box::new(PyType::Str), Box::new(PyType::Int)), "dict[str, int]"),
+        (
+            PyType::Dict(Box::new(PyType::Str), Box::new(PyType::Int)),
+            "dict[str, int]",
+        ),
         (PyType::Optional(Box::new(PyType::Str)), "Optional[str]"),
     ];
 

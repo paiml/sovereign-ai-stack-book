@@ -18,34 +18,13 @@ fn numpy_patterns() {
             "np.array([1, 2, 3])",
             "Vector::from_slice(&[1.0, 2.0, 3.0])",
         ),
-        (
-            "np.zeros((3, 3))",
-            "Matrix::zeros(3, 3)",
-        ),
-        (
-            "np.dot(a, b)",
-            "a.dot(&b)",
-        ),
-        (
-            "a + b  # element-wise",
-            "a.add(&b)",
-        ),
-        (
-            "a * b  # element-wise",
-            "a.mul(&b)",
-        ),
-        (
-            "np.sum(a)",
-            "a.sum()",
-        ),
-        (
-            "np.mean(a)",
-            "a.mean()",
-        ),
-        (
-            "a.reshape((2, 3))",
-            "a.reshape(2, 3)",
-        ),
+        ("np.zeros((3, 3))", "Matrix::zeros(3, 3)"),
+        ("np.dot(a, b)", "a.dot(&b)"),
+        ("a + b  # element-wise", "a.add(&b)"),
+        ("a * b  # element-wise", "a.mul(&b)"),
+        ("np.sum(a)", "a.sum()"),
+        ("np.mean(a)", "a.mean()"),
+        ("a.reshape((2, 3))", "a.reshape(2, 3)"),
     ];
 
     println!("   {:>25} │ {:>35}", "NumPy", "Rust (trueno)");
@@ -63,26 +42,11 @@ fn pandas_patterns() {
     println!();
 
     let patterns = vec![
-        (
-            "df['column']",
-            "df.column::<f64>(\"column\")?",
-        ),
-        (
-            "df.head(5)",
-            "df.take(5)",
-        ),
-        (
-            "df.dropna()",
-            "df.filter(|row| !row.has_null())",
-        ),
-        (
-            "df.groupby('col').sum()",
-            "df.group_by(\"col\").sum()",
-        ),
-        (
-            "df.merge(df2, on='key')",
-            "df.join(&df2, \"key\")",
-        ),
+        ("df['column']", "df.column::<f64>(\"column\")?"),
+        ("df.head(5)", "df.take(5)"),
+        ("df.dropna()", "df.filter(|row| !row.has_null())"),
+        ("df.groupby('col').sum()", "df.group_by(\"col\").sum()"),
+        ("df.merge(df2, on='key')", "df.join(&df2, \"key\")"),
     ];
 
     println!("   {:>30} │ {:>35}", "Pandas", "Rust");
@@ -176,12 +140,21 @@ fn performance_comparison() {
 
     println!("   Operation: Matrix multiplication (1000x1000)");
     println!();
-    println!("   {:>15} │ {:>10} │ {:>10}", "Implementation", "Time", "Speedup");
+    println!(
+        "   {:>15} │ {:>10} │ {:>10}",
+        "Implementation", "Time", "Speedup"
+    );
     println!("   ────────────────┼────────────┼────────────");
     println!("   {:>15} │ {:>10} │ {:>10}", "Python NumPy", "~50ms", "1x");
-    println!("   {:>15} │ {:>10} │ {:>10}", "Rust (naive)", "~30ms", "1.7x");
+    println!(
+        "   {:>15} │ {:>10} │ {:>10}",
+        "Rust (naive)", "~30ms", "1.7x"
+    );
     println!("   {:>15} │ {:>10} │ {:>10}", "Rust (SIMD)", "~8ms", "6.3x");
-    println!("   {:>15} │ {:>10} │ {:>10}", "Rust (parallel)", "~3ms", "16.7x");
+    println!(
+        "   {:>15} │ {:>10} │ {:>10}",
+        "Rust (parallel)", "~3ms", "16.7x"
+    );
     println!();
 
     println!("   Note: Rust eliminates Python overhead:");
@@ -235,8 +208,8 @@ mod tests {
     #[test]
     fn test_numpy_pattern_dot_product() {
         // Verify dot product semantics
-        let a = vec![1.0, 2.0, 3.0];
-        let b = vec![4.0, 5.0, 6.0];
+        let a = [1.0, 2.0, 3.0];
+        let b = [4.0, 5.0, 6.0];
 
         let dot: f64 = a.iter().zip(b.iter()).map(|(x, y)| x * y).sum();
         // 1*4 + 2*5 + 3*6 = 4 + 10 + 18 = 32
@@ -246,7 +219,7 @@ mod tests {
     #[test]
     fn test_list_comprehension_map() {
         // [x*2 for x in data]
-        let data = vec![1, 2, 3, 4, 5];
+        let data = [1, 2, 3, 4, 5];
         let result: Vec<i32> = data.iter().map(|x| x * 2).collect();
         assert_eq!(result, vec![2, 4, 6, 8, 10]);
     }
@@ -254,7 +227,7 @@ mod tests {
     #[test]
     fn test_list_comprehension_filter() {
         // [x for x in data if x > 2]
-        let data = vec![1, 2, 3, 4, 5];
+        let data = [1, 2, 3, 4, 5];
         let result: Vec<&i32> = data.iter().filter(|&x| *x > 2).collect();
         assert_eq!(result, vec![&3, &4, &5]);
     }
@@ -262,18 +235,15 @@ mod tests {
     #[test]
     fn test_list_comprehension_filter_map() {
         // [x*2 for x in data if x > 2]
-        let data = vec![1, 2, 3, 4, 5];
-        let result: Vec<i32> = data.iter()
-            .filter(|&x| *x > 2)
-            .map(|x| x * 2)
-            .collect();
+        let data = [1, 2, 3, 4, 5];
+        let result: Vec<i32> = data.iter().filter(|&x| *x > 2).map(|x| x * 2).collect();
         assert_eq!(result, vec![6, 8, 10]);
     }
 
     #[test]
     fn test_sum_comprehension() {
         // sum([x*x for x in data])
-        let data = vec![1, 2, 3, 4, 5];
+        let data = [1, 2, 3, 4, 5];
         let result: i32 = data.iter().map(|x| x * x).sum();
         // 1 + 4 + 9 + 16 + 25 = 55
         assert_eq!(result, 55);

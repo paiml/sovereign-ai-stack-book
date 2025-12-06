@@ -62,7 +62,9 @@ impl Model {
 
     /// Single prediction
     fn predict(&self, x: &[f64]) -> f64 {
-        let sum: f64 = self.weights.iter()
+        let sum: f64 = self
+            .weights
+            .iter()
             .zip(x.iter())
             .map(|(w, xi)| w * xi)
             .sum();
@@ -115,9 +117,7 @@ impl InferenceEngine {
     }
 
     fn get_model(&self, name: &str) -> Option<&Model> {
-        self.models.iter()
-            .find(|(n, _)| n == name)
-            .map(|(_, m)| m)
+        self.models.iter().find(|(n, _)| n == name).map(|(_, m)| m)
     }
 
     fn predict(&self, model_name: &str, x: &[f64]) -> Option<f64> {
@@ -161,11 +161,7 @@ fn batch_inference_demo() {
     println!("   Model: y = 2*x1 + 3*x2 + 1");
     println!();
 
-    let batch: Vec<Vec<f64>> = vec![
-        vec![1.0, 1.0],
-        vec![2.0, 2.0],
-        vec![3.0, 3.0],
-    ];
+    let batch: Vec<Vec<f64>> = vec![vec![1.0, 1.0], vec![2.0, 2.0], vec![3.0, 3.0]];
 
     let predictions = model.predict_batch(&batch);
 
@@ -218,20 +214,29 @@ fn uncertainty_demo() {
     println!();
 
     let test_cases = vec![
-        (1.0, 3.0),   // Expected: 3, actual target: 3
-        (2.0, 5.0),   // Expected: 5, actual target: 5
-        (3.0, 6.5),   // Expected: 7, actual target: 6.5 (within bounds)
-        (4.0, 10.0),  // Expected: 9, actual target: 10 (outside bounds)
+        (1.0, 3.0),  // Expected: 3, actual target: 3
+        (2.0, 5.0),  // Expected: 5, actual target: 5
+        (3.0, 6.5),  // Expected: 7, actual target: 6.5 (within bounds)
+        (4.0, 10.0), // Expected: 9, actual target: 10 (outside bounds)
     ];
 
-    println!("   {:>4} │ {:>8} │ {:>12} │ {:>6}", "x", "Target", "Bounds", "Hit?");
+    println!(
+        "   {:>4} │ {:>8} │ {:>12} │ {:>6}",
+        "x", "Target", "Bounds", "Hit?"
+    );
     println!("   ─────┼──────────┼──────────────┼───────");
 
     for (x, target) in test_cases {
         let result = model.predict_with_bounds(&[x], uncertainty);
-        let in_bounds = if result.contains(target) { "✅" } else { "❌" };
-        println!("   {:>4.1} │ {:>8.2} │ [{:.2}, {:.2}] │ {}",
-            x, target, result.lower_bound, result.upper_bound, in_bounds);
+        let in_bounds = if result.contains(target) {
+            "✅"
+        } else {
+            "❌"
+        };
+        println!(
+            "   {:>4.1} │ {:>8.2} │ [{:.2}, {:.2}] │ {}",
+            x, target, result.lower_bound, result.upper_bound, in_bounds
+        );
     }
     println!();
 }
@@ -410,8 +415,10 @@ mod tests {
         }
 
         let first = results[0];
-        assert!(results.iter().all(|&r| (r - first).abs() < 1e-15),
-            "Inference must be deterministic");
+        assert!(
+            results.iter().all(|&r| (r - first).abs() < 1e-15),
+            "Inference must be deterministic"
+        );
     }
 
     #[test]

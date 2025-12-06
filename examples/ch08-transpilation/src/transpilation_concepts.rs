@@ -106,14 +106,20 @@ fn type_mapping() {
     println!("📋 Type Mapping");
     println!();
 
-    println!("   {:>15} │ {:>15} │ {:>15}", "Python", "TypeScript", "Rust");
+    println!(
+        "   {:>15} │ {:>15} │ {:>15}",
+        "Python", "TypeScript", "Rust"
+    );
     println!("   ────────────────┼─────────────────┼────────────────");
     println!("   {:>15} │ {:>15} │ {:>15}", "int", "number", "i64");
     println!("   {:>15} │ {:>15} │ {:>15}", "float", "number", "f64");
     println!("   {:>15} │ {:>15} │ {:>15}", "str", "string", "String");
     println!("   {:>15} │ {:>15} │ {:>15}", "bool", "boolean", "bool");
     println!("   {:>15} │ {:>15} │ {:>15}", "list[T]", "T[]", "Vec<T>");
-    println!("   {:>15} │ {:>15} │ {:>15}", "dict[K,V]", "Map<K,V>", "HashMap<K,V>");
+    println!(
+        "   {:>15} │ {:>15} │ {:>15}",
+        "dict[K,V]", "Map<K,V>", "HashMap<K,V>"
+    );
     println!("   {:>15} │ {:>15} │ {:>15}", "None", "null", "Option<T>");
     println!();
 }
@@ -252,16 +258,19 @@ mod tests {
         // Both should produce identical results
 
         let test_cases = vec![
-            (2, 3, 8),    // 2 + 3 * 2 = 8
-            (0, 5, 10),   // 0 + 5 * 2 = 10
-            (10, -1, 8),  // 10 + (-1) * 2 = 8
+            (2, 3, 8),     // 2 + 3 * 2 = 8
+            (0, 5, 10),    // 0 + 5 * 2 = 10
+            (10, -1, 8),   // 10 + (-1) * 2 = 8
             (-5, -5, -15), // -5 + (-5) * 2 = -15
         ];
 
         for (x, y, expected) in test_cases {
             let result = x + y * 2;
-            assert_eq!(result, expected,
-                "x={}, y={} should produce {}", x, y, expected);
+            assert_eq!(
+                result, expected,
+                "x={}, y={} should produce {}",
+                x, y, expected
+            );
         }
     }
 
@@ -293,7 +302,9 @@ mod tests {
         }
 
         let first = results[0];
-        assert!(results.iter().all(|&r| r == first),
-            "Transpiled code must be deterministic");
+        assert!(
+            results.iter().all(|&r| r == first),
+            "Transpiled code must be deterministic"
+        );
     }
 }

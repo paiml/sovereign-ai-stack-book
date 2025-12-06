@@ -19,11 +19,7 @@ fn matrix_basics() {
     println!();
 
     // Create a 3x3 matrix
-    let data = vec![
-        1.0, 2.0, 3.0,
-        4.0, 5.0, 6.0,
-        7.0, 8.0, 9.0,
-    ];
+    let data = vec![1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0];
 
     let m = Matrix::from_vec(3, 3, data.clone()).expect("Valid matrix");
 
@@ -47,10 +43,7 @@ fn matrix_transpose() {
     println!("🔄 Matrix Transpose");
     println!();
 
-    let data = vec![
-        1.0, 2.0, 3.0,
-        4.0, 5.0, 6.0,
-    ];
+    let data = vec![1.0, 2.0, 3.0, 4.0, 5.0, 6.0];
 
     let m = Matrix::from_vec(2, 3, data).expect("Valid matrix");
 
@@ -66,9 +59,9 @@ fn matrix_transpose() {
 
     // Manual transpose for demonstration
     let slice = m.as_slice();
-    let transposed: Vec<f32> = (0..3).flat_map(|col| {
-        (0..2).map(move |row| slice[row * 3 + col])
-    }).collect();
+    let transposed: Vec<f32> = (0..3)
+        .flat_map(|col| (0..2).map(move |row| slice[row * 3 + col]))
+        .collect();
 
     println!("   Transposed (3x2):");
     for row in 0..3 {
@@ -87,18 +80,11 @@ fn matrix_multiplication() {
     println!();
 
     // A: 2x3 matrix
-    let a_data = vec![
-        1.0, 2.0, 3.0,
-        4.0, 5.0, 6.0,
-    ];
+    let a_data = vec![1.0, 2.0, 3.0, 4.0, 5.0, 6.0];
     let a = Matrix::from_vec(2, 3, a_data).expect("Valid matrix A");
 
     // B: 3x2 matrix
-    let b_data = vec![
-        7.0,  8.0,
-        9.0,  10.0,
-        11.0, 12.0,
-    ];
+    let b_data = vec![7.0, 8.0, 9.0, 10.0, 11.0, 12.0];
     let b = Matrix::from_vec(3, 2, b_data).expect("Valid matrix B");
 
     println!("   A (2x3):");
@@ -142,7 +128,10 @@ fn matrix_multiplication() {
     println!();
 
     // Verify: C[0,0] = 1*7 + 2*9 + 3*11 = 7 + 18 + 33 = 58
-    println!("   Verification: C[0,0] = 1×7 + 2×9 + 3×11 = {}", 7 + 18 + 33);
+    println!(
+        "   Verification: C[0,0] = 1×7 + 2×9 + 3×11 = {}",
+        7 + 18 + 33
+    );
     println!();
 }
 
@@ -193,10 +182,7 @@ fn ml_operations() {
     println!();
 
     // Simulate a neural network layer: y = Wx + b
-    let weights = vec![
-        0.1, 0.2, 0.3,
-        0.4, 0.5, 0.6,
-    ];
+    let weights = vec![0.1, 0.2, 0.3, 0.4, 0.5, 0.6];
     let w = Matrix::from_vec(2, 3, weights).unwrap();
 
     let input = vec![1.0, 2.0, 3.0];
@@ -238,9 +224,15 @@ fn ml_operations() {
     // Softmax (simplified for 2 outputs)
     let max_val = output.iter().cloned().fold(f32::NEG_INFINITY, f32::max);
     let exp_sum: f32 = output.iter().map(|x| (x - max_val).exp()).sum();
-    let softmax: Vec<f32> = output.iter().map(|x| (x - max_val).exp() / exp_sum).collect();
+    let softmax: Vec<f32> = output
+        .iter()
+        .map(|x| (x - max_val).exp() / exp_sum)
+        .collect();
     println!("   Softmax(y): {:?}", softmax);
-    println!("   Sum = {:.4} (should be 1.0)", softmax.iter().sum::<f32>());
+    println!(
+        "   Sum = {:.4} (should be 1.0)",
+        softmax.iter().sum::<f32>()
+    );
     println!();
 }
 
@@ -316,7 +308,7 @@ mod tests {
         let a = Matrix::from_vec(2, 2, vec![1.0, 2.0, 3.0, 4.0]).unwrap();
         let b = Matrix::from_vec(2, 2, vec![5.0, 6.0, 7.0, 8.0]).unwrap();
 
-        let mut c = vec![0.0f32; 4];
+        let mut c = [0.0f32; 4];
         for i in 0..2 {
             for j in 0..2 {
                 for k in 0..2 {
@@ -347,8 +339,10 @@ mod tests {
         }
 
         let first = sums[0];
-        assert!(sums.iter().all(|&s| (s - first).abs() < 1e-10),
-            "Matrix operations must be deterministic");
+        assert!(
+            sums.iter().all(|&s| (s - first).abs() < 1e-10),
+            "Matrix operations must be deterministic"
+        );
     }
 
     #[test]
@@ -360,10 +354,13 @@ mod tests {
 
     #[test]
     fn test_softmax_sums_to_one() {
-        let logits = vec![1.0, 2.0, 3.0];
+        let logits = [1.0, 2.0, 3.0];
         let max_val = logits.iter().cloned().fold(f32::NEG_INFINITY, f32::max);
         let exp_sum: f32 = logits.iter().map(|x| (x - max_val).exp()).sum();
-        let softmax: Vec<f32> = logits.iter().map(|x| (x - max_val).exp() / exp_sum).collect();
+        let softmax: Vec<f32> = logits
+            .iter()
+            .map(|x| (x - max_val).exp() / exp_sum)
+            .collect();
 
         let sum: f32 = softmax.iter().sum();
         assert!((sum - 1.0).abs() < 1e-6, "Softmax should sum to 1.0");

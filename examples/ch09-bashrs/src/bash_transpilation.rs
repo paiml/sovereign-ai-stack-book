@@ -40,8 +40,10 @@ fn transpile_to_rust(cmd: &BashCommand) -> String {
             format!("println!(\"{}\");", escape_string(text))
         }
         BashCommand::Cd(path) => {
-            format!("std::env::set_current_dir(PathBuf::from({:?}))?;",
-                    path.display())
+            format!(
+                "std::env::set_current_dir(PathBuf::from({:?}))?;",
+                path.display()
+            )
         }
         BashCommand::Ls { path, flags } => {
             let flags_str = if flags.is_empty() {
@@ -49,11 +51,15 @@ fn transpile_to_rust(cmd: &BashCommand) -> String {
             } else {
                 format!(", flags: {:?}", flags)
             };
-            format!("list_directory(PathBuf::from({:?}){});",
-                    path.display(), flags_str)
+            format!(
+                "list_directory(PathBuf::from({:?}){});",
+                path.display(),
+                flags_str
+            )
         }
         BashCommand::Cat(files) => {
-            let paths: Vec<String> = files.iter()
+            let paths: Vec<String> = files
+                .iter()
                 .map(|p| format!("PathBuf::from({:?})", p.display()))
                 .collect();
             format!("concatenate_files(&[{}]);", paths.join(", "))
@@ -65,9 +71,11 @@ fn transpile_to_rust(cmd: &BashCommand) -> String {
             format!("&{}", name)
         }
         BashCommand::Pipe(left, right) => {
-            format!("pipe({}, {});",
-                    transpile_to_rust(left),
-                    transpile_to_rust(right))
+            format!(
+                "pipe({}, {});",
+                transpile_to_rust(left),
+                transpile_to_rust(right)
+            )
         }
     }
 }
@@ -75,10 +83,10 @@ fn transpile_to_rust(cmd: &BashCommand) -> String {
 /// Escape strings for safe Rust output
 fn escape_string(s: &str) -> String {
     s.replace('\\', "\\\\")
-     .replace('"', "\\\"")
-     .replace('\n', "\\n")
-     .replace('\r', "\\r")
-     .replace('\t', "\\t")
+        .replace('"', "\\\"")
+        .replace('\n', "\\n")
+        .replace('\r', "\\r")
+        .replace('\t', "\\t")
 }
 
 /// Demonstrate Bash to Rust transpilation

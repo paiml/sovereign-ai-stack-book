@@ -78,12 +78,14 @@ impl Profiler {
         let mut stats: HashMap<EventCategory, Vec<u64>> = HashMap::new();
 
         for event in &self.events {
-            stats.entry(event.category)
+            stats
+                .entry(event.category)
                 .or_default()
                 .push(event.duration_ns);
         }
 
-        stats.into_iter()
+        stats
+            .into_iter()
             .map(|(cat, durations)| (cat, AggregateStats::from_durations(&durations)))
             .collect()
     }
@@ -116,7 +118,13 @@ impl AggregateStats {
         let min_ns = *durations.iter().min().unwrap_or(&0);
         let max_ns = *durations.iter().max().unwrap_or(&0);
 
-        Self { count, total_ns, mean_ns, min_ns, max_ns }
+        Self {
+            count,
+            total_ns,
+            mean_ns,
+            min_ns,
+            max_ns,
+        }
     }
 }
 
@@ -128,25 +136,38 @@ fn basic_demo() {
     let mut profiler = Profiler::new();
 
     // Record some events
-    profiler.record(ProfileEvent::new("matrix_mul", 1500000, EventCategory::Compute));
+    profiler.record(ProfileEvent::new(
+        "matrix_mul",
+        1500000,
+        EventCategory::Compute,
+    ));
     profiler.record(ProfileEvent::new("file_read", 5000000, EventCategory::IO));
     profiler.record(ProfileEvent::new("malloc", 50000, EventCategory::Memory));
-    profiler.record(ProfileEvent::new("vector_add", 200000, EventCategory::Compute));
+    profiler.record(ProfileEvent::new(
+        "vector_add",
+        200000,
+        EventCategory::Compute,
+    ));
     profiler.record(ProfileEvent::new("file_write", 3000000, EventCategory::IO));
 
     println!("   Recorded {} events", profiler.event_count());
     println!();
 
     let stats = profiler.aggregate_by_category();
-    println!("   {:>10} │ {:>6} │ {:>12} │ {:>12}", "Category", "Count", "Total (ns)", "Mean (ns)");
+    println!(
+        "   {:>10} │ {:>6} │ {:>12} │ {:>12}",
+        "Category", "Count", "Total (ns)", "Mean (ns)"
+    );
     println!("   ───────────┼────────┼──────────────┼─────────────");
 
     let mut sorted: Vec<_> = stats.iter().collect();
     sorted.sort_by_key(|(cat, _)| format!("{:?}", cat));
 
     for (cat, stat) in sorted {
-        println!("   {:>10?} │ {:>6} │ {:>12} │ {:>12.0}",
-            cat, stat.count, stat.total_ns, stat.mean_ns);
+        println!(
+            "   {:>10?} │ {:>6} │ {:>12} │ {:>12.0}",
+            cat, stat.count, stat.total_ns, stat.mean_ns
+        );
     }
     println!();
 }
@@ -170,7 +191,10 @@ fn span_demo() {
     println!("   Captured {} spans", profiler.event_count());
 
     for event in &profiler.events {
-        println!("   - {}: {} ns ({:?})", event.name, event.duration_ns, event.category);
+        println!(
+            "   - {}: {} ns ({:?})",
+            event.name, event.duration_ns, event.category
+        );
     }
     println!();
 }
@@ -184,17 +208,33 @@ fn top_n_demo() {
 
     profiler.record(ProfileEvent::new("op_fast", 100, EventCategory::Compute));
     profiler.record(ProfileEvent::new("op_slow", 10000000, EventCategory::IO));
-    profiler.record(ProfileEvent::new("op_medium", 500000, EventCategory::Memory));
-    profiler.record(ProfileEvent::new("op_slower", 5000000, EventCategory::Network));
+    profiler.record(ProfileEvent::new(
+        "op_medium",
+        500000,
+        EventCategory::Memory,
+    ));
+    profiler.record(ProfileEvent::new(
+        "op_slower",
+        5000000,
+        EventCategory::Network,
+    ));
     profiler.record(ProfileEvent::new("op_fastest", 50, EventCategory::Compute));
 
     let top = profiler.top_slowest(3);
 
-    println!("   {:>4} │ {:>15} │ {:>12}", "Rank", "Operation", "Duration (ns)");
+    println!(
+        "   {:>4} │ {:>15} │ {:>12}",
+        "Rank", "Operation", "Duration (ns)"
+    );
     println!("   ─────┼─────────────────┼─────────────");
 
     for (i, event) in top.iter().enumerate() {
-        println!("   {:>4} │ {:>15} │ {:>12}", i + 1, event.name, event.duration_ns);
+        println!(
+            "   {:>4} │ {:>15} │ {:>12}",
+            i + 1,
+            event.name,
+            event.duration_ns
+        );
     }
     println!();
 }
@@ -219,7 +259,8 @@ fn determinism_demo() {
         }
 
         let stats = profiler.aggregate_by_category();
-        let compute_mean = stats.get(&EventCategory::Compute)
+        let compute_mean = stats
+            .get(&EventCategory::Compute)
             .map(|s| s.mean_ns)
             .unwrap_or(0.0);
 
@@ -380,7 +421,9 @@ mod tests {
         }
 
         let first = results[0];
-        assert!(results.iter().all(|&r| (r - first).abs() < 1e-10),
-            "Aggregation must be deterministic");
+        assert!(
+            results.iter().all(|&r| (r - first).abs() < 1e-10),
+            "Aggregation must be deterministic"
+        );
     }
 }

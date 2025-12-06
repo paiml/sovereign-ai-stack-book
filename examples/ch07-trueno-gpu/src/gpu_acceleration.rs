@@ -82,7 +82,10 @@ fn gpu_crossover_analysis() {
 
     let sizes = [16, 32, 64, 128, 256, 512];
 
-    println!("   {:>6} │ {:>10} │ {:>10} │ {:>8} │ Winner", "Size", "CPU (ms)", "GPU (ms)", "Speedup");
+    println!(
+        "   {:>6} │ {:>10} │ {:>10} │ {:>8} │ Winner",
+        "Size", "CPU (ms)", "GPU (ms)", "Speedup"
+    );
     println!("   ───────┼────────────┼────────────┼──────────┼────────");
 
     for &size in &sizes {
@@ -121,12 +124,21 @@ fn small_operation_overhead() {
     println!("   CPU Time: {:.4} ms (all compute)", cpu_time);
     println!();
     println!("   GPU Time Breakdown:");
-    println!("   ├─ Data Transfer: {:.4} ms ({:.1}%)", gpu_transfer,
-             gpu_transfer / simulated_gpu_matmul(size) * 100.0);
-    println!("   ├─ Kernel Launch: {:.4} ms ({:.1}%)", gpu_kernel,
-             gpu_kernel / simulated_gpu_matmul(size) * 100.0);
-    println!("   └─ Actual Compute: {:.4} ms ({:.1}%)", gpu_compute,
-             gpu_compute / simulated_gpu_matmul(size) * 100.0);
+    println!(
+        "   ├─ Data Transfer: {:.4} ms ({:.1}%)",
+        gpu_transfer,
+        gpu_transfer / simulated_gpu_matmul(size) * 100.0
+    );
+    println!(
+        "   ├─ Kernel Launch: {:.4} ms ({:.1}%)",
+        gpu_kernel,
+        gpu_kernel / simulated_gpu_matmul(size) * 100.0
+    );
+    println!(
+        "   └─ Actual Compute: {:.4} ms ({:.1}%)",
+        gpu_compute,
+        gpu_compute / simulated_gpu_matmul(size) * 100.0
+    );
     println!();
     println!("   Overhead dominates for small matrices!");
     println!();
@@ -235,11 +247,15 @@ mod tests {
         let large_gpu_time = simulated_gpu_matmul(256);
 
         // GPU overhead is a fixed cost, so larger matrices should have better amortization
-        let small_overhead_ratio = (GPU_TRANSFER_OVERHEAD_US as f64 * 2.0 / 1000.0) / small_gpu_time;
-        let large_overhead_ratio = (GPU_TRANSFER_OVERHEAD_US as f64 * 2.0 / 1000.0) / large_gpu_time;
+        let small_overhead_ratio =
+            (GPU_TRANSFER_OVERHEAD_US as f64 * 2.0 / 1000.0) / small_gpu_time;
+        let large_overhead_ratio =
+            (GPU_TRANSFER_OVERHEAD_US as f64 * 2.0 / 1000.0) / large_gpu_time;
 
-        assert!(small_overhead_ratio > large_overhead_ratio,
-            "Larger matrices should have relatively lower overhead");
+        assert!(
+            small_overhead_ratio > large_overhead_ratio,
+            "Larger matrices should have relatively lower overhead"
+        );
     }
 
     #[test]
@@ -248,8 +264,10 @@ mod tests {
         let (cpu_time, _) = cpu_matmul(size);
         let gpu_time = simulated_gpu_matmul(size);
 
-        assert!(gpu_time < cpu_time,
-            "GPU should be faster for 512×512 matrices");
+        assert!(
+            gpu_time < cpu_time,
+            "GPU should be faster for 512×512 matrices"
+        );
     }
 
     #[test]
@@ -257,6 +275,9 @@ mod tests {
         let (_, result1) = cpu_matmul(32);
         let (_, result2) = cpu_matmul(32);
 
-        assert_eq!(result1, result2, "Matrix multiplication must be deterministic");
+        assert_eq!(
+            result1, result2,
+            "Matrix multiplication must be deterministic"
+        );
     }
 }

@@ -148,9 +148,7 @@ fn basic_demo() {
 
     let mut scheduler = Scheduler::new(3);
 
-    let work: Vec<WorkUnit> = (0..9)
-        .map(|i| WorkUnit::new(i, 1, 100))
-        .collect();
+    let work: Vec<WorkUnit> = (0..9).map(|i| WorkUnit::new(i, 1, 100)).collect();
 
     println!("   Workers: {}", scheduler.worker_count());
     println!("   Work units: {}", work.len());
@@ -202,9 +200,7 @@ fn determinism_demo() {
 
     for run in 1..=5 {
         let mut scheduler = Scheduler::new(3);
-        let work: Vec<WorkUnit> = (0..9)
-            .map(|i| WorkUnit::new(i, 1, 100))
-            .collect();
+        let work: Vec<WorkUnit> = (0..9).map(|i| WorkUnit::new(i, 1, 100)).collect();
 
         scheduler.distribute(work);
         scheduler.execute();
@@ -350,9 +346,7 @@ mod tests {
     #[test]
     fn test_distribution() {
         let mut scheduler = Scheduler::new(3);
-        let work: Vec<WorkUnit> = (0..6)
-            .map(|i| WorkUnit::new(i, 1, 10))
-            .collect();
+        let work: Vec<WorkUnit> = (0..6).map(|i| WorkUnit::new(i, 1, 10)).collect();
 
         scheduler.distribute(work);
 
@@ -364,9 +358,7 @@ mod tests {
     #[test]
     fn test_execution() {
         let mut scheduler = Scheduler::new(2);
-        let work: Vec<WorkUnit> = (0..4)
-            .map(|i| WorkUnit::new(i, 1, 10))
-            .collect();
+        let work: Vec<WorkUnit> = (0..4).map(|i| WorkUnit::new(i, 1, 10)).collect();
 
         scheduler.distribute(work);
         scheduler.execute();
@@ -380,9 +372,7 @@ mod tests {
 
         for _ in 0..5 {
             let mut scheduler = Scheduler::new(2);
-            let work: Vec<WorkUnit> = (0..4)
-                .map(|i| WorkUnit::new(i, 1, 10))
-                .collect();
+            let work: Vec<WorkUnit> = (0..4).map(|i| WorkUnit::new(i, 1, 10)).collect();
 
             scheduler.distribute(work);
             scheduler.execute();
@@ -390,7 +380,9 @@ mod tests {
         }
 
         let first = &results[0];
-        assert!(results.iter().all(|r| r == first),
-            "Scheduling must be deterministic");
+        assert!(
+            results.iter().all(|r| r == first),
+            "Scheduling must be deterministic"
+        );
     }
 }

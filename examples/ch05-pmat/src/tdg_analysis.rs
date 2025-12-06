@@ -62,22 +62,22 @@ impl fmt::Display for Grade {
 #[allow(dead_code)]
 struct QualityMetrics {
     // Coverage metrics
-    line_coverage_pct: f64,         // From cargo-tarpaulin
-    branch_coverage_pct: f64,       // From cargo-tarpaulin
+    line_coverage_pct: f64,   // From cargo-tarpaulin
+    branch_coverage_pct: f64, // From cargo-tarpaulin
 
     // Mutation testing
-    mutation_score_pct: f64,        // From cargo-mutants
+    mutation_score_pct: f64, // From cargo-mutants
 
     // Code complexity
     avg_cyclomatic_complexity: f64, // From cargo-complexity or pmat
     max_cyclomatic_complexity: u32, // Worst function
 
     // Code quality
-    clippy_warnings: u32,           // From cargo clippy
-    clippy_errors: u32,             // From cargo clippy -D warnings
+    clippy_warnings: u32, // From cargo clippy
+    clippy_errors: u32,   // From cargo clippy -D warnings
 
     // Documentation
-    doc_coverage_pct: f64,          // Public API documentation
+    doc_coverage_pct: f64, // Public API documentation
 }
 
 impl QualityMetrics {
@@ -198,10 +198,22 @@ fn print_metrics_analysis(metrics: &QualityMetrics, project_name: &str) -> Resul
     // Show raw metrics
     println!("   📊 Raw metrics:");
     println!("      Line coverage:     {:.1}%", metrics.line_coverage_pct);
-    println!("      Branch coverage:   {:.1}%", metrics.branch_coverage_pct);
-    println!("      Mutation score:    {:.1}%", metrics.mutation_score_pct);
-    println!("      Avg complexity:    {:.1}", metrics.avg_cyclomatic_complexity);
-    println!("      Max complexity:    {}", metrics.max_cyclomatic_complexity);
+    println!(
+        "      Branch coverage:   {:.1}%",
+        metrics.branch_coverage_pct
+    );
+    println!(
+        "      Mutation score:    {:.1}%",
+        metrics.mutation_score_pct
+    );
+    println!(
+        "      Avg complexity:    {:.1}",
+        metrics.avg_cyclomatic_complexity
+    );
+    println!(
+        "      Max complexity:    {}",
+        metrics.max_cyclomatic_complexity
+    );
     println!("      Clippy warnings:   {}", metrics.clippy_warnings);
     println!("      Clippy errors:     {}", metrics.clippy_errors);
     println!();
@@ -216,12 +228,24 @@ fn print_metrics_analysis(metrics: &QualityMetrics, project_name: &str) -> Resul
     // Component breakdown
     let coverage_avg = (metrics.line_coverage_pct + metrics.branch_coverage_pct) / 2.0;
     println!("   📈 Component breakdown:");
-    println!("      Coverage (40%):   {:.1}% → {:.1} points", coverage_avg, coverage_avg * 0.40);
-    println!("      Mutation (30%):   {:.1}% → {:.1} points", metrics.mutation_score_pct, metrics.mutation_score_pct * 0.30);
+    println!(
+        "      Coverage (40%):   {:.1}% → {:.1} points",
+        coverage_avg,
+        coverage_avg * 0.40
+    );
+    println!(
+        "      Mutation (30%):   {:.1}% → {:.1} points",
+        metrics.mutation_score_pct,
+        metrics.mutation_score_pct * 0.30
+    );
 
     let complexity_penalty = (metrics.avg_cyclomatic_complexity / 15.0).min(1.0);
     let complexity_score = (1.0 - complexity_penalty) * 100.0;
-    println!("      Complexity (15%): {:.1} → {:.1} points", complexity_score, complexity_score * 0.15);
+    println!(
+        "      Complexity (15%): {:.1} → {:.1} points",
+        complexity_score,
+        complexity_score * 0.15
+    );
 
     let total_issues = metrics.clippy_warnings + metrics.clippy_errors;
     let quality_score = if total_issues == 0 {
@@ -229,16 +253,29 @@ fn print_metrics_analysis(metrics: &QualityMetrics, project_name: &str) -> Resul
     } else {
         (100.0 - (total_issues as f64 * 2.0)).max(0.0)
     };
-    println!("      Quality (15%):    {:.1} → {:.1} points", quality_score, quality_score * 0.15);
+    println!(
+        "      Quality (15%):    {:.1} → {:.1} points",
+        quality_score,
+        quality_score * 0.15
+    );
     println!();
 
     // Pass/fail analysis
     let min_grade = 90.0; // A- threshold from pmat config
     if tdg_score >= min_grade {
-        println!("   ✅ PASS: TDG {:.1} ≥ {:.1} (meets A- standard)", tdg_score, min_grade);
+        println!(
+            "   ✅ PASS: TDG {:.1} ≥ {:.1} (meets A- standard)",
+            tdg_score, min_grade
+        );
     } else {
-        println!("   ❌ FAIL: TDG {:.1} < {:.1} (below A- standard)", tdg_score, min_grade);
-        println!("      Needs {:.1} points to reach A-", min_grade - tdg_score);
+        println!(
+            "   ❌ FAIL: TDG {:.1} < {:.1} (below A- standard)",
+            tdg_score, min_grade
+        );
+        println!(
+            "      Needs {:.1} points to reach A-",
+            min_grade - tdg_score
+        );
     }
     println!();
 
@@ -276,7 +313,11 @@ mod tests {
         };
 
         let score = perfect.calculate_tdg_score();
-        assert!(score >= 95.0, "Perfect score should be ≥95 (A+), got {}", score);
+        assert!(
+            score >= 95.0,
+            "Perfect score should be ≥95 (A+), got {}",
+            score
+        );
     }
 
     #[test]
@@ -300,8 +341,16 @@ mod tests {
         // - Complexity (15%): (1 - 10/15) * 100 * 0.15 = 5.0
         // - Quality (15%): 100.0 * 0.15 = 15.0
         // Total: 35.0 + 24.0 + 5.0 + 15.0 = 79.0
-        assert!(score >= 75.0, "Acceptable metrics should score ≥75, got {}", score);
-        assert!(score < 85.0, "These metrics shouldn't reach 85, got {}", score);
+        assert!(
+            score >= 75.0,
+            "Acceptable metrics should score ≥75, got {}",
+            score
+        );
+        assert!(
+            score < 85.0,
+            "These metrics shouldn't reach 85, got {}",
+            score
+        );
     }
 
     #[test]

@@ -46,7 +46,9 @@ fn simulated_gpu_dot(size: usize) -> f64 {
 fn cpu_dot_product(v1: &Vector<f32>, v2: &Vector<f32>) -> (f64, f32) {
     let start = Instant::now();
 
-    let result: f32 = v1.as_slice().iter()
+    let result: f32 = v1
+        .as_slice()
+        .iter()
         .zip(v2.as_slice().iter())
         .map(|(a, b)| a * b)
         .sum();
@@ -63,7 +65,10 @@ fn dot_product_benchmark() -> Vec<BenchResult> {
     let sizes = [100, 1000, 10_000, 100_000, 1_000_000];
     let mut results = Vec::new();
 
-    println!("   {:>12} │ {:>10} │ {:>10} │ {:>8} │ Winner", "Elements", "CPU (ms)", "GPU (ms)", "Speedup");
+    println!(
+        "   {:>12} │ {:>10} │ {:>10} │ {:>8} │ Winner",
+        "Elements", "CPU (ms)", "GPU (ms)", "Speedup"
+    );
     println!("   ─────────────┼────────────┼────────────┼──────────┼────────");
 
     for &size in &sizes {
@@ -107,7 +112,10 @@ fn elementwise_benchmark() -> Vec<BenchResult> {
     let sizes = [1000, 10_000, 100_000, 1_000_000];
     let mut results = Vec::new();
 
-    println!("   {:>12} │ {:>10} │ {:>10} │ {:>8} │ Winner", "Elements", "CPU (ms)", "GPU (ms)", "Speedup");
+    println!(
+        "   {:>12} │ {:>10} │ {:>10} │ {:>8} │ Winner",
+        "Elements", "CPU (ms)", "GPU (ms)", "Speedup"
+    );
     println!("   ─────────────┼────────────┼────────────┼──────────┼────────");
 
     for &size in &sizes {
@@ -116,9 +124,7 @@ fn elementwise_benchmark() -> Vec<BenchResult> {
 
         // CPU element-wise ReLU
         let start = Instant::now();
-        let _relu: Vec<f32> = v.as_slice().iter()
-            .map(|&x| x.max(0.0))
-            .collect();
+        let _relu: Vec<f32> = v.as_slice().iter().map(|&x| x.max(0.0)).collect();
         let cpu_time = start.elapsed().as_secs_f64() * 1000.0;
 
         // Simulated GPU (parallelizes well)
@@ -155,16 +161,28 @@ fn summary_analysis(results: &[BenchResult]) {
     let gpu_wins: Vec<_> = results.iter().filter(|r| r.winner == "GPU").collect();
     let cpu_wins: Vec<_> = results.iter().filter(|r| r.winner == "CPU").collect();
 
-    println!("   GPU Wins: {} / {} benchmarks", gpu_wins.len(), results.len());
-    println!("   CPU Wins: {} / {} benchmarks", cpu_wins.len(), results.len());
+    println!(
+        "   GPU Wins: {} / {} benchmarks",
+        gpu_wins.len(),
+        results.len()
+    );
+    println!(
+        "   CPU Wins: {} / {} benchmarks",
+        cpu_wins.len(),
+        results.len()
+    );
     println!();
 
     if !gpu_wins.is_empty() {
-        let avg_gpu_speedup: f64 = gpu_wins.iter().map(|r| r.speedup).sum::<f64>() / gpu_wins.len() as f64;
+        let avg_gpu_speedup: f64 =
+            gpu_wins.iter().map(|r| r.speedup).sum::<f64>() / gpu_wins.len() as f64;
         let min_elements = gpu_wins.iter().map(|r| r.elements).min().unwrap();
 
         println!("   GPU Performance:");
-        println!("   ├─ Average speedup when GPU wins: {:.2}x", avg_gpu_speedup);
+        println!(
+            "   ├─ Average speedup when GPU wins: {:.2}x",
+            avg_gpu_speedup
+        );
         println!("   └─ Minimum elements for GPU advantage: {}", min_elements);
         println!();
     }
@@ -173,7 +191,10 @@ fn summary_analysis(results: &[BenchResult]) {
         let max_elements = cpu_wins.iter().map(|r| r.elements).max().unwrap();
 
         println!("   CPU Performance:");
-        println!("   └─ CPU wins for operations up to {} elements", max_elements);
+        println!(
+            "   └─ CPU wins for operations up to {} elements",
+            max_elements
+        );
         println!();
     }
 
@@ -311,8 +332,10 @@ mod tests {
         let small_per_element = small_gpu / 100.0;
         let large_per_element = large_gpu / 100_000.0;
 
-        assert!(small_per_element > large_per_element,
-            "Per-element GPU cost should decrease with scale");
+        assert!(
+            small_per_element > large_per_element,
+            "Per-element GPU cost should decrease with scale"
+        );
     }
 
     #[test]
@@ -320,9 +343,7 @@ mod tests {
         let data: Vec<f32> = vec![-2.0, -1.0, 0.0, 1.0, 2.0];
         let v = Vector::from_slice(&data);
 
-        let relu: Vec<f32> = v.as_slice().iter()
-            .map(|&x: &f32| x.max(0.0))
-            .collect();
+        let relu: Vec<f32> = v.as_slice().iter().map(|&x: &f32| x.max(0.0)).collect();
 
         assert_eq!(relu, vec![0.0, 0.0, 0.0, 1.0, 2.0]);
     }

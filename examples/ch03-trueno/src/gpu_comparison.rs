@@ -1,3 +1,5 @@
+use anyhow::Result;
+use std::time::Instant;
 /// Chapter 3: trueno - GPU Comparison (BRUTAL HONESTY)
 ///
 /// **NOAH GIFT STYLE: BRUTAL HONESTY**
@@ -17,8 +19,6 @@
 /// - Demonstrates PCIe transfer cost
 /// - Explains when to use GPU vs CPU
 use trueno::Vector;
-use anyhow::Result;
-use std::time::Instant;
 
 fn main() -> Result<()> {
     println!("🔍 Chapter 3: GPU vs CPU/SIMD Comparison (Brutal Honesty Edition)");
@@ -44,7 +44,9 @@ fn main() -> Result<()> {
     let start = Instant::now();
     for _ in 0..iterations {
         // Simple dot product using iterator
-        let _: f32 = vec_a.as_slice().iter()
+        let _: f32 = vec_a
+            .as_slice()
+            .iter()
             .zip(vec_b.as_slice().iter())
             .map(|(x, y)| x * y)
             .sum();
@@ -61,11 +63,14 @@ fn main() -> Result<()> {
     // NOTE: Actual GPU implementation would use trueno's GPU backend
     // For now, we SIMULATE the overhead to demonstrate the principle
     let simulated_transfer_overhead_us = 50; // Typical PCIe transfer latency
-    let simulated_gpu_compute_us = 1;        // GPU compute is fast
+    let simulated_gpu_compute_us = 1; // GPU compute is fast
     let total_gpu_time_us = simulated_transfer_overhead_us + simulated_gpu_compute_us;
 
     println!("🎮 GPU (simulated, with PCIe transfer):");
-    println!("   PCIe transfer: {} μs (EXPENSIVE!)", simulated_transfer_overhead_us);
+    println!(
+        "   PCIe transfer: {} μs (EXPENSIVE!)",
+        simulated_transfer_overhead_us
+    );
     println!("   GPU compute:   {} μs (fast)", simulated_gpu_compute_us);
     println!("   Total per op:  {} μs", total_gpu_time_us);
     println!();
@@ -120,7 +125,9 @@ mod tests {
         let vec_a = Vector::from_slice(&data_a);
         let vec_b = Vector::from_slice(&data_b);
 
-        let result: f32 = vec_a.as_slice().iter()
+        let result: f32 = vec_a
+            .as_slice()
+            .iter()
             .zip(vec_b.as_slice().iter())
             .map(|(x, y)| x * y)
             .sum();

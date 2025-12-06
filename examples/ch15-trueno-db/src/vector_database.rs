@@ -47,22 +47,19 @@ enum DistanceMetric {
 /// Compute distance between two vectors
 fn compute_distance(a: &[f64], b: &[f64], metric: DistanceMetric) -> f64 {
     match metric {
-        DistanceMetric::Euclidean => {
-            a.iter()
-                .zip(b.iter())
-                .map(|(x, y)| (x - y).powi(2))
-                .sum::<f64>()
-                .sqrt()
-        }
+        DistanceMetric::Euclidean => a
+            .iter()
+            .zip(b.iter())
+            .map(|(x, y)| (x - y).powi(2))
+            .sum::<f64>()
+            .sqrt(),
         DistanceMetric::Cosine => {
             let dot: f64 = a.iter().zip(b.iter()).map(|(x, y)| x * y).sum();
             let norm_a: f64 = a.iter().map(|x| x.powi(2)).sum::<f64>().sqrt();
             let norm_b: f64 = b.iter().map(|x| x.powi(2)).sum::<f64>().sqrt();
             1.0 - (dot / (norm_a * norm_b))
         }
-        DistanceMetric::DotProduct => {
-            -a.iter().zip(b.iter()).map(|(x, y)| x * y).sum::<f64>()
-        }
+        DistanceMetric::DotProduct => -a.iter().zip(b.iter()).map(|(x, y)| x * y).sum::<f64>(),
     }
 }
 
@@ -104,7 +101,8 @@ impl VectorDB {
     }
 
     fn search(&self, query: &[f64], k: usize) -> Vec<SearchResult> {
-        let mut results: Vec<_> = self.embeddings
+        let mut results: Vec<_> = self
+            .embeddings
             .iter()
             .map(|e| SearchResult {
                 id: e.id.clone(),
@@ -142,14 +140,10 @@ fn basic_demo() {
 
     // Insert embeddings
     let embeddings = vec![
-        Embedding::new("doc1", vec![1.0, 0.0, 0.0])
-            .with_metadata("title", "Document 1"),
-        Embedding::new("doc2", vec![0.0, 1.0, 0.0])
-            .with_metadata("title", "Document 2"),
-        Embedding::new("doc3", vec![0.0, 0.0, 1.0])
-            .with_metadata("title", "Document 3"),
-        Embedding::new("doc4", vec![0.5, 0.5, 0.0])
-            .with_metadata("title", "Document 4"),
+        Embedding::new("doc1", vec![1.0, 0.0, 0.0]).with_metadata("title", "Document 1"),
+        Embedding::new("doc2", vec![0.0, 1.0, 0.0]).with_metadata("title", "Document 2"),
+        Embedding::new("doc3", vec![0.0, 0.0, 1.0]).with_metadata("title", "Document 3"),
+        Embedding::new("doc4", vec![0.5, 0.5, 0.0]).with_metadata("title", "Document 4"),
     ];
 
     for emb in embeddings {
@@ -165,7 +159,10 @@ fn basic_demo() {
     let query = vec![0.6, 0.4, 0.0];
     let results = db.search(&query, 3);
 
-    println!("   Query: [{:.1}, {:.1}, {:.1}]", query[0], query[1], query[2]);
+    println!(
+        "   Query: [{:.1}, {:.1}, {:.1}]",
+        query[0], query[1], query[2]
+    );
     println!();
     println!("   {:>6} │ {:>10}", "ID", "Distance");
     println!("   ───────┼───────────");
@@ -339,8 +336,7 @@ mod tests {
 
     #[test]
     fn test_embedding_metadata() {
-        let emb = Embedding::new("test", vec![1.0])
-            .with_metadata("key", "value");
+        let emb = Embedding::new("test", vec![1.0]).with_metadata("key", "value");
         assert_eq!(emb.metadata.get("key"), Some(&"value".to_string()));
     }
 
@@ -395,8 +391,10 @@ mod tests {
         }
 
         let first = &results_history[0];
-        assert!(results_history.iter().all(|r| r == first),
-            "Search must be deterministic");
+        assert!(
+            results_history.iter().all(|r| r == first),
+            "Search must be deterministic"
+        );
     }
 
     #[test]
