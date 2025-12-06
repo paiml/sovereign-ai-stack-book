@@ -127,6 +127,48 @@ dependencies = [
 ]
 
 [[package]]
+name = "ch06-trueno-core"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proptest",
+ "trueno",
+]
+
+[[package]]
+name = "ch07-trueno-gpu"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proptest",
+ "trueno",
+]
+
+[[package]]
+name = "ch08-transpilation"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proptest",
+]
+
+[[package]]
+name = "ch09-bashrs"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proptest",
+]
+
+[[package]]
+name = "ch10-depyler"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proptest",
+]
+
+[[package]]
 name = "ciborium"
 version = "0.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"

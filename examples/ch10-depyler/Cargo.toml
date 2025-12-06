@@ -1,0 +1,20 @@
+[package]
+name = "ch10-depyler"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[[bin]]
+name = "python_transpilation"
+path = "src/python_transpilation.rs"
+
+[[bin]]
+name = "ml_patterns"
+path = "src/ml_patterns.rs"
+
+[dependencies]
+anyhow.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true

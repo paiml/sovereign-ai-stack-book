@@ -1,0 +1,21 @@
+[package]
+name = "ch07-trueno-gpu"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[[bin]]
+name = "gpu_acceleration"
+path = "src/gpu_acceleration.rs"
+
+[[bin]]
+name = "cpu_gpu_comparison"
+path = "src/cpu_gpu_comparison.rs"
+
+[dependencies]
+trueno.workspace = true
+anyhow.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true

@@ -1,0 +1,20 @@
+[package]
+name = "ch09-bashrs"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[[bin]]
+name = "bash_transpilation"
+path = "src/bash_transpilation.rs"
+
+[[bin]]
+name = "shell_safety"
+path = "src/shell_safety.rs"
+
+[dependencies]
+anyhow.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true

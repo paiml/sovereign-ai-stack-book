@@ -5,6 +5,11 @@ members = [
     "examples/ch03-trueno",
     "examples/ch04-bft",
     "examples/ch05-pmat",
+    "examples/ch06-trueno-core",
+    "examples/ch07-trueno-gpu",
+    "examples/ch08-transpilation",
+    "examples/ch09-bashrs",
+    "examples/ch10-depyler",
 ]
 resolver = "2"
 

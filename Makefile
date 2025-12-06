@@ -253,6 +253,28 @@ bench-ch03:
 	@echo "⚡ Benchmarking Chapter 3 (verifying SIMD claims)..."
 	@cargo bench --package ch03-trueno
 
+# Chapter 6: trueno Core - Vector and Matrix Operations
+run-ch06:
+	@echo "🧮 Running Chapter 6 examples: trueno Core Operations"
+	@echo ""
+	@echo "Example 1: Vector Operations"
+	@cargo run --package ch06-trueno-core --bin vector_ops
+	@echo ""
+	@echo "Example 2: Matrix Operations"
+	@cargo run --package ch06-trueno-core --bin matrix_ops
+
+run-ch06-vector:
+	@echo "📊 Running: Vector Operations"
+	@cargo run --package ch06-trueno-core --bin vector_ops
+
+run-ch06-matrix:
+	@echo "📊 Running: Matrix Operations"
+	@cargo run --package ch06-trueno-core --bin matrix_ops
+
+test-ch06:
+	@echo "🧪 Testing Chapter 6..."
+	@cargo nextest run --package ch06-trueno-core || cargo test --package ch06-trueno-core
+
 # Chapter 5: pmat - Quality Enforcement Toolkit
 run-ch05:
 	@echo "🛡️  Running Chapter 5 examples: pmat quality enforcement"
@@ -282,8 +304,96 @@ test-ch05:
 	@echo "🧪 Testing Chapter 5..."
 	@cargo nextest run --package ch05-pmat || cargo test --package ch05-pmat
 
+# Chapter 7: trueno GPU - Acceleration Concepts
+run-ch07:
+	@echo "🖥️  Running Chapter 7 examples: trueno GPU Acceleration"
+	@echo ""
+	@echo "Example 1: GPU Acceleration Concepts"
+	@cargo run --package ch07-trueno-gpu --bin gpu_acceleration
+	@echo ""
+	@echo "Example 2: CPU vs GPU Honest Comparison"
+	@cargo run --package ch07-trueno-gpu --bin cpu_gpu_comparison
+
+run-ch07-gpu:
+	@echo "🖥️  Running: GPU Acceleration"
+	@cargo run --package ch07-trueno-gpu --bin gpu_acceleration
+
+run-ch07-comparison:
+	@echo "📊 Running: CPU vs GPU Comparison"
+	@cargo run --package ch07-trueno-gpu --bin cpu_gpu_comparison
+
+test-ch07:
+	@echo "🧪 Testing Chapter 7..."
+	@cargo nextest run --package ch07-trueno-gpu || cargo test --package ch07-trueno-gpu
+
+# Chapter 8: Introduction to Transpilation
+run-ch08:
+	@echo "🔄 Running Chapter 8 examples: Transpilation Introduction"
+	@echo ""
+	@echo "Example 1: Transpilation Concepts"
+	@cargo run --package ch08-transpilation --bin transpilation_concepts
+	@echo ""
+	@echo "Example 2: AST Analysis"
+	@cargo run --package ch08-transpilation --bin ast_analysis
+
+run-ch08-concepts:
+	@echo "🔄 Running: Transpilation Concepts"
+	@cargo run --package ch08-transpilation --bin transpilation_concepts
+
+run-ch08-ast:
+	@echo "🌳 Running: AST Analysis"
+	@cargo run --package ch08-transpilation --bin ast_analysis
+
+test-ch08:
+	@echo "🧪 Testing Chapter 8..."
+	@cargo nextest run --package ch08-transpilation || cargo test --package ch08-transpilation
+
+# Chapter 9: bashrs - Bash to Rust Transpilation
+run-ch09:
+	@echo "🐚 Running Chapter 9 examples: bashrs"
+	@echo ""
+	@echo "Example 1: Bash Transpilation"
+	@cargo run --package ch09-bashrs --bin bash_transpilation
+	@echo ""
+	@echo "Example 2: Shell Safety"
+	@cargo run --package ch09-bashrs --bin shell_safety
+
+run-ch09-transpilation:
+	@echo "🔄 Running: Bash Transpilation"
+	@cargo run --package ch09-bashrs --bin bash_transpilation
+
+run-ch09-safety:
+	@echo "🔒 Running: Shell Safety"
+	@cargo run --package ch09-bashrs --bin shell_safety
+
+test-ch09:
+	@echo "🧪 Testing Chapter 9..."
+	@cargo nextest run --package ch09-bashrs || cargo test --package ch09-bashrs
+
+# Chapter 10: depyler - Python to Rust Transpilation
+run-ch10:
+	@echo "🐍 Running Chapter 10 examples: depyler"
+	@echo ""
+	@echo "Example 1: Python Transpilation"
+	@cargo run --package ch10-depyler --bin python_transpilation
+	@echo ""
+	@echo "Example 2: ML Patterns"
+	@cargo run --package ch10-depyler --bin ml_patterns
+
+run-ch10-python:
+	@echo "🐍 Running: Python Transpilation"
+	@cargo run --package ch10-depyler --bin python_transpilation
+
+run-ch10-ml:
+	@echo "🧠 Running: ML Patterns"
+	@cargo run --package ch10-depyler --bin ml_patterns
+
+test-ch10:
+	@echo "🧪 Testing Chapter 10..."
+	@cargo nextest run --package ch10-depyler || cargo test --package ch10-depyler
+
 # Run all chapter examples
-run-all: run-ch01 run-ch02 run-ch03 run-ch04 run-ch05
+run-all: run-ch01 run-ch02 run-ch03 run-ch04 run-ch05 run-ch06 run-ch07 run-ch08 run-ch09 run-ch10
 	@echo "✅ All chapter examples executed!"
 
 # === VALIDATION ===

@@ -1,0 +1,21 @@
+[package]
+name = "ch06-trueno-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[[bin]]
+name = "vector_ops"
+path = "src/vector_ops.rs"
+
+[[bin]]
+name = "matrix_ops"
+path = "src/matrix_ops.rs"
+
+[dependencies]
+trueno.workspace = true
+anyhow.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true

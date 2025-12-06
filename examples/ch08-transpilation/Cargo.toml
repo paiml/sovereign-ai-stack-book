@@ -1,0 +1,20 @@
+[package]
+name = "ch08-transpilation"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[[bin]]
+name = "transpilation_concepts"
+path = "src/transpilation_concepts.rs"
+
+[[bin]]
+name = "ast_analysis"
+path = "src/ast_analysis.rs"
+
+[dependencies]
+anyhow.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true
