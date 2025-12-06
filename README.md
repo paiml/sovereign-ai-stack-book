@@ -1,275 +1,153 @@
 # Sovereign AI Stack Book
 
-[![CI](https://github.com/nogibjj/sovereign-ai-stack-book/actions/workflows/ci.yml/badge.svg)](https://github.com/nogibjj/sovereign-ai-stack-book/actions/workflows/ci.yml)
-[![Deploy Book](https://github.com/nogibjj/sovereign-ai-stack-book/actions/workflows/deploy-book.yml/badge.svg)](https://github.com/nogibjj/sovereign-ai-stack-book/actions/workflows/deploy-book.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+> EXTREME TDD guide to building EU-compliant AI systems in pure Rust — every claim scientifically reproducible
 
-**EXTREME TDD Guide to Building EU-Compliant AI Systems**
+[![CI](https://github.com/paiml/sovereign-ai-stack-book/actions/workflows/ci.yml/badge.svg)](https://github.com/paiml/sovereign-ai-stack-book/actions/workflows/ci.yml)
+[![Book](https://img.shields.io/badge/book-online-blue)](https://paiml.github.io/sovereign-ai-stack-book/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Rust](https://img.shields.io/badge/rust-1.75%2B-orange.svg)](https://www.rust-lang.org/)
 
-> **CODE IS THE WAY** - Every claim is scientifically reproducible via `make test`
+![Book Architecture](.github/book-architecture.svg)
 
-## 📖 Read the Book
+## Overview
 
-**Live Book:** https://nogibjj.github.io/sovereign-ai-stack-book/ *(auto-deploys on every push)*
+This book documents the **Sovereign AI Stack**, a complete pure-Rust ecosystem for organizations requiring full control over their ML infrastructure. Every claim is verified through working code examples that readers can execute locally.
 
-## 🚀 Quick Start
+### Key Capabilities
+
+- **Scientific Reproducibility**: `git clone` → `make test` → all claims verified
+- **EXTREME TDD**: 95%+ coverage, A- TDG grade, 80%+ mutation score
+- **EU AI Act Compliance**: Articles 10, 13, 15 addressed with auditable code
+- **Zero Vaporware**: Every example compiles, tests pass, benchmarks run
+- **Brutal Honesty**: Shows failures (GPU 65x slower) not just successes
+
+## Quick Start
 
 ```bash
-# Clone the repository
-git clone https://github.com/nogibjj/sovereign-ai-stack-book.git
+# Clone and verify
+git clone https://github.com/paiml/sovereign-ai-stack-book.git
 cd sovereign-ai-stack-book
 
-# Verify EVERYTHING works (scientific reproducibility)
-make test          # All examples compile and pass (23+ tests)
-make run-ch01      # Run Chapter 1: Hello Sovereign AI
-make run-ch03      # Run Chapter 3: SIMD speedups
-make run-ch05      # Run Chapter 5: Quality enforcement
+# Scientific reproducibility protocol
+make test              # All examples compile and pass
+make bench             # Reproduce performance claims
+make validate          # Coverage, TDG, clippy checks
 
-# Run all examples
-make run-all       # Execute all chapter examples
+# Read the book
+mdbook serve --open    # http://localhost:3000
+```
 
-# Build the book locally
+**If `make test` passes, the book's claims are true. If not, [file an issue](https://github.com/paiml/sovereign-ai-stack-book/issues).**
+
+## Book Structure
+
+The book covers 23 chapters across 6 parts:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│              Part 0: Crisis and Response                    │
+│        Ch 1-4: Sovereign AI | Determinism | trueno | BFT    │
+├─────────────────────────────────────────────────────────────┤
+│            Part I: Infrastructure Foundations               │
+│              Ch 5-7: pmat | trueno Core | GPU               │
+├─────────────────────────────────────────────────────────────┤
+│              Part II: Transpilation Layer                   │
+│            Ch 8-11: bashrs | depyler | decy                 │
+├─────────────────────────────────────────────────────────────┤
+│            Part III: Machine Learning Pipeline              │
+│           Ch 12-14: aprender | realizar | entrenar          │
+├─────────────────────────────────────────────────────────────┤
+│             Part IV: Database and Graph                     │
+│              Ch 15-16: trueno-db | trueno-graph             │
+├──────────────────────────┬──────────────────────────────────┤
+│   Part V: Orchestration  │      Part VI: Production         │
+│  Ch 17-19: batuta |      │  Ch 20-23: ML Pipeline |         │
+│  renacer | repartir      │  Compliance | Deploy | CITL      │
+└──────────────────────────┴──────────────────────────────────┘
+```
+
+## Stack Components
+
+| Component | Description | Chapter |
+|-----------|-------------|---------|
+| [trueno](https://crates.io/crates/trueno) | SIMD/GPU compute primitives | Ch 3, 6-7 |
+| [aprender](https://crates.io/crates/aprender) | ML algorithms: regression, trees, clustering | Ch 12 |
+| [realizar](https://crates.io/crates/realizar) | Inference engine for GGUF/SafeTensors | Ch 13 |
+| [entrenar](https://crates.io/crates/entrenar) | Distributed training | Ch 14 |
+| [batuta](https://crates.io/crates/batuta) | Stack orchestration | Ch 17 |
+
+### Transpilers
+
+| Component | Description | Chapter |
+|-----------|-------------|---------|
+| [depyler](https://crates.io/crates/depyler) | Python to Rust transpiler | Ch 10 |
+| [decy](https://crates.io/crates/decy) | TypeScript/Deno to Rust | Ch 11 |
+| [bashrs](https://crates.io/crates/bashrs) | Bash to Rust transpiler | Ch 9 |
+
+### Infrastructure
+
+| Component | Description | Chapter |
+|-----------|-------------|---------|
+| [pmat](https://crates.io/crates/pmat) | Quality enforcement toolkit | Ch 5 |
+| [trueno-db](https://crates.io/crates/trueno-db) | GPU-accelerated analytics | Ch 15 |
+| [trueno-graph](https://crates.io/crates/trueno-graph) | Graph analytics | Ch 16 |
+| [renacer](https://crates.io/crates/renacer) | Syscall tracing | Ch 18 |
+| [repartir](https://crates.io/crates/repartir) | Work-stealing scheduler | Ch 19 |
+
+## Quality Standards
+
+The book enforces production-grade quality on all examples:
+
+| Metric | Requirement | Enforcement |
+|--------|-------------|-------------|
+| Test Coverage | 95%+ | `cargo tarpaulin` |
+| TDG Grade | A- (90+) | `pmat tdg` |
+| Mutation Score | 80%+ | `cargo mutants` |
+| Warnings | Zero | `clippy -D warnings` |
+
+```bash
+# Run full quality validation
+make validate
+```
+
+## Design Principles
+
+The book applies Toyota Production System principles:
+
+| Principle | Application |
+|-----------|-------------|
+| **Jidoka** | Compiler stops on defects (Rust type system) |
+| **Poka-Yoke** | Tests prevent errors before deployment |
+| **Genchi Genbutsu** | Benchmarks verify claims empirically |
+| **Muda** | SIMD eliminates computational waste |
+| **Kaizen** | Continuous quality improvement via pmat |
+
+## Development
+
+```bash
+# Build all examples
+cargo build --workspace --all-targets
+
+# Run tests
+cargo test --workspace
+
+# Build book
+mdbook build
+
+# Serve locally
 mdbook serve --open
 ```
 
-**If `make test` passes, the book's claims are true. If not, [file an issue](https://github.com/nogibjj/sovereign-ai-stack-book/issues).**
+## License
 
-## 🎯 What Makes This Book Different
+MIT License — see [LICENSE](LICENSE) for details.
 
-### 1. METRICS OVER ADJECTIVES
+## Links
 
-❌ **Vaporware:** "Our tensor library is blazing fast!"
-✅ **This book:** "trueno achieves 11.9x speedup via SIMD (see `make bench-ch03`)"
-
-❌ **Vaporware:** "High test coverage ensures quality"
-✅ **This book:** "95.3% line coverage, 82% mutation score, TDG grade A- (91.2)"
-
-### 2. BRUTAL HONESTY
-
-We show **failures**, not just successes:
-- Chapter 3 demonstrates when GPU is **65x SLOWER** than CPU (PCIe overhead)
-- Quality enforcement examples show real uncovered lines
-- All benchmarks include variance and test environment specs
-
-### 3. ZERO VAPORWARE
-
-Every example:
-- ✅ Compiles with `cargo build`
-- ✅ Passes tests with `cargo test`
-- ✅ Runs with `cargo run`
-- ✅ Benchmarks with `cargo bench`
-
-**No "coming soon" features. No "left as an exercise." All code works.**
-
-### 4. SCIENTIFIC REPRODUCIBILITY
-
-Following academic standards:
-- **Test Environment Documentation:** Hardware specs, software versions, date measured
-- **Statistical Rigor:** Criterion benchmarks with 100+ runs
-- **Variance Tolerance:** ±5% acceptable variance documented
-- **Reproducibility Protocol:** `git clone` → `make test` validates all claims
-
-## 📚 Book Structure
-
-### Part 0: The Crisis and The Response
-- **Chapter 1:** Hello Sovereign AI ✅ *(complete)*
-- **Chapter 2:** Crisis of Determinism *(in progress)*
-- **Chapter 3:** trueno - SIMD Operations ✅ *(complete)*
-- **Chapter 4:** Byzantine Fault Tolerance *(planned)*
-
-### Part I: Infrastructure Foundations
-- **Chapter 5:** pmat - Quality Enforcement ✅ *(complete)*
-- **Chapter 6:** trueno Core *(planned)*
-- **Chapter 7:** GPU Acceleration *(planned)*
-
-### Part II-VI: Complete Toolchain
-Transpilers, ML pipeline, databases, orchestration, production deployment *(22 chapters total)*
-
-**Status:** 3 of 22 chapters complete with working code
-
-## 🛡️ Quality Standards (EXTREME TDD)
-
-This book enforces production-grade quality:
-
-| Metric | Requirement | Current | Status |
-|--------|-------------|---------|--------|
-| **Test Coverage** | ≥95% | 95.3% | ✅ |
-| **TDG Grade** | ≥A- (90) | A (91.2) | ✅ |
-| **Compiler Warnings** | 0 | 0 | ✅ |
-| **Tests Passing** | 100% | 23/23 | ✅ |
-| **CI/CD** | All checks pass | ✅ | ✅ |
-
-**Quality enforcement via pmat:**
-- O(1) pre-commit validation (<30ms via hash-based caching)
-- Automated TDG scoring
-- Coverage enforcement in CI
-- Zero tolerance for regressions
-
-## 🔧 Technology Stack
-
-### Core Dependencies
-- **Rust** (stable) - Systems programming language
-- **trueno** - SIMD-accelerated tensor operations
-- **pmat** - Quality enforcement toolkit
-- **cargo-nextest** - Fast test runner
-- **mdbook** - Documentation
-
-### Complete Sovereign AI Toolchain
-- `pmat` - Quality enforcement (O(1) validation, TDG scoring)
-- `trueno` - Tensor operations (SIMD/GPU)
-- `trueno-db` - Vector database
-- `trueno-graph` - Graph analytics
-- `aprender` - ML training
-- `realizar` - Inference engine
-- `entrenar` - Distributed training
-- `depyler` - Python→Rust transpiler
-- `decy` - Deno→Rust transpiler
-- `bashrs` - Bash→Rust transpiler
-- `batuta` - Workflow orchestration
-- `renacer` - Syscall profiling
-- `repartir` - Work stealing scheduler
-
-## 🚦 CI/CD
-
-**Automated on every push:**
-- ✅ Format checking (`cargo fmt`)
-- ✅ Linting (`cargo clippy -D warnings`)
-- ✅ All tests (cargo-nextest)
-- ✅ All examples execute
-- ✅ Book builds successfully
-- ✅ Auto-deployment to GitHub Pages
-
-**Scientific Reproducibility Check:**
-- Every push validates `git clone → make test` workflow
-- Ensures all claims in the book are reproducible
-
-## 📊 Examples
-
-### Chapter 1: Hello Sovereign AI
-```rust
-use trueno::Vector;
-
-fn main() {
-    // Create local tensor (no cloud, no external APIs)
-    let data = vec![1.0, 2.0, 3.0, 4.0, 5.0];
-    let vector = Vector::from_slice(&data);
-
-    let sum: f32 = vector.as_slice().iter().sum();
-    let mean = sum / vector.len() as f32;
-
-    println!("Sum: {}, Mean: {}", sum, mean);
-    // Output: Sum: 15, Mean: 3
-}
-```
-
-**Zero network calls. Full data control. EU AI Act compliant.**
-
-### Chapter 3: SIMD Speedup (BRUTAL HONESTY)
-```bash
-make run-ch03
-# Shows both:
-# ✅ When SIMD provides real speedups
-# ❌ When GPU is SLOWER than CPU (PCIe overhead)
-```
-
-### Chapter 5: Quality Enforcement
-```bash
-make run-ch05-tdg
-# Output: TDG Score: 91.2 (Grade: A)
-# METRICS OVER ADJECTIVES
-```
-
-## 🌍 EU Regulatory Compliance
-
-Built for EU AI Act compliance:
-- **Article 13 (Transparency):** All operations documented and auditable
-- **Article 13 (Data Minimization):** Only necessary data used
-- **Data Residency:** All processing happens locally
-- **Reproducibility:** Same input → same output (deterministic)
-
-## 🧪 Development
-
-```bash
-# Setup development environment
-make setup
-
-# Run specific chapters
-make run-ch01        # Chapter 1: Hello Sovereign AI
-make run-ch03        # Chapter 3: trueno SIMD
-make run-ch05        # Chapter 5: pmat quality
-
-# Testing
-make test            # Fast tests (<5 min)
-make test-all        # All tests (including slow)
-make coverage        # Generate coverage report (≥95%)
-
-# Benchmarking
-make bench-ch03      # Verify SIMD claims
-make bench-all       # Run all benchmarks
-
-# Validation
-make validate        # Full quality validation
-make quality-gate    # Comprehensive validation + coverage
-
-# Build book
-make docs-build      # Build mdBook
-make docs-serve      # Serve at http://localhost:3000
-```
-
-## 🤝 Contributing
-
-Found an issue? Example doesn't work?
-
-1. **File an issue:** https://github.com/nogibjj/sovereign-ai-stack-book/issues
-2. **Include:** Chapter number, error message, environment (`rustc --version`)
-3. **Expected:** We fix it (reproducibility is our promise)
-
-**CODE-FIRST contributions welcome:**
-1. Write working code in `examples/`
-2. Add tests (≥95% coverage required)
-3. Update documentation
-4. Ensure `make test` passes
-
-## 📜 License
-
-MIT License - See [LICENSE](LICENSE) for details
-
-## 🙏 Acknowledgments
-
-Built by [Noah Gift](https://github.com/noahgift) and the **Pragmatic AI Labs** team.
-
-- Used in production at https://paiml.com
-- Part of the Sovereign AI Stack ecosystem
-- Open source: MIT/Apache-2.0 licensed
-
-## 📖 Citation
-
-If you use this book in your research or project:
-
-```bibtex
-@book{gift2025sovereign,
-  title={Sovereign AI Stack: EXTREME TDD for EU-Compliant AI Systems},
-  author={Gift, Noah},
-  year={2025},
-  publisher={Pragmatic AI Labs},
-  url={https://github.com/nogibjj/sovereign-ai-stack-book}
-}
-```
-
-## 🎯 Project Status
-
-**Current Status:** Active development (3/22 chapters complete)
-
-**Roadmap:** See [docs/roadmaps/roadmap.yaml](docs/roadmaps/roadmap.yaml) or run:
-```bash
-pmat work status
-```
-
-**Next Chapters:**
-- CH02-001: Crisis of Determinism (in progress)
-- CH04-001: Byzantine Fault Tolerance (planned)
-- DEPYLER-001: Python→Rust Transpiler (planned)
+- [Online Book](https://paiml.github.io/sovereign-ai-stack-book/)
+- [GitHub Repository](https://github.com/paiml/sovereign-ai-stack-book)
+- [Pragmatic AI Labs](https://paiml.com)
 
 ---
 
-**Remember:** If `make test` passes, the book's claims are true. **CODE IS THE WAY.**
+**Sovereign AI Stack Book** — CODE IS THE WAY.

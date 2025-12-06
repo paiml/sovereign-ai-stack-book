@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117"/>
+      <stop offset="100%" style="stop-color:#161b22"/>
+    </linearGradient>
+    <linearGradient id="part0Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#da3633"/>
+      <stop offset="100%" style="stop-color:#f85149"/>
+    </linearGradient>
+    <linearGradient id="part1Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#bf4b8a"/>
+      <stop offset="100%" style="stop-color:#db61a2"/>
+    </linearGradient>
+    <linearGradient id="part2Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8957e5"/>
+      <stop offset="100%" style="stop-color:#a371f7"/>
+    </linearGradient>
+    <linearGradient id="part3Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1f6feb"/>
+      <stop offset="100%" style="stop-color:#388bfd"/>
+    </linearGradient>
+    <linearGradient id="part4Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a9396"/>
+      <stop offset="100%" style="stop-color:#14b8a6"/>
+    </linearGradient>
+    <linearGradient id="part5Grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#238636"/>
+      <stop offset="100%" style="stop-color:#2ea043"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="520" fill="url(#bgGrad)"/>
+
+  <!-- Title -->
+  <text x="450" y="35" text-anchor="middle" fill="#ffffff" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="bold">Sovereign AI Stack Book</text>
+  <text x="450" y="55" text-anchor="middle" fill="#8b949e" font-family="system-ui, sans-serif" font-size="12">EXTREME TDD for EU-Compliant AI Systems | 23 Chapters | Scientific Reproducibility</text>
+
+  <!-- Book Parts (Center) -->
+  <g transform="translate(200, 75)">
+    <!-- Part 0 -->
+    <rect x="0" y="0" width="500" height="50" rx="8" fill="url(#part0Grad)" filter="url(#shadow)"/>
+    <text x="250" y="22" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">Part 0: Crisis and Response</text>
+    <text x="250" y="38" text-anchor="middle" fill="#ffffffcc" font-family="system-ui, sans-serif" font-size="10">Ch 1-4: Hello Sovereign | Determinism Crisis | trueno | BFT</text>
+
+    <!-- Part I -->
+    <rect x="0" y="58" width="500" height="50" rx="8" fill="url(#part1Grad)" filter="url(#shadow)"/>
+    <text x="250" y="80" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">Part I: Infrastructure Foundations</text>
+    <text x="250" y="96" text-anchor="middle" fill="#ffffffcc" font-family="system-ui, sans-serif" font-size="10">Ch 5-7: pmat | trueno Core | GPU Acceleration</text>
+
+    <!-- Part II -->
+    <rect x="0" y="116" width="500" height="50" rx="8" fill="url(#part2Grad)" filter="url(#shadow)"/>
+    <text x="250" y="138" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">Part II: Transpilation Layer</text>
+    <text x="250" y="154" text-anchor="middle" fill="#ffffffcc" font-family="system-ui, sans-serif" font-size="10">Ch 8-11: bashrs | depyler | decy</text>
+
+    <!-- Part III -->
+    <rect x="0" y="174" width="500" height="50" rx="8" fill="url(#part3Grad)" filter="url(#shadow)"/>
+    <text x="250" y="196" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">Part III: Machine Learning Pipeline</text>
+    <text x="250" y="212" text-anchor="middle" fill="#ffffffcc" font-family="system-ui, sans-serif" font-size="10">Ch 12-14: aprender | realizar | entrenar</text>
+
+    <!-- Part IV -->
+    <rect x="0" y="232" width="500" height="50" rx="8" fill="url(#part4Grad)" filter="url(#shadow)"/>
+    <text x="250" y="254" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">Part IV: Database and Graph</text>
+    <text x="250" y="270" text-anchor="middle" fill="#ffffffcc" font-family="system-ui, sans-serif" font-size="10">Ch 15-16: trueno-db | trueno-graph</text>
+
+    <!-- Part V -->
+    <rect x="0" y="290" width="245" height="50" rx="8" fill="url(#part5Grad)" filter="url(#shadow)"/>
+    <text x="122" y="312" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">Part V: Orchestration</text>
+    <text x="122" y="328" text-anchor="middle" fill="#ffffffcc" font-family="system-ui, sans-serif" font-size="9">Ch 17-19: batuta | renacer | repartir</text>
+
+    <!-- Part VI -->
+    <rect x="255" y="290" width="245" height="50" rx="8" fill="#21262d" stroke="#58a6ff" stroke-width="2" filter="url(#shadow)"/>
+    <text x="377" y="312" text-anchor="middle" fill="#58a6ff" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">Part VI: Production</text>
+    <text x="377" y="328" text-anchor="middle" fill="#8b949e" font-family="system-ui, sans-serif" font-size="9">Ch 20-23: ML Pipeline | Compliance | Deploy | CITL</text>
+  </g>
+
+  <!-- Quality Standards (Left) -->
+  <g transform="translate(30, 100)">
+    <text x="70" y="0" text-anchor="middle" fill="#f85149" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">EXTREME TDD</text>
+
+    <rect x="0" y="15" width="140" height="45" rx="6" fill="#21262d" stroke="#238636" stroke-width="2"/>
+    <text x="70" y="35" text-anchor="middle" fill="#238636" font-family="system-ui, sans-serif" font-size="11" font-weight="bold">Coverage 95%+</text>
+    <text x="70" y="50" text-anchor="middle" fill="#8b949e" font-family="system-ui, sans-serif" font-size="9">Line + Branch</text>
+
+    <rect x="0" y="68" width="140" height="45" rx="6" fill="#21262d" stroke="#1f6feb" stroke-width="2"/>
+    <text x="70" y="88" text-anchor="middle" fill="#1f6feb" font-family="system-ui, sans-serif" font-size="11" font-weight="bold">TDG Grade A-</text>
+    <text x="70" y="103" text-anchor="middle" fill="#8b949e" font-family="system-ui, sans-serif" font-size="9">pmat Enforced</text>
+
+    <rect x="0" y="121" width="140" height="45" rx="6" fill="#21262d" stroke="#a371f7" stroke-width="2"/>
+    <text x="70" y="141" text-anchor="middle" fill="#a371f7" font-family="system-ui, sans-serif" font-size="11" font-weight="bold">Mutation 80%+</text>
+    <text x="70" y="156" text-anchor="middle" fill="#8b949e" font-family="system-ui, sans-serif" font-size="9">cargo-mutants</text>
+
+    <rect x="0" y="174" width="140" height="45" rx="6" fill="#21262d" stroke="#db61a2" stroke-width="2"/>
+    <text x="70" y="194" text-anchor="middle" fill="#db61a2" font-family="system-ui, sans-serif" font-size="11" font-weight="bold">Zero Warnings</text>
+    <text x="70" y="209" text-anchor="middle" fill="#8b949e" font-family="system-ui, sans-serif" font-size="9">clippy -D warnings</text>
+  </g>
+
+  <!-- Compliance (Right) -->
+  <g transform="translate(730, 100)">
+    <text x="70" y="0" text-anchor="middle" fill="#58a6ff" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">EU AI Act</text>
+
+    <rect x="0" y="15" width="140" height="45" rx="6" fill="#21262d" filter="url(#shadow)"/>
+    <text x="70" y="35" text-anchor="middle" fill="#7ee787" font-family="system-ui, sans-serif" font-size="11" font-weight="bold">Article 13</text>
+    <text x="70" y="50" text-anchor="middle" fill="#8b949e" font-family="system-ui, sans-serif" font-size="9">Transparency</text>
+
+    <rect x="0" y="68" width="140" height="45" rx="6" fill="#21262d" filter="url(#shadow)"/>
+    <text x="70" y="88" text-anchor="middle" fill="#7ee787" font-family="system-ui, sans-serif" font-size="11" font-weight="bold">Data Residency</text>
+    <text x="70" y="103" text-anchor="middle" fill="#8b949e" font-family="system-ui, sans-serif" font-size="9">Local Processing</text>
+
+    <rect x="0" y="121" width="140" height="45" rx="6" fill="#21262d" filter="url(#shadow)"/>
+    <text x="70" y="141" text-anchor="middle" fill="#7ee787" font-family="system-ui, sans-serif" font-size="11" font-weight="bold">Determinism</text>
+    <text x="70" y="156" text-anchor="middle" fill="#8b949e" font-family="system-ui, sans-serif" font-size="9">Reproducible Results</text>
+
+    <rect x="0" y="174" width="140" height="45" rx="6" fill="#21262d" filter="url(#shadow)"/>
+    <text x="70" y="194" text-anchor="middle" fill="#7ee787" font-family="system-ui, sans-serif" font-size="11" font-weight="bold">Auditability</text>
+    <text x="70" y="209" text-anchor="middle" fill="#8b949e" font-family="system-ui, sans-serif" font-size="9">renacer Tracing</text>
+  </g>
+
+  <!-- Reproducibility Protocol -->
+  <g transform="translate(200, 420)">
+    <text x="250" y="0" text-anchor="middle" fill="#e3b341" font-family="system-ui, sans-serif" font-size="13" font-weight="bold">Scientific Reproducibility Protocol</text>
+
+    <rect x="0" y="15" width="160" height="35" rx="6" fill="#21262d" filter="url(#shadow)"/>
+    <text x="80" y="38" text-anchor="middle" fill="#7ee787" font-family="monospace" font-size="11">git clone</text>
+
+    <text x="175" y="38" fill="#484f58" font-family="system-ui, sans-serif" font-size="16">→</text>
+
+    <rect x="190" y="15" width="120" height="35" rx="6" fill="#21262d" filter="url(#shadow)"/>
+    <text x="250" y="38" text-anchor="middle" fill="#7ee787" font-family="monospace" font-size="11">make test</text>
+
+    <text x="325" y="38" fill="#484f58" font-family="system-ui, sans-serif" font-size="16">→</text>
+
+    <rect x="340" y="15" width="160" height="35" rx="6" fill="#21262d" filter="url(#shadow)"/>
+    <text x="420" y="38" text-anchor="middle" fill="#7ee787" font-family="monospace" font-size="11">ALL CLAIMS VERIFIED</text>
+  </g>
+
+  <!-- Stack Components -->
+  <g transform="translate(30, 350)">
+    <text x="70" y="0" text-anchor="middle" fill="#db61a2" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">Stack Coverage</text>
+    <rect x="0" y="10" width="140" height="85" rx="6" fill="#21262d"/>
+    <text x="70" y="30" text-anchor="middle" fill="#8b949e" font-family="monospace" font-size="9">trueno | aprender</text>
+    <text x="70" y="45" text-anchor="middle" fill="#8b949e" font-family="monospace" font-size="9">realizar | entrenar</text>
+    <text x="70" y="60" text-anchor="middle" fill="#8b949e" font-family="monospace" font-size="9">batuta | renacer</text>
+    <text x="70" y="75" text-anchor="middle" fill="#8b949e" font-family="monospace" font-size="9">depyler | decy</text>
+    <text x="70" y="90" text-anchor="middle" fill="#8b949e" font-family="monospace" font-size="9">pmat | bashrs</text>
+  </g>
+
+  <!-- Transpilers -->
+  <g transform="translate(730, 350)">
+    <text x="70" y="0" text-anchor="middle" fill="#a371f7" font-family="system-ui, sans-serif" font-size="12" font-weight="bold">Transpilers</text>
+    <rect x="0" y="10" width="65" height="30" rx="4" fill="#21262d"/>
+    <text x="32" y="30" text-anchor="middle" fill="#8b949e" font-family="monospace" font-size="9">Py→Rust</text>
+    <rect x="75" y="10" width="65" height="30" rx="4" fill="#21262d"/>
+    <text x="107" y="30" text-anchor="middle" fill="#8b949e" font-family="monospace" font-size="9">TS→Rust</text>
+    <rect x="0" y="45" width="65" height="30" rx="4" fill="#21262d"/>
+    <text x="32" y="65" text-anchor="middle" fill="#8b949e" font-family="monospace" font-size="9">Bash→Rust</text>
+    <rect x="75" y="45" width="65" height="30" rx="4" fill="#21262d"/>
+    <text x="107" y="65" text-anchor="middle" fill="#8b949e" font-family="monospace" font-size="9">C→Rust</text>
+  </g>
+
+  <!-- Footer -->
+  <text x="450" y="490" text-anchor="middle" fill="#484f58" font-family="system-ui, sans-serif" font-size="11">CODE IS THE WAY - Every claim verified via make test</text>
+  <text x="450" y="505" text-anchor="middle" fill="#30363d" font-family="system-ui, sans-serif" font-size="10">MIT License | github.com/paiml/sovereign-ai-stack-book</text>
+</svg>

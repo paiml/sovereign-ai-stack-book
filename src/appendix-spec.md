@@ -6,7 +6,7 @@ See the full specification document:
 cat SPEC.md
 ```
 
-Or view online: [SPEC.md](https://github.com/nogibjj/sovereign-ai-stack-book/blob/main/SPEC.md)
+Or view online: [SPEC.md](https://github.com/paiml/sovereign-ai-stack-book/blob/main/SPEC.md)
 
 ## Key Principles
 

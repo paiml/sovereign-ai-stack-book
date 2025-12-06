@@ -485,6 +485,6 @@ Tests validate:
 - Feldman (2020): Does Learning Require Memorization?
 - Yasunaga & Liang (2020): Graph-based Self-Supervised Program Repair
 
-## Next Chapter
+## Summary
 
-[Chapter 24: Building Your Own Transpiler](./ch24-custom-transpiler.md) - Apply CITL to create a custom language→Rust transpiler.
+CITL represents the convergence of compiler technology and machine learning, enabling AI systems to generate code that is not just syntactically correct but semantically verified through formal methods. This approach transforms LLMs from probabilistic text generators into reliable code synthesis tools.
