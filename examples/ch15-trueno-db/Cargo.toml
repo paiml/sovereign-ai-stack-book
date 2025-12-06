@@ -1,0 +1,16 @@
+[package]
+name = "ch15-trueno-db"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[[bin]]
+name = "vector_database"
+path = "src/vector_database.rs"
+
+[dependencies]
+anyhow.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true

@@ -401,8 +401,107 @@ test-ch11:
 	@echo "🧪 Testing Chapter 11..."
 	@cargo nextest run --package ch11-decy || cargo test --package ch11-decy
 
+# Chapter 12: aprender - ML Training Framework
+run-ch12:
+	@echo "🎓 Running Chapter 12 examples: aprender ML Training"
+	@cargo run --package ch12-aprender --bin ml_training
+
+test-ch12:
+	@echo "🧪 Testing Chapter 12..."
+	@cargo nextest run --package ch12-aprender || cargo test --package ch12-aprender
+
+# Chapter 13: realizar - Inference Engine
+run-ch13:
+	@echo "🔮 Running Chapter 13 examples: realizar Inference"
+	@cargo run --package ch13-realizar --bin inference_engine
+
+test-ch13:
+	@echo "🧪 Testing Chapter 13..."
+	@cargo nextest run --package ch13-realizar || cargo test --package ch13-realizar
+
+# Chapter 14: entrenar - Distributed Training
+run-ch14:
+	@echo "🚀 Running Chapter 14 examples: entrenar Distributed Training"
+	@cargo run --package ch14-entrenar --bin distributed_training
+
+test-ch14:
+	@echo "🧪 Testing Chapter 14..."
+	@cargo nextest run --package ch14-entrenar || cargo test --package ch14-entrenar
+
+# Chapter 15: trueno-db - Vector Database
+run-ch15:
+	@echo "💾 Running Chapter 15 examples: trueno-db Vector Database"
+	@cargo run --package ch15-trueno-db --bin vector_database
+
+test-ch15:
+	@echo "🧪 Testing Chapter 15..."
+	@cargo nextest run --package ch15-trueno-db || cargo test --package ch15-trueno-db
+
+# Chapter 16: trueno-graph - Graph Analytics
+run-ch16:
+	@echo "📈 Running Chapter 16 examples: trueno-graph Graph Analytics"
+	@cargo run --package ch16-trueno-graph --bin graph_analytics
+
+test-ch16:
+	@echo "🧪 Testing Chapter 16..."
+	@cargo nextest run --package ch16-trueno-graph || cargo test --package ch16-trueno-graph
+
+# Chapter 17: batuta - Workflow Orchestration
+run-ch17:
+	@echo "🎭 Running Chapter 17 examples: batuta Workflow"
+	@cargo run --package ch17-batuta --bin workflow_orchestration
+
+test-ch17:
+	@echo "🧪 Testing Chapter 17..."
+	@cargo nextest run --package ch17-batuta || cargo test --package ch17-batuta
+
+# Chapter 18: renacer - Syscall Profiling
+run-ch18:
+	@echo "🔍 Running Chapter 18 examples: renacer Profiling"
+	@cargo run --package ch18-renacer --bin syscall_profiling
+
+test-ch18:
+	@echo "🧪 Testing Chapter 18..."
+	@cargo nextest run --package ch18-renacer || cargo test --package ch18-renacer
+
+# Chapter 19: repartir - Work Stealing
+run-ch19:
+	@echo "🔀 Running Chapter 19 examples: repartir Work Stealing"
+	@cargo run --package ch19-repartir --bin work_stealing
+
+test-ch19:
+	@echo "🧪 Testing Chapter 19..."
+	@cargo nextest run --package ch19-repartir || cargo test --package ch19-repartir
+
+# Chapter 20: ML Pipeline
+run-ch20:
+	@echo "🏭 Running Chapter 20 examples: ML Pipeline"
+	@cargo run --package ch20-ml-pipeline --bin ml_pipeline
+
+test-ch20:
+	@echo "🧪 Testing Chapter 20..."
+	@cargo nextest run --package ch20-ml-pipeline || cargo test --package ch20-ml-pipeline
+
+# Chapter 21: EU AI Act Compliance
+run-ch21:
+	@echo "⚖️  Running Chapter 21 examples: EU Compliance"
+	@cargo run --package ch21-compliance --bin eu_compliance
+
+test-ch21:
+	@echo "🧪 Testing Chapter 21..."
+	@cargo nextest run --package ch21-compliance || cargo test --package ch21-compliance
+
+# Chapter 22: Production Deployment
+run-ch22:
+	@echo "🏁 Running Chapter 22 examples: Production Deployment"
+	@cargo run --package ch22-deployment --bin production_deployment
+
+test-ch22:
+	@echo "🧪 Testing Chapter 22..."
+	@cargo nextest run --package ch22-deployment || cargo test --package ch22-deployment
+
 # Run all chapter examples
-run-all: run-ch01 run-ch02 run-ch03 run-ch04 run-ch05 run-ch06 run-ch07 run-ch08 run-ch09 run-ch10 run-ch11
+run-all: run-ch01 run-ch02 run-ch03 run-ch04 run-ch05 run-ch06 run-ch07 run-ch08 run-ch09 run-ch10 run-ch11 run-ch12 run-ch13 run-ch14 run-ch15 run-ch16 run-ch17 run-ch18 run-ch19 run-ch20 run-ch21 run-ch22
 	@echo "✅ All chapter examples executed!"
 
 # === VALIDATION ===

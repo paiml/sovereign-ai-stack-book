@@ -1,0 +1,16 @@
+[package]
+name = "ch18-renacer"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[[bin]]
+name = "syscall_profiling"
+path = "src/syscall_profiling.rs"
+
+[dependencies]
+anyhow.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true

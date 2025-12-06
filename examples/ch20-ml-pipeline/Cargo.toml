@@ -1,0 +1,16 @@
+[package]
+name = "ch20-ml-pipeline"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[[bin]]
+name = "ml_pipeline"
+path = "src/ml_pipeline.rs"
+
+[dependencies]
+anyhow.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true

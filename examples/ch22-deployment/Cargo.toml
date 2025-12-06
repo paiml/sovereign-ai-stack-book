@@ -1,0 +1,16 @@
+[package]
+name = "ch22-deployment"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[[bin]]
+name = "production_deployment"
+path = "src/production_deployment.rs"
+
+[dependencies]
+anyhow.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true

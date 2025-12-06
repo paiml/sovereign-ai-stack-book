@@ -177,6 +177,94 @@ dependencies = [
 ]
 
 [[package]]
+name = "ch12-aprender"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proptest",
+]
+
+[[package]]
+name = "ch13-realizar"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proptest",
+]
+
+[[package]]
+name = "ch14-entrenar"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proptest",
+]
+
+[[package]]
+name = "ch15-trueno-db"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proptest",
+]
+
+[[package]]
+name = "ch16-trueno-graph"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proptest",
+]
+
+[[package]]
+name = "ch17-batuta"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proptest",
+]
+
+[[package]]
+name = "ch18-renacer"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proptest",
+]
+
+[[package]]
+name = "ch19-repartir"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proptest",
+]
+
+[[package]]
+name = "ch20-ml-pipeline"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proptest",
+]
+
+[[package]]
+name = "ch21-compliance"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proptest",
+]
+
+[[package]]
+name = "ch22-deployment"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "proptest",
+]
+
+[[package]]
 name = "ciborium"
 version = "0.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"

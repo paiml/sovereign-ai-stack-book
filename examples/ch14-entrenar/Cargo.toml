@@ -1,0 +1,16 @@
+[package]
+name = "ch14-entrenar"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[[bin]]
+name = "distributed_training"
+path = "src/distributed_training.rs"
+
+[dependencies]
+anyhow.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true

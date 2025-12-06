@@ -11,6 +11,17 @@ members = [
     "examples/ch09-bashrs",
     "examples/ch10-depyler",
     "examples/ch11-decy",
+    "examples/ch12-aprender",
+    "examples/ch13-realizar",
+    "examples/ch14-entrenar",
+    "examples/ch15-trueno-db",
+    "examples/ch16-trueno-graph",
+    "examples/ch17-batuta",
+    "examples/ch18-renacer",
+    "examples/ch19-repartir",
+    "examples/ch20-ml-pipeline",
+    "examples/ch21-compliance",
+    "examples/ch22-deployment",
 ]
 resolver = "2"
 

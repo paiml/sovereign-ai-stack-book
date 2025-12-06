@@ -1,0 +1,16 @@
+[package]
+name = "ch19-repartir"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[[bin]]
+name = "work_stealing"
+path = "src/work_stealing.rs"
+
+[dependencies]
+anyhow.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true

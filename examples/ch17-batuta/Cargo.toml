@@ -1,0 +1,16 @@
+[package]
+name = "ch17-batuta"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[[bin]]
+name = "workflow_orchestration"
+path = "src/workflow_orchestration.rs"
+
+[dependencies]
+anyhow.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true

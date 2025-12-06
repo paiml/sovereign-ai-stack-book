@@ -1,0 +1,16 @@
+[package]
+name = "ch16-trueno-graph"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[[bin]]
+name = "graph_analytics"
+path = "src/graph_analytics.rs"
+
+[dependencies]
+anyhow.workspace = true
+
+[dev-dependencies]
+proptest.workspace = true
