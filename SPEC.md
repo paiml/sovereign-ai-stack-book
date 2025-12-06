@@ -35,6 +35,8 @@ make bench-ch07    # Benchmark aprender vs sklearn (verify 2.8x claim)
 
 ```
 sovereign-ai-stack-book/
+├── .devcontainer/                # Reproducible environment (VS Code/Codespaces)
+├── Dockerfile                    # Consistent OS/Toolchain layer
 ├── Makefile                      # Single source of truth (30+ targets)
 │   ├── make test                 # Run all tests (BLOCKING if fails)
 │   ├── make bench                # Run all benchmarks (reproduce claims)
@@ -445,7 +447,7 @@ trueno_dot_product   time: [4.2 µs]    ← 4.4x faster
 - ✅ json, datetime, pathlib, argparse all working
 - ✅ sklearn → aprender: 100% API compatibility
 
-**Key Insight:** Transpilation is provably correct via tests.
+**Key Insight:** Transpilation is empirically verified via property-based testing and comprehensive test suites.
 
 ---
 
@@ -1000,6 +1002,10 @@ make reproduce-all-claims
 - Benchmarks: 94.1%
 - **Total: 96.94%** ✅
 
+### Energy Efficiency: Measured (Green AI)
+- **Metric:** Joules/Inference (via RAPL on Linux)
+- **Target:** < 50% energy vs Python baseline for equivalent tasks
+
 ### Performance Claims: ±5% (Blocking)
 ```
 trueno AVX-512 speedup: 11.9x (claimed) vs 11.7x (measured) → 1.7% variance ✅
@@ -1073,7 +1079,7 @@ A: Code proves claims. Theory is aspirational. This book documents reality.
 A: `make bench-chX-[claim-name]`. Example: `make bench-ch07-simd-speedup`
 
 **Q: What if a benchmark fails on my hardware?**
-A: File an issue with your hardware specs. Benchmarks are specific to test environment.
+A: The test runner attempts feature detection (e.g., checking for AVX-512). If your hardware lacks support, specific benchmarks will skip gracefully with a warning. If a supported benchmark fails, file an issue with your hardware specs.
 
 **Q: Can I skip chapters?**
 A: Yes. Each chapter's examples/ are self-contained. Run `make test-chX` independently.
