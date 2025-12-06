@@ -12,7 +12,6 @@ src = "src"
 default-theme = "rust"
 preferred-dark-theme = "navy"
 git-repository-url = "https://github.com/paiml/sovereign-ai-stack-book"
-git-repository-icon = "fa-github"
 edit-url-template = "https://github.com/paiml/sovereign-ai-stack-book/edit/main/{path}"
 
 [output.html.search]
