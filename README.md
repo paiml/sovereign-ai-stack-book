@@ -1,11 +1,25 @@
-# Sovereign AI Stack Book
+<div align="center">
 
-> EXTREME TDD guide to building EU-compliant AI systems in pure Rust — every claim scientifically reproducible
+<p align="center">
+  <img src=".github/sovereign-ai-stack-book-hero.svg" alt="Sovereign AI Stack Book" width="800">
+</p>
 
-[![CI](https://github.com/paiml/sovereign-ai-stack-book/actions/workflows/ci.yml/badge.svg)](https://github.com/paiml/sovereign-ai-stack-book/actions/workflows/ci.yml)
-[![Book](https://img.shields.io/badge/book-online-blue)](https://paiml.github.io/sovereign-ai-stack-book/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Rust](https://img.shields.io/badge/rust-1.75%2B-orange.svg)](https://www.rust-lang.org/)
+<h1 align="center">Sovereign AI Stack Book</h1>
+
+<p align="center">
+  <b>EXTREME TDD guide to building EU-compliant AI systems in pure Rust — every claim scientifically reproducible</b>
+</p>
+
+<p align="center">
+  <a href="https://github.com/paiml/sovereign-ai-stack-book/actions/workflows/ci.yml"><img src="https://github.com/paiml/sovereign-ai-stack-book/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://paiml.github.io/sovereign-ai-stack-book/"><img src="https://img.shields.io/badge/book-online-blue" alt="Book"></a>
+  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License"></a>
+  <a href="https://www.rust-lang.org/"><img src="https://img.shields.io/badge/rust-1.75%2B-orange.svg" alt="Rust"></a>
+</p>
+
+</div>
+
+---
 
 ![Book Architecture](.github/book-architecture.svg)
 
