@@ -12,8 +12,11 @@ env:
 
 jobs:
   test:
-    name: Test Examples
-    runs-on: ubuntu-latest
+    name: Test Examples (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
 
     steps:
       - name: Checkout repository
