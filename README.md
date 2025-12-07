@@ -184,6 +184,16 @@ mdbook build
 mdbook serve --open
 ```
 
+## Contributing
+
+Contributions welcome! Please follow the PAIML quality standards:
+
+1. Fork the repository
+2. Create a feature branch
+3. Ensure the book builds: `mdbook build`
+4. Run tests: `mdbook test`
+5. Submit a pull request
+
 ## License
 
 MIT License — see [LICENSE](LICENSE) for details.

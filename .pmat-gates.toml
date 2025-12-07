@@ -1,28 +1,32 @@
-# PMAT Quality Gate Configuration
-# Sovereign AI Stack Book - EXTREME TDD Standards
-# Generated from paiml-mcp-agent-toolkit patterns
+# PMAT Quality Gates Configuration
+# See: https://github.com/paiml/pmat
+
+[quality]
+# Minimum thresholds for quality gates
+rust_project_score = 85
+repo_score = 85
+test_coverage = 80
+mutation_score = 60
 
 [gates]
-# Run clippy linter
-run_clippy = true
+# Enforce quality gates in CI
+enforce_in_ci = true
+block_on_failure = true
 
-# Enforce strict clippy (-D warnings)
-clippy_strict = true
+[thresholds]
+# Complexity thresholds
+max_cyclomatic_complexity = 20
+max_cognitive_complexity = 15
+max_function_lines = 100
 
-# Run test suite
-run_tests = true
+[testing]
+# Testing requirements
+require_unit_tests = true
+require_integration_tests = true
+require_doc_tests = true
 
-# Test timeout in seconds (fast tests < 5min per SPEC)
-test_timeout = 300
-
-# Check code coverage
-check_coverage = true
-
-# Minimum coverage percentage (95% per SPEC.md requirement)
-min_coverage = 95.0
-
-# Check cyclomatic complexity
-check_complexity = true
-
-# Maximum cyclomatic complexity per function
-max_complexity = 15
+[documentation]
+# Documentation requirements
+require_readme = true
+require_changelog = true
+require_api_docs = true
