@@ -26,6 +26,6 @@ Test Environment:
 - CPU: AMD Ryzen 9 5950X
 - RAM: 64GB DDR4-3200
 - Rust: 1.75.0
-- trueno: 0.1.0
-- Date: 2025-11-23
+- trueno: 0.8.8
+- Date: 2025-12-17
 ```

@@ -34,7 +34,7 @@ repository = "https://github.com/paiml/sovereign-ai-stack-book"
 
 [workspace.dependencies]
 # Core Sovereign AI Stack dependencies
-trueno = "0.1"
+trueno = "0.8.8"
 # aprender = "0.1"
 # realizar = "0.1"
 # trueno-db = "0.1"
