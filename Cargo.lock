@@ -847,7 +847,9 @@ dependencies = [
 name = "sovereign-ai-stack-book"
 version = "0.1.0"
 dependencies = [
+ "colored",
  "criterion",
+ "indicatif",
 ]
 
 [[package]]

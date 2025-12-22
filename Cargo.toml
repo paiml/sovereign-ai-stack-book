@@ -85,6 +85,12 @@ publish = false
 
 [dependencies]
 criterion = { workspace = true }
+colored = { workspace = true }
+indicatif = { workspace = true }
+
+[[example]]
+name = "demo"
+path = "examples/demo.rs"
 
 [[bench]]
 name = "sovereign_stack"
