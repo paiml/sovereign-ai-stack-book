@@ -65,3 +65,4 @@
 [Appendix A: SPEC.md](./appendix-spec.md)
 [Appendix B: Scientific Reproducibility](./appendix-reproducibility.md)
 [Appendix C: Toyota Way Principles](./appendix-toyota-way.md)
+[Appendix D: PAIML Sovereign AI Ecosystem](./appendix-ecosystem.md)
