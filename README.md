@@ -12,9 +12,12 @@
 
 <p align="center">
   <a href="https://github.com/paiml/sovereign-ai-stack-book/actions/workflows/ci.yml"><img src="https://github.com/paiml/sovereign-ai-stack-book/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="https://paiml.github.io/sovereign-ai-stack-book/"><img src="https://img.shields.io/badge/book-online-blue" alt="Book"></a>
+  <a href="https://paiml.github.io/sovereign-ai-stack-book/"><img src="https://img.shields.io/badge/📚_book-online-brightgreen" alt="Book"></a>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License"></a>
   <a href="https://www.rust-lang.org/"><img src="https://img.shields.io/badge/rust-1.75%2B-orange.svg" alt="Rust"></a>
+  <a href="https://rust-lang.github.io/mdBook/"><img src="https://img.shields.io/badge/mdBook-0.4-blue.svg" alt="mdBook"></a>
+  <a href="https://github.com/paiml/sovereign-ai-stack-book/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
+  <a href="https://crates.io/crates/pmat"><img src="https://img.shields.io/badge/pmat-quality-green" alt="PMAT"></a>
 </p>
 
 </div>
