@@ -26,6 +26,20 @@
 
 ![Book Architecture](.github/book-architecture.svg)
 
+## Table of Contents
+
+- [Overview](#overview)
+- [Quick Start](#quick-start)
+- [Demo](#demo)
+- [Installation](#installation)
+- [Book Structure](#book-structure)
+- [Stack Components](#stack-components)
+- [Quality Standards](#quality-standards)
+- [Design Principles](#design-principles)
+- [Development](#development)
+- [Contributing](#contributing)
+- [License](#license)
+
 ## Overview
 
 This book documents the **Sovereign AI Stack**, a complete pure-Rust ecosystem for organizations requiring full control over their ML infrastructure. Every claim is verified through working code examples that readers can execute locally.
