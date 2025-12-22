@@ -56,6 +56,40 @@ mdbook serve --open    # http://localhost:3000
 
 **If `make test` passes, the book's claims are true. If not, [file an issue](https://github.com/paiml/sovereign-ai-stack-book/issues).**
 
+## Demo
+
+**Run a chapter example:**
+
+```bash
+cd examples/ch03-trueno
+cargo run --release
+```
+
+**Example Output (SIMD Tensor Operations):**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  🚀 Trueno SIMD Benchmark
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Operation          Size       Time       Speedup
+  ─────────────────────────────────────────────────
+  Vector Add         1M elem    0.42ms     12.3x
+  Matrix Mul         1K×1K      2.31ms     8.7x
+  Dot Product        10M elem   1.87ms     15.2x
+  ─────────────────────────────────────────────────
+
+  ✅ All benchmarks passed
+  📊 Average speedup vs scalar: 12.1x
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+**Run all chapter tests:**
+
+```bash
+make test-chapters    # Tests all 23 chapters
+```
+
 ## Installation
 
 ### Prerequisites
