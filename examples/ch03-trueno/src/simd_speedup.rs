@@ -1,4 +1,5 @@
 use anyhow::Result;
+use colored::Colorize;
 use std::time::Instant;
 /// Chapter 3: trueno - SIMD-Accelerated Tensor Operations
 ///
@@ -36,7 +37,9 @@ fn simd_dot_product(a: &Vector<f32>, b: &Vector<f32>) -> f32 {
 }
 
 fn main() -> Result<()> {
-    println!("🚀 Chapter 3: trueno SIMD Speedup Demonstration");
+    println!("{}", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".cyan());
+    println!("{}", "  🚀 Chapter 3: trueno SIMD Speedup Demonstration".bold());
+    println!("{}", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".cyan());
     println!();
 
     // Test data: 10,000 elements (realistic size for SIMD benefits)
@@ -44,10 +47,10 @@ fn main() -> Result<()> {
     let data_a: Vec<f32> = (0..size).map(|i| i as f32 * 0.1).collect();
     let data_b: Vec<f32> = (0..size).map(|i| (i as f32 * 0.2) + 1.0).collect();
 
-    println!("📊 Test configuration:");
-    println!("   Vector size: {} elements", size);
-    println!("   Data type: f32");
-    println!("   Operation: dot product");
+    println!("{}", "📊 Test configuration:".yellow().bold());
+    println!("   Vector size: {} elements", size.to_string().green());
+    println!("   Data type: {}", "f32".green());
+    println!("   Operation: {}", "dot product".green());
     println!();
 
     // Warm-up (ensure CPU caches are populated)
@@ -64,9 +67,9 @@ fn main() -> Result<()> {
     let naive_duration = start.elapsed();
     let naive_per_op = naive_duration.as_nanos() / iterations;
 
-    println!("⏱️  Naive scalar implementation:");
-    println!("   Total time: {:.2?}", naive_duration);
-    println!("   Per operation: {} ns", naive_per_op);
+    println!("{}", "⏱️  Naive scalar implementation:".yellow().bold());
+    println!("   Total time: {}", format!("{:.2?}", naive_duration).white());
+    println!("   Per operation: {} ns", naive_per_op.to_string().white());
     println!();
 
     // Benchmark SIMD implementation
@@ -85,17 +88,17 @@ fn main() -> Result<()> {
     let simd_duration = start.elapsed();
     let simd_per_op = simd_duration.as_nanos() / iterations;
 
-    println!("⚡ SIMD-accelerated implementation (trueno):");
-    println!("   Total time: {:.2?}", simd_duration);
-    println!("   Per operation: {} ns", simd_per_op);
+    println!("{}", "⚡ SIMD-accelerated implementation (trueno):".green().bold());
+    println!("   Total time: {}", format!("{:.2?}", simd_duration).green());
+    println!("   Per operation: {} ns", simd_per_op.to_string().green());
     println!();
 
     // Calculate speedup
     let speedup = naive_per_op as f64 / simd_per_op as f64;
 
-    println!("📈 Performance comparison:");
-    println!("   Speedup: {:.1}x faster", speedup);
-    println!("   Time saved: {:.1}%", (1.0 - 1.0 / speedup) * 100.0);
+    println!("{}", "📈 Performance comparison:".cyan().bold());
+    println!("   Speedup: {}", format!("{:.1}x faster", speedup).green().bold());
+    println!("   Time saved: {}", format!("{:.1}%", (1.0 - 1.0 / speedup) * 100.0).green());
     println!();
 
     // Verify correctness
@@ -103,22 +106,24 @@ fn main() -> Result<()> {
     let simd_result = simd_dot_product(&vec_a, &vec_b);
     let diff = (naive_result - simd_result).abs();
 
-    println!("✅ Correctness verification:");
-    println!("   Naive result: {:.2}", naive_result);
-    println!("   SIMD result:  {:.2}", simd_result);
-    println!("   Difference:   {:.2e} (numerical precision)", diff);
+    println!("{}", "✅ Correctness verification:".green().bold());
+    println!("   Naive result: {}", format!("{:.2}", naive_result).white());
+    println!("   SIMD result:  {}", format!("{:.2}", simd_result).white());
+    println!("   Difference:   {} (numerical precision)", format!("{:.2e}", diff).white());
     assert!(
         diff < 0.01,
         "Results must match within floating-point precision"
     );
     println!();
 
-    println!("🎯 Key takeaway:");
+    println!("{}", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".cyan());
+    println!("{}", "🎯 Key takeaway:".magenta().bold());
     println!(
-        "   SIMD acceleration provides {:.1}x speedup for tensor operations",
-        speedup
+        "   SIMD acceleration provides {} speedup for tensor operations",
+        format!("{:.1}x", speedup).green().bold()
     );
     println!("   This is WHY trueno is the foundation of the Sovereign AI Stack");
+    println!("{}", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".cyan());
     println!();
 
     Ok(())

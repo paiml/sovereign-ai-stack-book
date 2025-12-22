@@ -21,6 +21,8 @@ path = "src/coverage_demo.rs"
 anyhow.workspace = true
 serde.workspace = true
 serde_json.workspace = true
+colored.workspace = true
+indicatif.workspace = true
 
 [dev-dependencies]
 proptest.workspace = true

@@ -11,6 +11,8 @@ path = "src/ml_training.rs"
 
 [dependencies]
 anyhow.workspace = true
+colored.workspace = true
+indicatif.workspace = true
 
 [dev-dependencies]
 proptest.workspace = true

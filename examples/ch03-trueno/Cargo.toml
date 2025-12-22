@@ -17,6 +17,8 @@ path = "src/gpu_comparison.rs"
 trueno.workspace = true
 anyhow.workspace = true
 serde.workspace = true
+colored.workspace = true
+indicatif.workspace = true
 
 [dev-dependencies]
 criterion.workspace = true

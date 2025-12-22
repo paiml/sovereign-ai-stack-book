@@ -72,6 +72,8 @@ mdbook serve --open    # http://localhost:3000
 
 ## Demo
 
+[![asciicast](https://asciinema.org/a/demo.svg)](https://paiml.github.io/sovereign-ai-stack-book/)
+
 **Run a chapter example:**
 
 ```bash
