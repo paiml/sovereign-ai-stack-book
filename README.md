@@ -181,31 +181,37 @@ The book covers 23 chapters across 6 parts:
 
 ## Stack Components
 
-| Component | Description | Chapter |
-|-----------|-------------|---------|
-| [trueno](https://crates.io/crates/trueno) | SIMD/GPU compute primitives | Ch 3, 6-7 |
-| [aprender](https://crates.io/crates/aprender) | ML algorithms: regression, trees, clustering | Ch 12 |
-| [realizar](https://crates.io/crates/realizar) | Inference engine for GGUF/SafeTensors | Ch 13 |
-| [entrenar](https://crates.io/crates/entrenar) | Distributed training | Ch 14 |
-| [batuta](https://crates.io/crates/batuta) | Stack orchestration | Ch 17 |
+### Core ML Stack (crates.io versions as of January 2025)
+
+| Component | Version | Description | Chapter |
+|-----------|---------|-------------|---------|
+| [trueno](https://crates.io/crates/trueno) | 0.11 | SIMD/GPU compute (AVX2/AVX-512/NEON, wgpu) | Ch 3, 6-7 |
+| [aprender](https://crates.io/crates/aprender) | 0.24 | ML algorithms: regression, trees, clustering | Ch 12 |
+| [realizar](https://crates.io/crates/realizar) | 0.5 | Inference engine for GGUF/SafeTensors | Ch 13 |
+| [entrenar](https://crates.io/crates/entrenar) | 0.5 | Training: autograd, LoRA/QLoRA | Ch 14 |
+| [pacha](https://crates.io/crates/pacha) | 0.2 | Model registry with signatures | — |
+| [batuta](https://crates.io/crates/batuta) | 0.4 | Stack orchestration | Ch 17 |
 
 ### Transpilers
 
-| Component | Description | Chapter |
-|-----------|-------------|---------|
-| [depyler](https://crates.io/crates/depyler) | Python to Rust transpiler | Ch 10 |
-| [decy](https://crates.io/crates/decy) | TypeScript/Deno to Rust | Ch 11 |
-| [bashrs](https://crates.io/crates/bashrs) | Bash to Rust transpiler | Ch 9 |
+| Component | Version | Description | Chapter |
+|-----------|---------|-------------|---------|
+| [bashrs](https://crates.io/crates/bashrs) | 6.51 | Shell to Rust transpiler | Ch 9 |
+| [depyler](https://github.com/paiml/depyler) | — | Python to Rust transpiler | Ch 10 |
+| [decy](https://github.com/paiml/decy) | — | C to Rust transpiler | Ch 11 |
 
 ### Infrastructure
 
-| Component | Description | Chapter |
-|-----------|-------------|---------|
-| [pmat](https://crates.io/crates/pmat) | Quality enforcement toolkit | Ch 5 |
-| [trueno-db](https://crates.io/crates/trueno-db) | GPU-accelerated analytics | Ch 15 |
-| [trueno-graph](https://crates.io/crates/trueno-graph) | Graph analytics | Ch 16 |
-| [renacer](https://crates.io/crates/renacer) | Syscall tracing | Ch 18 |
-| [repartir](https://crates.io/crates/repartir) | Work-stealing scheduler | Ch 19 |
+| Component | Version | Description | Chapter |
+|-----------|---------|-------------|---------|
+| [pmat](https://crates.io/crates/pmat) | 2.213 | Quality enforcement toolkit | Ch 5 |
+| [trueno-db](https://crates.io/crates/trueno-db) | 0.3 | GPU-accelerated analytics | Ch 15 |
+| [trueno-graph](https://crates.io/crates/trueno-graph) | 0.1 | Graph analytics | Ch 16 |
+| [trueno-rag](https://crates.io/crates/trueno-rag) | 0.1 | RAG pipeline (BM25+vector) | — |
+| [trueno-viz](https://crates.io/crates/trueno-viz) | 0.1 | Terminal/PNG visualization | — |
+| [renacer](https://crates.io/crates/renacer) | 0.9 | Syscall tracing | Ch 18 |
+| [repartir](https://crates.io/crates/repartir) | 2.0 | Distributed compute | Ch 19 |
+| [alimentar](https://crates.io/crates/alimentar) | 0.2 | Zero-copy Parquet/Arrow | — |
 
 ## Quality Standards
 

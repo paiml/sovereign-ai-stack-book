@@ -33,19 +33,24 @@ authors = ["Noah Gift <consulting@noahgift.com>"]
 repository = "https://github.com/paiml/sovereign-ai-stack-book"
 
 [workspace.dependencies]
-# Core Sovereign AI Stack dependencies
-trueno = "0.8.8"
-# aprender = "0.1"
-# realizar = "0.1"
-# trueno-db = "0.1"
-# trueno-graph = "0.1"
-# renacer = "0.1"
-# batuta = "0.1"
-# depyler = "0.1"
-# decy = "0.1"
-# entrenar = "0.1"
-# bashrs = "0.1"
-# repartir = "0.1"
+# Core Sovereign AI Stack dependencies (crates.io versions as of 2025-01)
+trueno = "0.11"
+aprender = "0.24"
+realizar = "0.5"
+entrenar = "0.5"
+pacha = "0.2"
+trueno-db = "0.3"
+trueno-graph = "0.1"
+trueno-rag = "0.1"
+trueno-viz = "0.1"
+renacer = "0.9"
+batuta = "0.4"
+repartir = "2.0"
+alimentar = "0.2"
+bashrs = "6.51"
+pmat = "2.213"
+# depyler = "0.1"  # Not yet on crates.io
+# decy = "0.1"     # Not yet on crates.io
 
 # Testing & benchmarking
 criterion = { version = "0.5", features = ["html_reports"] }
