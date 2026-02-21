@@ -106,16 +106,28 @@ fn run_quality_gate_expensive(gate: &QualityGate) -> Result<(u64, bool)> {
 }
 
 fn main() -> Result<()> {
-    println!("{}", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".cyan());
-    println!("{}", "🛡️  Chapter 5: pmat Quality Gates - O(1) Validation".bold());
-    println!("{}", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".cyan());
+    println!(
+        "{}",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".cyan()
+    );
+    println!(
+        "{}",
+        "🛡️  Chapter 5: pmat Quality Gates - O(1) Validation".bold()
+    );
+    println!(
+        "{}",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".cyan()
+    );
     println!();
 
     // Initialize metrics cache
     let mut cache = MetricsCache::new();
 
     // Simulate first run (cache MISS)
-    println!("{}", "📊 Scenario 1: First run (cache MISS)".yellow().bold());
+    println!(
+        "{}",
+        "📊 Scenario 1: First run (cache MISS)".yellow().bold()
+    );
     println!("   All gates must be validated from scratch");
     println!();
 
@@ -154,7 +166,12 @@ fn main() -> Result<()> {
     println!();
 
     // Simulate second run (cache HIT, code unchanged)
-    println!("{}", "📊 Scenario 2: Second run (cache HIT, code unchanged)".yellow().bold());
+    println!(
+        "{}",
+        "📊 Scenario 2: Second run (cache HIT, code unchanged)"
+            .yellow()
+            .bold()
+    );
     println!("   O(1) lookup via hash comparison");
     println!();
 
@@ -210,11 +227,23 @@ fn main() -> Result<()> {
     println!();
 
     // Key takeaways
-    println!("{}", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".cyan());
+    println!(
+        "{}",
+        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".cyan()
+    );
     println!("{}", "🎯 Key takeaways:".magenta().bold());
-    println!("   1. {}: All gates validated (expensive)", "FIRST RUN".yellow());
-    println!("   2. {}: O(1) hash lookup (microseconds)", "NO CHANGES".green());
-    println!("   3. {}: Hash mismatch triggers re-run (safety)", "CODE CHANGED".red());
+    println!(
+        "   1. {}: All gates validated (expensive)",
+        "FIRST RUN".yellow()
+    );
+    println!(
+        "   2. {}: O(1) hash lookup (microseconds)",
+        "NO CHANGES".green()
+    );
+    println!(
+        "   3. {}: Hash mismatch triggers re-run (safety)",
+        "CODE CHANGED".red()
+    );
     println!();
 
     println!("🇪🇺 Toyota Way principles:");

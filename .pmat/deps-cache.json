@@ -1,0 +1,14 @@
+{
+  "cargo_lock_mtime": 1767787296,
+  "transitive_count": 132,
+  "prod_transitive_count": 56,
+  "duplicate_crates": [
+    {
+      "name": "windows-sys",
+      "versions": [
+        "0.59.0",
+        "0.61.2"
+      ]
+    }
+  ]
+}
