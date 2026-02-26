@@ -620,3 +620,7 @@ help:
 	@echo "  make bench-all          # Reproduce all performance claims"
 	@echo ""
 	@echo "If 'make test' passes, the book's claims are true. If not, file an issue."
+
+# Mutation testing
+mutants:
+	cargo mutants --no-times --timeout 300
