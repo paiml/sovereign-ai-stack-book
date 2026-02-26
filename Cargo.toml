@@ -118,3 +118,6 @@ replace = "## [{{version}}] - {{date}}"
 lto = true
 codegen-units = 1
 panic = "abort"
+
+[profile.dev]
+panic = "abort"
