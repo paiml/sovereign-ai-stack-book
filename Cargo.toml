@@ -100,3 +100,15 @@ path = "examples/demo.rs"
 [[bench]]
 name = "sovereign_stack"
 harness = false
+
+[package.metadata.docs.rs]
+
+rustdoc-args = ["--generate-link-to-definition"]
+
+[package.metadata.release]
+shared-version = true
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = "abort"
