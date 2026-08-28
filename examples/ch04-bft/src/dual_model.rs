@@ -26,11 +26,7 @@ struct SimulatedLLM {
 
 impl SimulatedLLM {
     fn new(name: &str, error_rate: f64, seed: u64) -> Self {
-        Self {
-            name: name.to_string(),
-            error_rate,
-            seed,
-        }
+        Self { name: name.to_string(), error_rate, seed }
     }
 
     /// Generate code for a task (may hallucinate)
@@ -68,10 +64,7 @@ struct CodeGenResult {
 
 /// Single model strategy (baseline)
 fn single_model_generation(model: &mut SimulatedLLM, tasks: &[&str]) -> Vec<bool> {
-    tasks
-        .iter()
-        .map(|task| model.generate_code(task).is_correct)
-        .collect()
+    tasks.iter().map(|task| model.generate_code(task).is_correct).collect()
 }
 
 /// Dual model strategy (BFT-inspired)
@@ -98,10 +91,8 @@ fn triple_model_consensus(models: &mut [SimulatedLLM], tasks: &[&str]) -> Vec<bo
     tasks
         .iter()
         .map(|task| {
-            let results: Vec<bool> = models
-                .iter_mut()
-                .map(|m| m.generate_code(task).is_correct)
-                .collect();
+            let results: Vec<bool> =
+                models.iter_mut().map(|m| m.generate_code(task).is_correct).collect();
 
             // Majority voting (2 out of 3 for f=1)
             let correct_count = results.iter().filter(|&&r| r).count();
@@ -200,10 +191,7 @@ fn main() -> Result<()> {
     let triple = triple_model_consensus(&mut models, &tasks);
     let (_, _, triple_err) = calculate_stats(&triple);
 
-    println!(
-        "   | Single (Claude) | {:>9.1}% | baseline    |",
-        single_err
-    );
+    println!("   | Single (Claude) | {:>9.1}% | baseline    |", single_err);
     println!(
         "   | Dual Validation | {:>9.1}% | {:.1}x better |",
         dual_err,
@@ -294,10 +282,7 @@ mod tests {
         // Dual validation produces results - the error counts are computed
         // This test validates that both approaches complete without panicking
         // and produce valid boolean results
-        assert!(
-            single_errors <= 100,
-            "Single model error count should be valid"
-        );
+        assert!(single_errors <= 100, "Single model error count should be valid");
         assert!(dual_errors <= 100, "Dual model error count should be valid");
     }
 

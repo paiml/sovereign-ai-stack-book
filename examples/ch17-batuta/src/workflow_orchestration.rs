@@ -29,11 +29,7 @@ struct Task {
 
 impl Task {
     fn new(id: &str) -> Self {
-        Self {
-            id: id.to_string(),
-            dependencies: Vec::new(),
-            status: TaskStatus::Pending,
-        }
+        Self { id: id.to_string(), dependencies: Vec::new(), status: TaskStatus::Pending }
     }
 
     fn depends_on(mut self, dep: &str) -> Self {
@@ -50,10 +46,7 @@ struct Workflow {
 
 impl Workflow {
     fn new() -> Self {
-        Self {
-            tasks: HashMap::new(),
-            execution_order: Vec::new(),
-        }
+        Self { tasks: HashMap::new(), execution_order: Vec::new() }
     }
 
     fn add_task(&mut self, task: Task) {
@@ -78,20 +71,14 @@ impl Workflow {
                     return Err(format!("Unknown dependency: {}", dep));
                 }
                 *in_degree.get_mut(id).expect("task exists in in_degree") += 1;
-                dependents
-                    .get_mut(dep)
-                    .expect("dependency exists in dependents")
-                    .push(id.clone());
+                dependents.get_mut(dep).expect("dependency exists in dependents").push(id.clone());
             }
         }
 
         // Find initial tasks (no dependencies)
         let initial: Vec<String> = {
-            let mut v: Vec<_> = in_degree
-                .iter()
-                .filter(|(_, &deg)| deg == 0)
-                .map(|(id, _)| id.clone())
-                .collect();
+            let mut v: Vec<_> =
+                in_degree.iter().filter(|(_, &deg)| deg == 0).map(|(id, _)| id.clone()).collect();
             v.sort(); // Sort for determinism
             v
         };
@@ -179,11 +166,7 @@ fn parallel_demo() {
     workflow.add_task(Task::new("start"));
     workflow.add_task(Task::new("branch_a").depends_on("start"));
     workflow.add_task(Task::new("branch_b").depends_on("start"));
-    workflow.add_task(
-        Task::new("merge")
-            .depends_on("branch_a")
-            .depends_on("branch_b"),
-    );
+    workflow.add_task(Task::new("merge").depends_on("branch_a").depends_on("branch_b"));
 
     workflow.compute_execution_order().expect("valid DAG");
 
@@ -393,9 +376,6 @@ mod tests {
         }
 
         let first = &results[0];
-        assert!(
-            results.iter().all(|r| r == first),
-            "Workflow ordering must be deterministic"
-        );
+        assert!(results.iter().all(|r| r == first), "Workflow ordering must be deterministic");
     }
 }

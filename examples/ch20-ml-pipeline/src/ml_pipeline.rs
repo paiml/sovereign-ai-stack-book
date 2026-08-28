@@ -23,9 +23,7 @@ struct DataLoader {
 
 impl DataLoader {
     fn new() -> Self {
-        Self {
-            name: "DataLoader".to_string(),
-        }
+        Self { name: "DataLoader".to_string() }
     }
 }
 
@@ -51,10 +49,7 @@ struct Preprocessor {
 
 impl Preprocessor {
     fn new(scale: f64) -> Self {
-        Self {
-            name: "Preprocessor".to_string(),
-            scale,
-        }
+        Self { name: "Preprocessor".to_string(), scale }
     }
 }
 
@@ -63,10 +58,7 @@ impl Stage for Preprocessor {
     type Output = Vec<Vec<f64>>;
 
     fn process(&self, input: Self::Input) -> Self::Output {
-        input
-            .into_iter()
-            .map(|row| row.into_iter().map(|x| x * self.scale).collect())
-            .collect()
+        input.into_iter().map(|row| row.into_iter().map(|x| x * self.scale).collect()).collect()
     }
 
     fn name(&self) -> &str {
@@ -81,9 +73,7 @@ struct FeatureExtractor {
 
 impl FeatureExtractor {
     fn new() -> Self {
-        Self {
-            name: "FeatureExtractor".to_string(),
-        }
+        Self { name: "FeatureExtractor".to_string() }
     }
 }
 
@@ -100,9 +90,7 @@ impl Stage for FeatureExtractor {
         let num_features = input[0].len();
         let n = input.len() as f64;
 
-        (0..num_features)
-            .map(|f| input.iter().map(|row| row[f]).sum::<f64>() / n)
-            .collect()
+        (0..num_features).map(|f| input.iter().map(|row| row[f]).sum::<f64>() / n).collect()
     }
 
     fn name(&self) -> &str {
@@ -118,10 +106,7 @@ struct ModelTrainer {
 
 impl ModelTrainer {
     fn new(learning_rate: f64) -> Self {
-        Self {
-            name: "ModelTrainer".to_string(),
-            learning_rate,
-        }
+        Self { name: "ModelTrainer".to_string(), learning_rate }
     }
 }
 

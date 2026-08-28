@@ -17,22 +17,16 @@ fn bench_vector_operations(c: &mut Criterion) {
 
         group.bench_with_input(BenchmarkId::new("dot_product", size), size, |bench, _| {
             bench.iter(|| {
-                let result: f32 = black_box(&a)
-                    .iter()
-                    .zip(black_box(&b).iter())
-                    .map(|(x, y)| x * y)
-                    .sum();
+                let result: f32 =
+                    black_box(&a).iter().zip(black_box(&b).iter()).map(|(x, y)| x * y).sum();
                 black_box(result)
             })
         });
 
         group.bench_with_input(BenchmarkId::new("vector_add", size), size, |bench, _| {
             bench.iter(|| {
-                let result: Vec<f32> = black_box(&a)
-                    .iter()
-                    .zip(black_box(&b).iter())
-                    .map(|(x, y)| x + y)
-                    .collect();
+                let result: Vec<f32> =
+                    black_box(&a).iter().zip(black_box(&b).iter()).map(|(x, y)| x + y).collect();
                 black_box(result)
             })
         });
@@ -56,9 +50,7 @@ fn bench_matrix_operations(c: &mut Criterion) {
     for size in [16, 32, 64, 128].iter() {
         let n = *size;
         let a: Vec<f32> = (0..n * n).map(|i| (i % 100) as f32 / 100.0).collect();
-        let b: Vec<f32> = (0..n * n)
-            .map(|i| ((n * n - i) % 100) as f32 / 100.0)
-            .collect();
+        let b: Vec<f32> = (0..n * n).map(|i| ((n * n - i) % 100) as f32 / 100.0).collect();
 
         group.throughput(Throughput::Elements((n * n) as u64));
 
@@ -122,11 +114,7 @@ fn bench_similarity_search(c: &mut Criterion) {
 
         // Generate database of vectors
         let db: Vec<Vec<f32>> = (0..*db_size)
-            .map(|i| {
-                (0..dim)
-                    .map(|j| ((i * dim + j) % 100) as f32 / 100.0)
-                    .collect()
-            })
+            .map(|i| (0..dim).map(|j| ((i * dim + j) % 100) as f32 / 100.0).collect())
             .collect();
 
         // Query vector
@@ -144,11 +132,8 @@ fn bench_similarity_search(c: &mut Criterion) {
                         .iter()
                         .enumerate()
                         .map(|(i, vec)| {
-                            let dist: f32 = vec
-                                .iter()
-                                .zip(query.iter())
-                                .map(|(a, b)| (a - b).powi(2))
-                                .sum();
+                            let dist: f32 =
+                                vec.iter().zip(query.iter()).map(|(a, b)| (a - b).powi(2)).sum();
                             (i, dist.sqrt())
                         })
                         .collect();
@@ -194,9 +179,7 @@ fn bench_ml_training(c: &mut Criterion) {
 
     for n_samples in [100, 1000, 10000].iter() {
         // Generate linear regression data: y = 2x + 1 + noise
-        let x: Vec<f32> = (0..*n_samples)
-            .map(|i| i as f32 / *n_samples as f32)
-            .collect();
+        let x: Vec<f32> = (0..*n_samples).map(|i| i as f32 / *n_samples as f32).collect();
         let y: Vec<f32> = x.iter().map(|xi| 2.0 * xi + 1.0).collect();
 
         group.throughput(Throughput::Elements(*n_samples as u64));

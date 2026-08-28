@@ -14,10 +14,7 @@ fn numpy_patterns() {
     println!();
 
     let patterns = vec![
-        (
-            "np.array([1, 2, 3])",
-            "Vector::from_slice(&[1.0, 2.0, 3.0])",
-        ),
+        ("np.array([1, 2, 3])", "Vector::from_slice(&[1.0, 2.0, 3.0])"),
         ("np.zeros((3, 3))", "Matrix::zeros(3, 3)"),
         ("np.dot(a, b)", "a.dot(&b)"),
         ("a + b  # element-wise", "a.add(&b)"),
@@ -106,22 +103,10 @@ fn list_comprehension() {
     println!();
 
     let patterns = vec![
-        (
-            "[x*2 for x in data]",
-            "data.iter().map(|x| x * 2).collect()",
-        ),
-        (
-            "[x for x in data if x > 0]",
-            "data.iter().filter(|&x| x > 0).collect()",
-        ),
-        (
-            "[x*2 for x in data if x > 0]",
-            "data.iter().filter(|&x| x > 0).map(|x| x * 2).collect()",
-        ),
-        (
-            "sum([x*x for x in data])",
-            "data.iter().map(|x| x * x).sum()",
-        ),
+        ("[x*2 for x in data]", "data.iter().map(|x| x * 2).collect()"),
+        ("[x for x in data if x > 0]", "data.iter().filter(|&x| x > 0).collect()"),
+        ("[x*2 for x in data if x > 0]", "data.iter().filter(|&x| x > 0).map(|x| x * 2).collect()"),
+        ("sum([x*x for x in data])", "data.iter().map(|x| x * x).sum()"),
     ];
 
     println!("   {:>35} │ {:>40}", "Python", "Rust");
@@ -140,21 +125,12 @@ fn performance_comparison() {
 
     println!("   Operation: Matrix multiplication (1000x1000)");
     println!();
-    println!(
-        "   {:>15} │ {:>10} │ {:>10}",
-        "Implementation", "Time", "Speedup"
-    );
+    println!("   {:>15} │ {:>10} │ {:>10}", "Implementation", "Time", "Speedup");
     println!("   ────────────────┼────────────┼────────────");
     println!("   {:>15} │ {:>10} │ {:>10}", "Python NumPy", "~50ms", "1x");
-    println!(
-        "   {:>15} │ {:>10} │ {:>10}",
-        "Rust (naive)", "~30ms", "1.7x"
-    );
+    println!("   {:>15} │ {:>10} │ {:>10}", "Rust (naive)", "~30ms", "1.7x");
     println!("   {:>15} │ {:>10} │ {:>10}", "Rust (SIMD)", "~8ms", "6.3x");
-    println!(
-        "   {:>15} │ {:>10} │ {:>10}",
-        "Rust (parallel)", "~3ms", "16.7x"
-    );
+    println!("   {:>15} │ {:>10} │ {:>10}", "Rust (parallel)", "~3ms", "16.7x");
     println!();
 
     println!("   Note: Rust eliminates Python overhead:");

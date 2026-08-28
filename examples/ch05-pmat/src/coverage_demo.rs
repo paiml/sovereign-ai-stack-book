@@ -63,11 +63,8 @@ fn main() -> Result<()> {
     println!();
 
     // Simulated coverage report (in real pmat, from cargo-tarpaulin)
-    let mut report = CoverageReport {
-        total_lines: 0,
-        covered_lines: 0,
-        file_coverage: HashMap::new(),
-    };
+    let mut report =
+        CoverageReport { total_lines: 0, covered_lines: 0, file_coverage: HashMap::new() };
 
     // Example 1: Well-tested file (100% coverage)
     report.add_file(FileCoverage {
@@ -130,10 +127,7 @@ fn main() -> Result<()> {
     println!("   📊 Total Coverage: {:.1}%", total_pct);
     println!("      Covered: {} lines", report.covered_lines);
     println!("      Total:   {} lines", report.total_lines);
-    println!(
-        "      Missing: {} lines",
-        report.total_lines - report.covered_lines
-    );
+    println!("      Missing: {} lines", report.total_lines - report.covered_lines);
     println!();
 
     // Threshold enforcement (from .pmat-gates.toml)
@@ -147,10 +141,7 @@ fn main() -> Result<()> {
         println!("   ✅ PASS: Coverage meets ≥95% requirement");
     } else {
         println!("   ❌ FAIL: Coverage below 95% requirement");
-        println!(
-            "      Shortfall: {:.1} percentage points",
-            min_coverage - total_pct
-        );
+        println!("      Shortfall: {:.1} percentage points", min_coverage - total_pct);
         println!(
             "      Need {} more covered lines",
             ((min_coverage / 100.0 * report.total_lines as f64) - report.covered_lines as f64)
@@ -252,11 +243,8 @@ mod tests {
 
     #[test]
     fn test_report_aggregation() {
-        let mut report = CoverageReport {
-            total_lines: 0,
-            covered_lines: 0,
-            file_coverage: HashMap::new(),
-        };
+        let mut report =
+            CoverageReport { total_lines: 0, covered_lines: 0, file_coverage: HashMap::new() };
 
         report.add_file(FileCoverage {
             file_path: "file1.rs".to_string(),
@@ -280,11 +268,8 @@ mod tests {
 
     #[test]
     fn test_coverage_threshold_enforcement() {
-        let report = CoverageReport {
-            total_lines: 100,
-            covered_lines: 94,
-            file_coverage: HashMap::new(),
-        };
+        let report =
+            CoverageReport { total_lines: 100, covered_lines: 94, file_coverage: HashMap::new() };
 
         let min_threshold = 95.0;
         let actual = report.coverage_percentage();

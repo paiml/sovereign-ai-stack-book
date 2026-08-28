@@ -57,10 +57,7 @@ impl BftConsensus {
         let num_nodes = 3 * fault_tolerance + 1;
         let nodes: Vec<Node> = (0..num_nodes).map(|id| Node::new(id, false)).collect();
 
-        Self {
-            nodes,
-            fault_tolerance,
-        }
+        Self { nodes, fault_tolerance }
     }
 
     /// Set specific nodes as Byzantine
@@ -106,10 +103,7 @@ impl BftConsensus {
             byzantine_count
         );
         println!("   Fault tolerance: f={}", self.fault_tolerance);
-        println!(
-            "   Threshold for consensus: {} votes",
-            2 * self.fault_tolerance + 1
-        );
+        println!("   Threshold for consensus: {} votes", 2 * self.fault_tolerance + 1);
     }
 }
 
@@ -145,10 +139,7 @@ fn main() -> Result<()> {
     println!("   Input: {}", input);
     println!("   Expected: {}", input * 2);
     println!("   Result: {:?}", result);
-    println!(
-        "   ✅ Consensus reached despite 1 Byzantine node: {}",
-        result.is_some()
-    );
+    println!("   ✅ Consensus reached despite 1 Byzantine node: {}", result.is_some());
     println!();
 
     // Test 3: Two Byzantine nodes (EXCEEDS tolerance for n=4)
@@ -233,11 +224,7 @@ mod tests {
     fn test_consensus_no_byzantine() {
         let bft = BftConsensus::new(1);
         let result = bft.consensus(10);
-        assert_eq!(
-            result,
-            Some(20),
-            "Should reach consensus with no Byzantine nodes"
-        );
+        assert_eq!(result, Some(20), "Should reach consensus with no Byzantine nodes");
     }
 
     #[test]
@@ -245,11 +232,7 @@ mod tests {
         let mut bft = BftConsensus::new(1);
         bft.set_byzantine(&[0]);
         let result = bft.consensus(10);
-        assert_eq!(
-            result,
-            Some(20),
-            "Should reach consensus with 1 Byzantine node"
-        );
+        assert_eq!(result, Some(20), "Should reach consensus with 1 Byzantine node");
     }
 
     #[test]
@@ -257,10 +240,7 @@ mod tests {
         let mut bft = BftConsensus::new(1);
         bft.set_byzantine(&[0, 1]); // 2 Byzantine > f=1 tolerance
         let result = bft.consensus(10);
-        assert_eq!(
-            result, None,
-            "Should NOT reach consensus with 2 Byzantine nodes"
-        );
+        assert_eq!(result, None, "Should NOT reach consensus with 2 Byzantine nodes");
     }
 
     #[test]
@@ -268,11 +248,7 @@ mod tests {
         let mut bft = BftConsensus::new(2); // f=2, n=7
         bft.set_byzantine(&[0, 1]); // 2 Byzantine = f tolerance
         let result = bft.consensus(10);
-        assert_eq!(
-            result,
-            Some(20),
-            "Should reach consensus with f=2 tolerance"
-        );
+        assert_eq!(result, Some(20), "Should reach consensus with f=2 tolerance");
     }
 
     #[test]

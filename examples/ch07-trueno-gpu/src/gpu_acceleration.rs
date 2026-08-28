@@ -264,10 +264,7 @@ mod tests {
         let (cpu_time, _) = cpu_matmul(size);
         let gpu_time = simulated_gpu_matmul(size);
 
-        assert!(
-            gpu_time < cpu_time,
-            "GPU should be faster for 512×512 matrices"
-        );
+        assert!(gpu_time < cpu_time, "GPU should be faster for 512×512 matrices");
     }
 
     #[test]
@@ -275,9 +272,6 @@ mod tests {
         let (_, result1) = cpu_matmul(32);
         let (_, result2) = cpu_matmul(32);
 
-        assert_eq!(
-            result1, result2,
-            "Matrix multiplication must be deterministic"
-        );
+        assert_eq!(result1, result2, "Matrix multiplication must be deterministic");
     }
 }

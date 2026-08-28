@@ -44,12 +44,7 @@ fn main() -> Result<()> {
     let start = Instant::now();
     for _ in 0..iterations {
         // Simple dot product using iterator
-        let _: f32 = vec_a
-            .as_slice()
-            .iter()
-            .zip(vec_b.as_slice().iter())
-            .map(|(x, y)| x * y)
-            .sum();
+        let _: f32 = vec_a.as_slice().iter().zip(vec_b.as_slice().iter()).map(|(x, y)| x * y).sum();
     }
     let cpu_duration = start.elapsed();
     let cpu_per_op = cpu_duration.as_micros() / iterations;
@@ -67,10 +62,7 @@ fn main() -> Result<()> {
     let total_gpu_time_us = simulated_transfer_overhead_us + simulated_gpu_compute_us;
 
     println!("🎮 GPU (simulated, with PCIe transfer):");
-    println!(
-        "   PCIe transfer: {} μs (EXPENSIVE!)",
-        simulated_transfer_overhead_us
-    );
+    println!("   PCIe transfer: {} μs (EXPENSIVE!)", simulated_transfer_overhead_us);
     println!("   GPU compute:   {} μs (fast)", simulated_gpu_compute_us);
     println!("   Total per op:  {} μs", total_gpu_time_us);
     println!();
@@ -125,12 +117,8 @@ mod tests {
         let vec_a = Vector::from_slice(&data_a);
         let vec_b = Vector::from_slice(&data_b);
 
-        let result: f32 = vec_a
-            .as_slice()
-            .iter()
-            .zip(vec_b.as_slice().iter())
-            .map(|(x, y)| x * y)
-            .sum();
+        let result: f32 =
+            vec_a.as_slice().iter().zip(vec_b.as_slice().iter()).map(|(x, y)| x * y).sum();
         assert_eq!(result, 32.0); // 1*4 + 2*5 + 3*6 = 32
 
         Ok(())

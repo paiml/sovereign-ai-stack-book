@@ -14,12 +14,21 @@ jobs:
     name: Clippy Analysis
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/checkout@v5
+      - name: Read pinned toolchain
+        id: rust
+        shell: bash
+        run: |
+          channel="$(sed -n 's/^ *channel *= *"\([^"]*\)".*/\1/p' rust-toolchain.toml)"
+          test -n "$channel" || { echo "::error::no channel in rust-toolchain.toml"; exit 1; }
+          echo "channel=$channel" >> "$GITHUB_OUTPUT"
+
+      - uses: dtolnay/rust-toolchain@master
         with:
+          toolchain: ${{ steps.rust.outputs.channel }}
           components: clippy
       - uses: Swatinem/rust-cache@v2
       - name: Clippy (all features)
-        run: cargo clippy --all-targets  -- -D warnings
+        run: cargo clippy --workspace --all-targets -- -D warnings
       - name: Clippy (no default features)
-        run: cargo clippy --all-targets --no-default-features -- -D warnings
+        run: cargo clippy --workspace --all-targets --no-default-features -- -D warnings

@@ -198,22 +198,10 @@ fn print_metrics_analysis(metrics: &QualityMetrics, project_name: &str) -> Resul
     // Show raw metrics
     println!("   📊 Raw metrics:");
     println!("      Line coverage:     {:.1}%", metrics.line_coverage_pct);
-    println!(
-        "      Branch coverage:   {:.1}%",
-        metrics.branch_coverage_pct
-    );
-    println!(
-        "      Mutation score:    {:.1}%",
-        metrics.mutation_score_pct
-    );
-    println!(
-        "      Avg complexity:    {:.1}",
-        metrics.avg_cyclomatic_complexity
-    );
-    println!(
-        "      Max complexity:    {}",
-        metrics.max_cyclomatic_complexity
-    );
+    println!("      Branch coverage:   {:.1}%", metrics.branch_coverage_pct);
+    println!("      Mutation score:    {:.1}%", metrics.mutation_score_pct);
+    println!("      Avg complexity:    {:.1}", metrics.avg_cyclomatic_complexity);
+    println!("      Max complexity:    {}", metrics.max_cyclomatic_complexity);
     println!("      Clippy warnings:   {}", metrics.clippy_warnings);
     println!("      Clippy errors:     {}", metrics.clippy_errors);
     println!();
@@ -228,11 +216,7 @@ fn print_metrics_analysis(metrics: &QualityMetrics, project_name: &str) -> Resul
     // Component breakdown
     let coverage_avg = (metrics.line_coverage_pct + metrics.branch_coverage_pct) / 2.0;
     println!("   📈 Component breakdown:");
-    println!(
-        "      Coverage (40%):   {:.1}% → {:.1} points",
-        coverage_avg,
-        coverage_avg * 0.40
-    );
+    println!("      Coverage (40%):   {:.1}% → {:.1} points", coverage_avg, coverage_avg * 0.40);
     println!(
         "      Mutation (30%):   {:.1}% → {:.1} points",
         metrics.mutation_score_pct,
@@ -248,34 +232,18 @@ fn print_metrics_analysis(metrics: &QualityMetrics, project_name: &str) -> Resul
     );
 
     let total_issues = metrics.clippy_warnings + metrics.clippy_errors;
-    let quality_score = if total_issues == 0 {
-        100.0
-    } else {
-        (100.0 - (total_issues as f64 * 2.0)).max(0.0)
-    };
-    println!(
-        "      Quality (15%):    {:.1} → {:.1} points",
-        quality_score,
-        quality_score * 0.15
-    );
+    let quality_score =
+        if total_issues == 0 { 100.0 } else { (100.0 - (total_issues as f64 * 2.0)).max(0.0) };
+    println!("      Quality (15%):    {:.1} → {:.1} points", quality_score, quality_score * 0.15);
     println!();
 
     // Pass/fail analysis
     let min_grade = 90.0; // A- threshold from pmat config
     if tdg_score >= min_grade {
-        println!(
-            "   ✅ PASS: TDG {:.1} ≥ {:.1} (meets A- standard)",
-            tdg_score, min_grade
-        );
+        println!("   ✅ PASS: TDG {:.1} ≥ {:.1} (meets A- standard)", tdg_score, min_grade);
     } else {
-        println!(
-            "   ❌ FAIL: TDG {:.1} < {:.1} (below A- standard)",
-            tdg_score, min_grade
-        );
-        println!(
-            "      Needs {:.1} points to reach A-",
-            min_grade - tdg_score
-        );
+        println!("   ❌ FAIL: TDG {:.1} < {:.1} (below A- standard)", tdg_score, min_grade);
+        println!("      Needs {:.1} points to reach A-", min_grade - tdg_score);
     }
     println!();
 
@@ -313,11 +281,7 @@ mod tests {
         };
 
         let score = perfect.calculate_tdg_score();
-        assert!(
-            score >= 95.0,
-            "Perfect score should be ≥95 (A+), got {}",
-            score
-        );
+        assert!(score >= 95.0, "Perfect score should be ≥95 (A+), got {}", score);
     }
 
     #[test]
@@ -341,16 +305,8 @@ mod tests {
         // - Complexity (15%): (1 - 10/15) * 100 * 0.15 = 5.0
         // - Quality (15%): 100.0 * 0.15 = 15.0
         // Total: 35.0 + 24.0 + 5.0 + 15.0 = 79.0
-        assert!(
-            score >= 75.0,
-            "Acceptable metrics should score ≥75, got {}",
-            score
-        );
-        assert!(
-            score < 85.0,
-            "These metrics shouldn't reach 85, got {}",
-            score
-        );
+        assert!(score >= 75.0, "Acceptable metrics should score ≥75, got {}", score);
+        assert!(score < 85.0, "These metrics shouldn't reach 85, got {}", score);
     }
 
     #[test]
@@ -366,10 +322,7 @@ mod tests {
             doc_coverage_pct: 95.0,
         };
 
-        let with_warnings = QualityMetrics {
-            clippy_warnings: 5,
-            ..no_warnings.clone()
-        };
+        let with_warnings = QualityMetrics { clippy_warnings: 5, ..no_warnings.clone() };
 
         let score_clean = no_warnings.calculate_tdg_score();
         let score_warnings = with_warnings.calculate_tdg_score();

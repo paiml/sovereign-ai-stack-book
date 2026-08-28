@@ -62,20 +62,13 @@ struct CachedMetric {
 
 impl MetricsCache {
     fn new() -> Self {
-        Self {
-            cache: HashMap::new(),
-        }
+        Self { cache: HashMap::new() }
     }
 
     /// O(1) lookup: check if cached metrics are valid
     fn get(&self, gate_name: &str, current_hash: &str) -> Option<&CachedMetric> {
-        self.cache.get(gate_name).and_then(|metric| {
-            if metric.source_hash == current_hash {
-                Some(metric)
-            } else {
-                None // Hash mismatch = code changed = must re-run
-            }
-        })
+        // Hash mismatch = code changed = must re-run
+        self.cache.get(gate_name).filter(|metric| metric.source_hash == current_hash)
     }
 
     /// Store validated metrics
@@ -106,28 +99,16 @@ fn run_quality_gate_expensive(gate: &QualityGate) -> Result<(u64, bool)> {
 }
 
 fn main() -> Result<()> {
-    println!(
-        "{}",
-        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".cyan()
-    );
-    println!(
-        "{}",
-        "🛡️  Chapter 5: pmat Quality Gates - O(1) Validation".bold()
-    );
-    println!(
-        "{}",
-        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".cyan()
-    );
+    println!("{}", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".cyan());
+    println!("{}", "🛡️  Chapter 5: pmat Quality Gates - O(1) Validation".bold());
+    println!("{}", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".cyan());
     println!();
 
     // Initialize metrics cache
     let mut cache = MetricsCache::new();
 
     // Simulate first run (cache MISS)
-    println!(
-        "{}",
-        "📊 Scenario 1: First run (cache MISS)".yellow().bold()
-    );
+    println!("{}", "📊 Scenario 1: First run (cache MISS)".yellow().bold());
     println!("   All gates must be validated from scratch");
     println!();
 
@@ -140,11 +121,7 @@ fn main() -> Result<()> {
         let (duration_ms, passed) = run_quality_gate_expensive(gate)?;
         let validation_time = start.elapsed();
 
-        println!(
-            "took {:>4}ms  [{}]",
-            duration_ms,
-            if passed { "✅ PASS" } else { "❌ FAIL" }
-        );
+        println!("took {:>4}ms  [{}]", duration_ms, if passed { "✅ PASS" } else { "❌ FAIL" });
 
         // Store in cache
         cache.set(
@@ -166,12 +143,7 @@ fn main() -> Result<()> {
     println!();
 
     // Simulate second run (cache HIT, code unchanged)
-    println!(
-        "{}",
-        "📊 Scenario 2: Second run (cache HIT, code unchanged)"
-            .yellow()
-            .bold()
-    );
+    println!("{}", "📊 Scenario 2: Second run (cache HIT, code unchanged)".yellow().bold());
     println!("   O(1) lookup via hash comparison");
     println!();
 
@@ -186,11 +158,7 @@ fn main() -> Result<()> {
             println!(
                 "cached {:>4}ms  [{}]  (lookup: {:?})",
                 cached.duration_ms,
-                if cached.passed {
-                    "✅ PASS"
-                } else {
-                    "❌ FAIL"
-                },
+                if cached.passed { "✅ PASS" } else { "❌ FAIL" },
                 lookup_time
             );
         } else {
@@ -227,23 +195,11 @@ fn main() -> Result<()> {
     println!();
 
     // Key takeaways
-    println!(
-        "{}",
-        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".cyan()
-    );
+    println!("{}", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".cyan());
     println!("{}", "🎯 Key takeaways:".magenta().bold());
-    println!(
-        "   1. {}: All gates validated (expensive)",
-        "FIRST RUN".yellow()
-    );
-    println!(
-        "   2. {}: O(1) hash lookup (microseconds)",
-        "NO CHANGES".green()
-    );
-    println!(
-        "   3. {}: Hash mismatch triggers re-run (safety)",
-        "CODE CHANGED".red()
-    );
+    println!("   1. {}: All gates validated (expensive)", "FIRST RUN".yellow());
+    println!("   2. {}: O(1) hash lookup (microseconds)", "NO CHANGES".green());
+    println!("   3. {}: Hash mismatch triggers re-run (safety)", "CODE CHANGED".red());
     println!();
 
     println!("🇪🇺 Toyota Way principles:");
@@ -253,15 +209,9 @@ fn main() -> Result<()> {
     println!();
 
     println!("📈 Performance:");
-    println!(
-        "   Full validation: {}s",
-        QUALITY_GATES[2].threshold_ms / 1000
-    );
+    println!("   Full validation: {}s", QUALITY_GATES[2].threshold_ms / 1000);
     println!("   Cached lookup:   <1ms (O(1) hash table)");
-    println!(
-        "   Speedup:         >{}x faster",
-        QUALITY_GATES[2].threshold_ms
-    );
+    println!("   Speedup:         >{}x faster", QUALITY_GATES[2].threshold_ms);
     println!();
 
     Ok(())
@@ -335,10 +285,6 @@ mod tests {
         let duration = start.elapsed();
 
         // O(1) lookup should be < 1ms
-        assert!(
-            duration.as_millis() < 1,
-            "Lookup took too long: {:?}",
-            duration
-        );
+        assert!(duration.as_millis() < 1, "Lookup took too long: {:?}", duration);
     }
 }
