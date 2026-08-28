@@ -1,0 +1,16 @@
+# Normalise line endings in the working tree on every platform.
+#
+# The CI matrix runs `cargo fmt --check` and `cargo clippy -D warnings` on
+# windows-latest, where git's default `core.autocrlf=true` rewrites LF to CRLF
+# on checkout. Without this file the bytes rustfmt sees on Windows are not the
+# bytes it sees on Linux, so a Windows-only formatting failure is possible and
+# is indistinguishable from a real diff. Pin the checkout to LF everywhere.
+* text=auto eol=lf
+
+# Binary types must never be line-ending converted.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary

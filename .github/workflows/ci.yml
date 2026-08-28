@@ -5,6 +5,9 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  # This lane had exactly one run on main in 155 days and no way to re-run it
+  # without pushing. Allow a deliberate re-verification.
+  workflow_dispatch:
 
 env:
   CARGO_TERM_COLOR: always
@@ -15,17 +18,39 @@ jobs:
     name: Test Examples (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     strategy:
+      # The 2026-03-26 failure was windows-only at "Check formatting", and
+      # fail-fast cancelled ubuntu and macos before either recorded a single
+      # step. That destroyed the evidence needed to tell a real fmt diff from a
+      # CRLF artefact, and the lane stayed red and undiagnosed for 155 days.
+      # Every leg still has to pass; they just all get to report.
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+
+      - name: Read pinned toolchain
+        id: rust
+        shell: bash
+        run: |
+          channel="$(sed -n 's/^ *channel *= *"\([^"]*\)".*/\1/p' rust-toolchain.toml)"
+          test -n "$channel" || { echo "::error::no channel in rust-toolchain.toml"; exit 1; }
+          echo "channel=$channel" >> "$GITHUB_OUTPUT"
 
       - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@master
         with:
+          toolchain: ${{ steps.rust.outputs.channel }}
           components: rustfmt, clippy
+
+      - name: Report effective toolchain
+        shell: bash
+        run: |
+          rustc --version
+          cargo fmt --version
+          cargo clippy --version
 
       - name: Cache Rust dependencies
         uses: Swatinem/rust-cache@v2
@@ -40,8 +65,10 @@ jobs:
       - name: Check formatting
         run: cargo fmt --all -- --check
 
+      # --workspace: without it cargo lints only the root package, so this
+      # step was blind to all 22 chapter crates it claims to cover.
       - name: Run clippy
-        run: cargo clippy --all-targets --all-features -- -D warnings
+        run: cargo clippy --workspace --all-targets --all-features -- -D warnings
 
       - name: Build all examples
         run: cargo build --workspace --all-targets
@@ -56,7 +83,7 @@ jobs:
 
           echo "Testing Chapter 3..."
           cargo run --package ch03-trueno --bin simd_speedup
-          cargo run --package ch03-trueno --bin gpu_comparison || true
+          cargo run --package ch03-trueno --bin gpu_comparison
 
           echo "Testing Chapter 5..."
           cargo run --package ch05-pmat --bin quality_gates
@@ -69,10 +96,21 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+
+      - name: Read pinned toolchain
+        id: rust
+        shell: bash
+        run: |
+          channel="$(sed -n 's/^ *channel *= *"\([^"]*\)".*/\1/p' rust-toolchain.toml)"
+          test -n "$channel" || { echo "::error::no channel in rust-toolchain.toml"; exit 1; }
+          echo "channel=$channel" >> "$GITHUB_OUTPUT"
 
       - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ steps.rust.outputs.channel }}
+          components: rustfmt, clippy
 
       - name: Cache Rust dependencies
         uses: Swatinem/rust-cache@v2
@@ -94,23 +132,45 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+
+      - name: Read pinned toolchain
+        id: rust
+        shell: bash
+        run: |
+          channel="$(sed -n 's/^ *channel *= *"\([^"]*\)".*/\1/p' rust-toolchain.toml)"
+          test -n "$channel" || { echo "::error::no channel in rust-toolchain.toml"; exit 1; }
+          echo "channel=$channel" >> "$GITHUB_OUTPUT"
 
       - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@master
         with:
+          toolchain: ${{ steps.rust.outputs.channel }}
           components: clippy
+
+      - name: Report effective toolchain
+        run: |
+          rustc --version
+          cargo clippy --version
 
       - name: Cache Rust dependencies
         uses: Swatinem/rust-cache@v2
 
+      # --workspace: this gate is named "zero warnings" but without it cargo
+      # lints the root package alone. It passed over two real findings in
+      # ch05-pmat and ch18-renacer for the life of the repository.
       - name: Verify zero warnings
-        run: cargo clippy --all-targets --all-features -- -D warnings
+        run: cargo clippy --workspace --all-targets --all-features -- -D warnings
 
       - name: Check for TODO/FIXME (optional warning)
         run: |
-          if grep -r "TODO\|FIXME" examples/ --exclude-dir=target || true; then
-            echo "⚠️  Found TODO/FIXME comments (non-blocking)"
+          # `if grep ... || true` made this branch unconditional: it printed the
+          # warning whether or not a TODO existed, i.e. it reported a result it
+          # had not measured. `if` already swallows grep's exit status.
+          if grep -rn "TODO\|FIXME" examples/ --exclude-dir=target; then
+            echo "::warning::Found TODO/FIXME comments (non-blocking)"
+          else
+            echo "No TODO/FIXME comments found."
           fi
 
   scientific-reproducibility:
@@ -119,10 +179,20 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+
+      - name: Read pinned toolchain
+        id: rust
+        shell: bash
+        run: |
+          channel="$(sed -n 's/^ *channel *= *"\([^"]*\)".*/\1/p' rust-toolchain.toml)"
+          test -n "$channel" || { echo "::error::no channel in rust-toolchain.toml"; exit 1; }
+          echo "channel=$channel" >> "$GITHUB_OUTPUT"
 
       - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ steps.rust.outputs.channel }}
 
       - name: Cache Rust dependencies
         uses: Swatinem/rust-cache@v2
@@ -132,20 +202,20 @@ jobs:
         with:
           tool: cargo-nextest
 
-      - name: Verify "git clone → make test" workflow
+      - name: Verify "git clone -> make test" workflow
         run: |
-          echo "🧪 Testing scientific reproducibility..."
-          echo "This simulates: git clone → make test"
+          echo "Testing scientific reproducibility..."
+          echo "This simulates: git clone -> make test"
 
           make test
 
-          echo "✅ All tests passed - claims are reproducible!"
+          echo "All tests passed - claims are reproducible!"
 
   security:
     name: Security Audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: rustsec/audit-check@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -154,9 +224,23 @@ jobs:
     name: Documentation
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/checkout@v5
+
+      - name: Read pinned toolchain
+        id: rust
+        shell: bash
+        run: |
+          channel="$(sed -n 's/^ *channel *= *"\([^"]*\)".*/\1/p' rust-toolchain.toml)"
+          test -n "$channel" || { echo "::error::no channel in rust-toolchain.toml"; exit 1; }
+          echo "channel=$channel" >> "$GITHUB_OUTPUT"
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ steps.rust.outputs.channel }}
+
       - uses: Swatinem/rust-cache@v2
+
       - name: Build documentation
         run: cargo doc --no-deps --workspace
         env:

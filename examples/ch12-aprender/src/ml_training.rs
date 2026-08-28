@@ -18,21 +18,12 @@ struct LinearRegression {
 
 impl LinearRegression {
     fn new(features: usize, learning_rate: f64) -> Self {
-        Self {
-            weights: vec![0.0; features],
-            bias: 0.0,
-            learning_rate,
-        }
+        Self { weights: vec![0.0; features], bias: 0.0, learning_rate }
     }
 
     /// Forward pass: y = Wx + b
     fn predict(&self, x: &[f64]) -> f64 {
-        let sum: f64 = self
-            .weights
-            .iter()
-            .zip(x.iter())
-            .map(|(w, xi)| w * xi)
-            .sum();
+        let sum: f64 = self.weights.iter().zip(x.iter()).map(|(w, xi)| w * xi).sum();
         sum + self.bias
     }
 
@@ -96,10 +87,7 @@ fn basic_training_demo() {
     let mut model = LinearRegression::new(1, 0.1);
 
     println!("   Dataset: y = 2x + 1");
-    println!(
-        "   Initial weights: {:?}, bias: {:.4}",
-        model.weights, model.bias
-    );
+    println!("   Initial weights: {:?}, bias: {:.4}", model.weights, model.bias);
     println!();
 
     let losses = model.fit(&x, &y, 100);
@@ -107,10 +95,7 @@ fn basic_training_demo() {
     println!("   After 100 epochs:");
     println!("   Weights: {:.4}", model.weights[0]);
     println!("   Bias: {:.4}", model.bias);
-    println!(
-        "   Final MSE: {:.6}",
-        losses.last().expect("at least one loss recorded")
-    );
+    println!("   Final MSE: {:.6}", losses.last().expect("at least one loss recorded"));
     println!();
 
     // Predictions

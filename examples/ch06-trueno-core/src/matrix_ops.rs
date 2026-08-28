@@ -59,9 +59,8 @@ fn matrix_transpose() {
 
     // Manual transpose for demonstration
     let slice = m.as_slice();
-    let transposed: Vec<f32> = (0..3)
-        .flat_map(|col| (0..2).map(move |row| slice[row * 3 + col]))
-        .collect();
+    let transposed: Vec<f32> =
+        (0..3).flat_map(|col| (0..2).map(move |row| slice[row * 3 + col])).collect();
 
     println!("   Transposed (3x2):");
     for row in 0..3 {
@@ -128,10 +127,7 @@ fn matrix_multiplication() {
     println!();
 
     // Verify: C[0,0] = 1*7 + 2*9 + 3*11 = 7 + 18 + 33 = 58
-    println!(
-        "   Verification: C[0,0] = 1×7 + 2×9 + 3×11 = {}",
-        7 + 18 + 33
-    );
+    println!("   Verification: C[0,0] = 1×7 + 2×9 + 3×11 = {}", 7 + 18 + 33);
     println!();
 }
 
@@ -224,15 +220,9 @@ fn ml_operations() {
     // Softmax (simplified for 2 outputs)
     let max_val = output.iter().cloned().fold(f32::NEG_INFINITY, f32::max);
     let exp_sum: f32 = output.iter().map(|x| (x - max_val).exp()).sum();
-    let softmax: Vec<f32> = output
-        .iter()
-        .map(|x| (x - max_val).exp() / exp_sum)
-        .collect();
+    let softmax: Vec<f32> = output.iter().map(|x| (x - max_val).exp() / exp_sum).collect();
     println!("   Softmax(y): {:?}", softmax);
-    println!(
-        "   Sum = {:.4} (should be 1.0)",
-        softmax.iter().sum::<f32>()
-    );
+    println!("   Sum = {:.4} (should be 1.0)", softmax.iter().sum::<f32>());
     println!();
 }
 
@@ -358,10 +348,7 @@ mod tests {
         let logits = [1.0, 2.0, 3.0];
         let max_val = logits.iter().cloned().fold(f32::NEG_INFINITY, f32::max);
         let exp_sum: f32 = logits.iter().map(|x| (x - max_val).exp()).sum();
-        let softmax: Vec<f32> = logits
-            .iter()
-            .map(|x| (x - max_val).exp() / exp_sum)
-            .collect();
+        let softmax: Vec<f32> = logits.iter().map(|x| (x - max_val).exp() / exp_sum).collect();
 
         let sum: f32 = softmax.iter().sum();
         assert!((sum - 1.0).abs() < 1e-6, "Softmax should sum to 1.0");

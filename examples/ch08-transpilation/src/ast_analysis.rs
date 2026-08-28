@@ -23,11 +23,7 @@ enum Expr {
     /// Variable reference: x
     Var(String),
     /// Binary operation: x + y
-    BinOp {
-        op: BinOperator,
-        left: Box<Expr>,
-        right: Box<Expr>,
-    },
+    BinOp { op: BinOperator, left: Box<Expr>, right: Box<Expr> },
     /// Function call: foo(x, y)
     Call { name: String, args: Vec<Expr> },
 }
@@ -295,10 +291,7 @@ fn semantic_preservation_demo() {
 
     println!("   Testing: x + y * 2");
     println!();
-    println!(
-        "   {:>5} {:>5} │ {:>8} │ {:>8}",
-        "x", "y", "Expected", "Actual"
-    );
+    println!("   {:>5} {:>5} │ {:>8} │ {:>8}", "x", "y", "Expected", "Actual");
     println!("   ────────────┼──────────┼──────────");
 
     for (x, y, expected) in test_cases {
@@ -308,10 +301,7 @@ fn semantic_preservation_demo() {
         let actual = evaluate(&expr, &vars).expect("evaluation should succeed");
         let status = if actual == expected { "✅" } else { "❌" };
 
-        println!(
-            "   {:>5} {:>5} │ {:>8} │ {:>8} {}",
-            x, y, expected, actual, status
-        );
+        println!("   {:>5} {:>5} │ {:>8} │ {:>8} {}", x, y, expected, actual, status);
     }
     println!();
 }
@@ -358,10 +348,7 @@ mod tests {
     fn test_ast_construction() {
         let expr = build_example_ast();
         match expr {
-            Expr::BinOp {
-                op: BinOperator::Add,
-                ..
-            } => (),
+            Expr::BinOp { op: BinOperator::Add, .. } => (),
             _ => panic!("Expected BinOp(Add) at root"),
         }
     }

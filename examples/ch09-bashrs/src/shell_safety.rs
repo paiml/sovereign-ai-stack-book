@@ -19,16 +19,10 @@ struct SafeCommand {
 impl SafeCommand {
     /// Create a new command (program name cannot contain spaces or special chars)
     fn new(program: &str) -> Result<Self> {
-        if program
-            .chars()
-            .any(|c| c.is_whitespace() || c == ';' || c == '|' || c == '&')
-        {
+        if program.chars().any(|c| c.is_whitespace() || c == ';' || c == '|' || c == '&') {
             anyhow::bail!("Invalid program name: {}", program);
         }
-        Ok(Self {
-            program: program.to_string(),
-            args: Vec::new(),
-        })
+        Ok(Self { program: program.to_string(), args: Vec::new() })
     }
 
     /// Add an argument (automatically escaped)
@@ -69,10 +63,7 @@ impl SafePath {
             }
         }
 
-        Ok(Self {
-            base: base.to_path_buf(),
-            relative: relative_path,
-        })
+        Ok(Self { base: base.to_path_buf(), relative: relative_path })
     }
 
     /// Get the full, safe path
@@ -285,9 +276,7 @@ mod tests {
 
     #[test]
     fn test_escaping() {
-        let cmd = SafeCommand::new("echo")
-            .expect("echo is a safe command")
-            .arg("hello; rm -rf /");
+        let cmd = SafeCommand::new("echo").expect("echo is a safe command").arg("hello; rm -rf /");
         let safe = cmd.to_safe_string();
         // The semicolon should be inside quotes, not executed
         assert!(safe.contains("\"hello; rm -rf /\""));

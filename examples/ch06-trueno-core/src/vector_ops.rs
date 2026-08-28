@@ -44,18 +44,10 @@ fn dot_product_demo() {
     let v2 = Vector::from_slice(&[5.0, 4.0, 3.0, 2.0, 1.0]);
 
     // Manual dot product for verification
-    let dot: f32 = v1
-        .as_slice()
-        .iter()
-        .zip(v2.as_slice().iter())
-        .map(|(a, b)| a * b)
-        .sum();
+    let dot: f32 = v1.as_slice().iter().zip(v2.as_slice().iter()).map(|(a, b)| a * b).sum();
 
     println!("   v1 · v2 = {:.2}", dot);
-    println!(
-        "   Formula: 1×5 + 2×4 + 3×3 + 4×2 + 5×1 = {}",
-        5 + 8 + 9 + 8 + 5
-    );
+    println!("   Formula: 1×5 + 2×4 + 3×3 + 4×2 + 5×1 = {}", 5 + 8 + 9 + 8 + 5);
     println!();
 }
 
@@ -95,20 +87,12 @@ fn elementwise_operations() {
     let v2 = Vector::from_slice(&[10.0, 20.0, 30.0, 40.0]);
 
     // Element-wise addition (manual since trueno may not have operator overloads)
-    let add: Vec<f32> = v1
-        .as_slice()
-        .iter()
-        .zip(v2.as_slice().iter())
-        .map(|(a, b)| a + b)
-        .collect();
+    let add: Vec<f32> =
+        v1.as_slice().iter().zip(v2.as_slice().iter()).map(|(a, b)| a + b).collect();
 
     // Element-wise multiplication
-    let mul: Vec<f32> = v1
-        .as_slice()
-        .iter()
-        .zip(v2.as_slice().iter())
-        .map(|(a, b)| a * b)
-        .collect();
+    let mul: Vec<f32> =
+        v1.as_slice().iter().zip(v2.as_slice().iter()).map(|(a, b)| a * b).collect();
 
     println!("   v1 = {:?}", v1.as_slice());
     println!("   v2 = {:?}", v2.as_slice());
@@ -130,22 +114,13 @@ fn statistical_operations() {
     let mean = sum / n;
 
     // Variance: Σ(x - mean)² / n
-    let variance: f32 = v
-        .as_slice()
-        .iter()
-        .map(|&x| (x - mean).powi(2))
-        .sum::<f32>()
-        / n;
+    let variance: f32 = v.as_slice().iter().map(|&x| (x - mean).powi(2)).sum::<f32>() / n;
 
     let std_dev = variance.sqrt();
 
     // Min/Max
     let min = v.as_slice().iter().cloned().fold(f32::INFINITY, f32::min);
-    let max = v
-        .as_slice()
-        .iter()
-        .cloned()
-        .fold(f32::NEG_INFINITY, f32::max);
+    let max = v.as_slice().iter().cloned().fold(f32::NEG_INFINITY, f32::max);
 
     println!("   data = {:?}", data);
     println!("   n = {}", n as usize);
@@ -227,12 +202,7 @@ mod tests {
     fn test_dot_product() {
         let v1 = Vector::from_slice(&[1.0, 2.0, 3.0]);
         let v2 = Vector::from_slice(&[4.0, 5.0, 6.0]);
-        let dot: f32 = v1
-            .as_slice()
-            .iter()
-            .zip(v2.as_slice().iter())
-            .map(|(a, b)| a * b)
-            .sum();
+        let dot: f32 = v1.as_slice().iter().zip(v2.as_slice().iter()).map(|(a, b)| a * b).sum();
         // 1*4 + 2*5 + 3*6 = 4 + 10 + 18 = 32
         assert!((dot - 32.0).abs() < 1e-6);
     }

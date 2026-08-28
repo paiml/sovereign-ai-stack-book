@@ -110,9 +110,7 @@ fn main() -> Result<()> {
 
     // Verify ALL predictions are IDENTICAL
     let first_pred = all_predictions[0];
-    let all_identical = all_predictions
-        .iter()
-        .all(|&p| (p - first_pred).abs() < 1e-10);
+    let all_identical = all_predictions.iter().all(|&p| (p - first_pred).abs() < 1e-10);
 
     println!();
     if all_identical {
@@ -120,10 +118,7 @@ fn main() -> Result<()> {
         println!("   Variance: 0.0 (perfect determinism)");
     } else {
         println!("❌ NON-DETERMINISTIC: Results varied across runs!");
-        let variance: f64 = all_predictions
-            .iter()
-            .map(|&p| (p - first_pred).powi(2))
-            .sum::<f64>()
+        let variance: f64 = all_predictions.iter().map(|&p| (p - first_pred).powi(2)).sum::<f64>()
             / all_predictions.len() as f64;
         println!("   Variance: {:.10}", variance);
     }
@@ -131,10 +126,7 @@ fn main() -> Result<()> {
 
     // EU AI Act compliance
     println!("🇪🇺 EU AI Act Article 13 Compliance:");
-    println!(
-        "   ✓ Transparency: Model is y = {:.6}x + {:.6}",
-        model.slope, model.intercept
-    );
+    println!("   ✓ Transparency: Model is y = {:.6}x + {:.6}", model.slope, model.intercept);
     println!("   ✓ Reproducibility: Same input → same output (always)");
     println!("   ✓ Explainability: Linear relationship is human-interpretable");
     println!("   ✓ Auditability: Model parameters are fixed and documented");
@@ -180,12 +172,7 @@ mod tests {
         // All predictions must be IDENTICAL
         let first = predictions[0];
         for pred in &predictions {
-            assert!(
-                (pred - first).abs() < 1e-10,
-                "Determinism violated: {} != {}",
-                pred,
-                first
-            );
+            assert!((pred - first).abs() < 1e-10, "Determinism violated: {} != {}", pred, first);
         }
 
         Ok(())
