@@ -1,0 +1,12 @@
+# Single source of truth for the toolchain this repository is linted and
+# formatted with — for local `make lint` / `make format` and for CI alike.
+#
+# Why pinned: `cargo fmt --check` and `cargo clippy -D warnings` are hard gates,
+# and both tools change their output between stable releases. With CI on a
+# floating `dtolnay/rust-toolchain@stable`, any upstream release could turn the
+# gate red without a commit to this repo, and a contributor's local rustfmt
+# would disagree with CI's. Bump this deliberately, in a PR, with the resulting
+# `cargo fmt --all` churn in the same commit.
+[toolchain]
+channel = "1.97.1"
+components = ["rustfmt", "clippy"]

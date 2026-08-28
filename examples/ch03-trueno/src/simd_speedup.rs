@@ -37,18 +37,9 @@ fn simd_dot_product(a: &Vector<f32>, b: &Vector<f32>) -> f32 {
 }
 
 fn main() -> Result<()> {
-    println!(
-        "{}",
-        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".cyan()
-    );
-    println!(
-        "{}",
-        "  🚀 Chapter 3: trueno SIMD Speedup Demonstration".bold()
-    );
-    println!(
-        "{}",
-        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".cyan()
-    );
+    println!("{}", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".cyan());
+    println!("{}", "  🚀 Chapter 3: trueno SIMD Speedup Demonstration".bold());
+    println!("{}", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".cyan());
     println!();
 
     // Test data: 10,000 elements (realistic size for SIMD benefits)
@@ -77,10 +68,7 @@ fn main() -> Result<()> {
     let naive_per_op = naive_duration.as_nanos() / iterations;
 
     println!("{}", "⏱️  Naive scalar implementation:".yellow().bold());
-    println!(
-        "   Total time: {}",
-        format!("{:.2?}", naive_duration).white()
-    );
+    println!("   Total time: {}", format!("{:.2?}", naive_duration).white());
     println!("   Per operation: {} ns", naive_per_op.to_string().white());
     println!();
 
@@ -100,16 +88,8 @@ fn main() -> Result<()> {
     let simd_duration = start.elapsed();
     let simd_per_op = simd_duration.as_nanos() / iterations;
 
-    println!(
-        "{}",
-        "⚡ SIMD-accelerated implementation (trueno):"
-            .green()
-            .bold()
-    );
-    println!(
-        "   Total time: {}",
-        format!("{:.2?}", simd_duration).green()
-    );
+    println!("{}", "⚡ SIMD-accelerated implementation (trueno):".green().bold());
+    println!("   Total time: {}", format!("{:.2?}", simd_duration).green());
     println!("   Per operation: {} ns", simd_per_op.to_string().green());
     println!();
 
@@ -117,14 +97,8 @@ fn main() -> Result<()> {
     let speedup = naive_per_op as f64 / simd_per_op as f64;
 
     println!("{}", "📈 Performance comparison:".cyan().bold());
-    println!(
-        "   Speedup: {}",
-        format!("{:.1}x faster", speedup).green().bold()
-    );
-    println!(
-        "   Time saved: {}",
-        format!("{:.1}%", (1.0 - 1.0 / speedup) * 100.0).green()
-    );
+    println!("   Speedup: {}", format!("{:.1}x faster", speedup).green().bold());
+    println!("   Time saved: {}", format!("{:.1}%", (1.0 - 1.0 / speedup) * 100.0).green());
     println!();
 
     // Verify correctness
@@ -133,35 +107,20 @@ fn main() -> Result<()> {
     let diff = (naive_result - simd_result).abs();
 
     println!("{}", "✅ Correctness verification:".green().bold());
-    println!(
-        "   Naive result: {}",
-        format!("{:.2}", naive_result).white()
-    );
+    println!("   Naive result: {}", format!("{:.2}", naive_result).white());
     println!("   SIMD result:  {}", format!("{:.2}", simd_result).white());
-    println!(
-        "   Difference:   {} (numerical precision)",
-        format!("{:.2e}", diff).white()
-    );
-    assert!(
-        diff < 0.01,
-        "Results must match within floating-point precision"
-    );
+    println!("   Difference:   {} (numerical precision)", format!("{:.2e}", diff).white());
+    assert!(diff < 0.01, "Results must match within floating-point precision");
     println!();
 
-    println!(
-        "{}",
-        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".cyan()
-    );
+    println!("{}", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".cyan());
     println!("{}", "🎯 Key takeaway:".magenta().bold());
     println!(
         "   SIMD acceleration provides {} speedup for tensor operations",
         format!("{:.1}x", speedup).green().bold()
     );
     println!("   This is WHY trueno is the foundation of the Sovereign AI Stack");
-    println!(
-        "{}",
-        "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".cyan()
-    );
+    println!("{}", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━".cyan());
     println!();
 
     Ok(())
@@ -181,10 +140,7 @@ mod tests {
         let vec_b = Vector::from_slice(&data_b);
         let simd = simd_dot_product(&vec_a, &vec_b);
 
-        assert!(
-            (naive - simd).abs() < 0.001,
-            "SIMD must match naive implementation"
-        );
+        assert!((naive - simd).abs() < 0.001, "SIMD must match naive implementation");
         Ok(())
     }
 

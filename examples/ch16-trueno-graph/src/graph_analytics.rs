@@ -19,10 +19,7 @@ struct Node {
 
 impl Node {
     fn new(id: usize, label: &str) -> Self {
-        Self {
-            id,
-            label: label.to_string(),
-        }
+        Self { id, label: label.to_string() }
     }
 }
 
@@ -35,10 +32,7 @@ struct Graph {
 
 impl Graph {
     fn new() -> Self {
-        Self {
-            nodes: HashMap::new(),
-            edges: HashMap::new(),
-        }
+        Self { nodes: HashMap::new(), edges: HashMap::new() }
     }
 
     fn add_node(&mut self, node: Node) {
@@ -113,11 +107,8 @@ impl Graph {
         let mut ranks: HashMap<usize, f64> = self.nodes.keys().map(|&id| (id, 1.0 / n)).collect();
 
         for _ in 0..iterations {
-            let mut new_ranks: HashMap<usize, f64> = self
-                .nodes
-                .keys()
-                .map(|&id| (id, (1.0 - damping) / n))
-                .collect();
+            let mut new_ranks: HashMap<usize, f64> =
+                self.nodes.keys().map(|&id| (id, (1.0 - damping) / n)).collect();
 
             for (&node, &rank) in &ranks {
                 let neighbors = self.neighbors(node);
@@ -126,9 +117,7 @@ impl Graph {
                 }
                 let share = damping * rank / neighbors.len() as f64;
                 for &neighbor in neighbors {
-                    *new_ranks
-                        .get_mut(&neighbor)
-                        .expect("neighbor exists in ranks") += share;
+                    *new_ranks.get_mut(&neighbor).expect("neighbor exists in ranks") += share;
                 }
             }
 
@@ -258,9 +247,7 @@ fn determinism_demo() {
     let first_bfs = &bfs_results[0];
     let first_pr = pagerank_results[0];
     let bfs_identical = bfs_results.iter().all(|r| r == first_bfs);
-    let pr_identical = pagerank_results
-        .iter()
-        .all(|&r| (r - first_pr).abs() < 1e-10);
+    let pr_identical = pagerank_results.iter().all(|&r| (r - first_pr).abs() < 1e-10);
 
     println!();
     if bfs_identical && pr_identical {
@@ -425,10 +412,7 @@ mod tests {
         }
 
         let first = &results[0];
-        assert!(
-            results.iter().all(|r| r == first),
-            "BFS must be deterministic"
-        );
+        assert!(results.iter().all(|r| r == first), "BFS must be deterministic");
     }
 
     #[test]

@@ -40,28 +40,16 @@ fn transpile_to_rust(cmd: &BashCommand) -> String {
             format!("println!(\"{}\");", escape_string(text))
         }
         BashCommand::Cd(path) => {
-            format!(
-                "std::env::set_current_dir(PathBuf::from({:?}))?;",
-                path.display()
-            )
+            format!("std::env::set_current_dir(PathBuf::from({:?}))?;", path.display())
         }
         BashCommand::Ls { path, flags } => {
-            let flags_str = if flags.is_empty() {
-                String::new()
-            } else {
-                format!(", flags: {:?}", flags)
-            };
-            format!(
-                "list_directory(PathBuf::from({:?}){});",
-                path.display(),
-                flags_str
-            )
+            let flags_str =
+                if flags.is_empty() { String::new() } else { format!(", flags: {:?}", flags) };
+            format!("list_directory(PathBuf::from({:?}){});", path.display(), flags_str)
         }
         BashCommand::Cat(files) => {
-            let paths: Vec<String> = files
-                .iter()
-                .map(|p| format!("PathBuf::from({:?})", p.display()))
-                .collect();
+            let paths: Vec<String> =
+                files.iter().map(|p| format!("PathBuf::from({:?})", p.display())).collect();
             format!("concatenate_files(&[{}]);", paths.join(", "))
         }
         BashCommand::Assign { name, value } => {
@@ -71,11 +59,7 @@ fn transpile_to_rust(cmd: &BashCommand) -> String {
             format!("&{}", name)
         }
         BashCommand::Pipe(left, right) => {
-            format!(
-                "pipe({}, {});",
-                transpile_to_rust(left),
-                transpile_to_rust(right)
-            )
+            format!("pipe({}, {});", transpile_to_rust(left), transpile_to_rust(right))
         }
     }
 }
@@ -95,27 +79,15 @@ fn transpilation_demo() {
     println!();
 
     let examples = vec![
-        (
-            "echo \"Hello, World!\"",
-            BashCommand::Echo("Hello, World!".to_string()),
-        ),
-        (
-            "cd /home/user",
-            BashCommand::Cd(PathBuf::from("/home/user")),
-        ),
+        ("echo \"Hello, World!\"", BashCommand::Echo("Hello, World!".to_string())),
+        ("cd /home/user", BashCommand::Cd(PathBuf::from("/home/user"))),
         (
             "ls -la /tmp",
-            BashCommand::Ls {
-                path: PathBuf::from("/tmp"),
-                flags: vec!["-la".to_string()],
-            },
+            BashCommand::Ls { path: PathBuf::from("/tmp"), flags: vec!["-la".to_string()] },
         ),
         (
             "NAME=\"Alice\"",
-            BashCommand::Assign {
-                name: "name".to_string(),
-                value: "Alice".to_string(),
-            },
+            BashCommand::Assign { name: "name".to_string(), value: "Alice".to_string() },
         ),
     ];
 
@@ -283,10 +255,7 @@ mod tests {
 
     #[test]
     fn test_assign_transpilation() {
-        let cmd = BashCommand::Assign {
-            name: "x".to_string(),
-            value: "42".to_string(),
-        };
+        let cmd = BashCommand::Assign { name: "x".to_string(), value: "42".to_string() };
         let rust = transpile_to_rust(&cmd);
         assert!(rust.contains("let x"));
         assert!(rust.contains("42"));

@@ -20,12 +20,7 @@ struct TrainingConfig {
 
 impl Default for TrainingConfig {
     fn default() -> Self {
-        Self {
-            num_workers: 4,
-            batch_size: 32,
-            learning_rate: 0.01,
-            epochs: 10,
-        }
+        Self { num_workers: 4, batch_size: 32, learning_rate: 0.01, epochs: 10 }
     }
 }
 
@@ -40,11 +35,7 @@ struct Worker {
 
 impl Worker {
     fn new(id: usize, features: usize) -> Self {
-        Self {
-            id,
-            weights: vec![0.0; features],
-            bias: 0.0,
-        }
+        Self { id, weights: vec![0.0; features], bias: 0.0 }
     }
 
     /// Compute local gradients on a data shard
@@ -73,12 +64,7 @@ impl Worker {
     }
 
     fn predict(&self, x: &[f64]) -> f64 {
-        let sum: f64 = self
-            .weights
-            .iter()
-            .zip(x.iter())
-            .map(|(w, xi)| w * xi)
-            .sum();
+        let sum: f64 = self.weights.iter().zip(x.iter()).map(|(w, xi)| w * xi).sum();
         sum + self.bias
     }
 
@@ -102,11 +88,7 @@ struct ParameterServer {
 
 impl ParameterServer {
     fn new(features: usize, num_workers: usize) -> Self {
-        Self {
-            weights: vec![0.0; features],
-            bias: 0.0,
-            num_workers,
-        }
+        Self { weights: vec![0.0; features], bias: 0.0, num_workers }
     }
 
     /// Aggregate gradients from all workers
@@ -151,16 +133,11 @@ struct DistributedTrainer {
 
 impl DistributedTrainer {
     fn new(features: usize, config: TrainingConfig) -> Self {
-        let workers: Vec<Worker> = (0..config.num_workers)
-            .map(|id| Worker::new(id, features))
-            .collect();
+        let workers: Vec<Worker> =
+            (0..config.num_workers).map(|id| Worker::new(id, features)).collect();
         let server = ParameterServer::new(features, config.num_workers);
 
-        Self {
-            workers,
-            server,
-            config,
-        }
+        Self { workers, server, config }
     }
 
     /// Shard data across workers
@@ -170,11 +147,7 @@ impl DistributedTrainer {
 
         for i in 0..self.config.num_workers {
             let start = i * shard_size;
-            let end = if i == self.config.num_workers - 1 {
-                x.len()
-            } else {
-                start + shard_size
-            };
+            let end = if i == self.config.num_workers - 1 { x.len() } else { start + shard_size };
             shards.push((&x[start..end], &y[start..end]));
         }
 
@@ -203,8 +176,7 @@ impl DistributedTrainer {
 
         // Aggregate and apply updates
         let (avg_wg, avg_bg) = self.server.aggregate_gradients(&gradients);
-        self.server
-            .apply_update(&avg_wg, avg_bg, self.config.learning_rate);
+        self.server.apply_update(&avg_wg, avg_bg, self.config.learning_rate);
 
         // Compute loss
         self.compute_loss(x, y)
@@ -216,14 +188,9 @@ impl DistributedTrainer {
             .iter()
             .zip(y.iter())
             .map(|(xi, yi)| {
-                let pred: f64 = self
-                    .server
-                    .weights
-                    .iter()
-                    .zip(xi.iter())
-                    .map(|(w, x)| w * x)
-                    .sum::<f64>()
-                    + self.server.bias;
+                let pred: f64 =
+                    self.server.weights.iter().zip(xi.iter()).map(|(w, x)| w * x).sum::<f64>()
+                        + self.server.bias;
                 (pred - yi).powi(2)
             })
             .sum();
@@ -253,12 +220,7 @@ fn basic_distributed_demo() {
     let x: Vec<Vec<f64>> = (0..100).map(|i| vec![i as f64 / 10.0]).collect();
     let y: Vec<f64> = x.iter().map(|xi| 2.0 * xi[0] + 1.0).collect();
 
-    let config = TrainingConfig {
-        num_workers: 4,
-        batch_size: 25,
-        learning_rate: 0.01,
-        epochs: 50,
-    };
+    let config = TrainingConfig { num_workers: 4, batch_size: 25, learning_rate: 0.01, epochs: 50 };
 
     println!("   Configuration:");
     println!("   - Workers: {}", config.num_workers);
@@ -273,10 +235,7 @@ fn basic_distributed_demo() {
 
     println!("   Training progress:");
     println!("   - Initial MSE: {:.6}", losses[0]);
-    println!(
-        "   - Final MSE: {:.6}",
-        losses.last().expect("at least one loss")
-    );
+    println!("   - Final MSE: {:.6}", losses.last().expect("at least one loss"));
     println!();
 
     println!("   Learned model:");
@@ -303,18 +262,12 @@ fn aggregation_demo() {
 
     println!("   Worker gradients:");
     for (i, (wg, bg)) in gradients.iter().enumerate() {
-        println!(
-            "   Worker {}: weight_grad=[{:.3}, {:.3}], bias_grad={:.3}",
-            i, wg[0], wg[1], bg
-        );
+        println!("   Worker {}: weight_grad=[{:.3}, {:.3}], bias_grad={:.3}", i, wg[0], wg[1], bg);
     }
     println!();
 
     println!("   Aggregated gradients:");
-    println!(
-        "   - Weight gradients: [{:.4}, {:.4}]",
-        avg_wg[0], avg_wg[1]
-    );
+    println!("   - Weight gradients: [{:.4}, {:.4}]", avg_wg[0], avg_wg[1]);
     println!("   - Bias gradient: {:.4}", avg_bg);
     println!();
 }
@@ -327,12 +280,8 @@ fn determinism_demo() {
     let x: Vec<Vec<f64>> = (0..40).map(|i| vec![i as f64]).collect();
     let y: Vec<f64> = x.iter().map(|xi| 2.0 * xi[0] + 1.0).collect();
 
-    let config = TrainingConfig {
-        num_workers: 4,
-        batch_size: 10,
-        learning_rate: 0.0001,
-        epochs: 10,
-    };
+    let config =
+        TrainingConfig { num_workers: 4, batch_size: 10, learning_rate: 0.0001, epochs: 10 };
 
     let mut results = Vec::new();
 
@@ -364,10 +313,7 @@ fn scaling_demo() {
     let x: Vec<Vec<f64>> = (0..100).map(|i| vec![i as f64 / 10.0]).collect();
     let y: Vec<f64> = x.iter().map(|xi| 2.0 * xi[0] + 1.0).collect();
 
-    println!(
-        "   {:>8} │ {:>12} │ {:>12}",
-        "Workers", "Final MSE", "Convergence"
-    );
+    println!("   {:>8} │ {:>12} │ {:>12}", "Workers", "Final MSE", "Convergence");
     println!("   ─────────┼──────────────┼─────────────");
 
     for num_workers in [1, 2, 4, 8] {
@@ -514,12 +460,8 @@ mod tests {
         let x: Vec<Vec<f64>> = (0..20).map(|i| vec![i as f64]).collect();
         let y: Vec<f64> = x.iter().map(|xi| 2.0 * xi[0]).collect();
 
-        let config = TrainingConfig {
-            num_workers: 2,
-            batch_size: 10,
-            learning_rate: 0.001,
-            epochs: 100,
-        };
+        let config =
+            TrainingConfig { num_workers: 2, batch_size: 10, learning_rate: 0.001, epochs: 100 };
 
         let mut trainer = DistributedTrainer::new(1, config);
         let losses = trainer.train(&x, &y);
@@ -535,12 +477,8 @@ mod tests {
         let x: Vec<Vec<f64>> = (0..20).map(|i| vec![i as f64]).collect();
         let y: Vec<f64> = x.iter().map(|xi| 2.0 * xi[0]).collect();
 
-        let config = TrainingConfig {
-            num_workers: 4,
-            batch_size: 5,
-            learning_rate: 0.001,
-            epochs: 10,
-        };
+        let config =
+            TrainingConfig { num_workers: 4, batch_size: 5, learning_rate: 0.001, epochs: 10 };
 
         let mut results = Vec::new();
         for _ in 0..5 {

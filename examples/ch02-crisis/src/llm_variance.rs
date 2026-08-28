@@ -29,10 +29,7 @@ struct SimulatedLLM {
 
 impl SimulatedLLM {
     fn new(temperature: f64) -> Self {
-        Self {
-            temperature,
-            seed_counter: 0,
-        }
+        Self { temperature, seed_counter: 0 }
     }
 
     /// Simulate LLM generation (non-deterministic when temp > 0)
@@ -43,11 +40,8 @@ impl SimulatedLLM {
 
         // Simple PRNG (Linear Congruential Generator)
         // In real LLMs, this is much more complex (top-k, top-p, etc.)
-        self.seed_counter = (self
-            .seed_counter
-            .wrapping_mul(1103515245)
-            .wrapping_add(12345))
-            % (1 << 31);
+        self.seed_counter =
+            (self.seed_counter.wrapping_mul(1103515245).wrapping_add(12345)) % (1 << 31);
         let rand_val = (self.seed_counter as f64 / (1u64 << 31) as f64) * self.temperature;
 
         // Simulate 5 possible responses (in reality, vocabulary is 50K+ tokens)
@@ -94,11 +88,7 @@ fn main() -> Result<()> {
         acc
     });
 
-    println!(
-        "   Unique responses: {}/{}",
-        unique_cold.len(),
-        responses_cold.len()
-    );
+    println!("   Unique responses: {}/{}", unique_cold.len(), responses_cold.len());
     println!(
         "   Variance: {:.1}%",
         (unique_cold.len() as f64 / responses_cold.len() as f64) * 100.0
@@ -124,11 +114,7 @@ fn main() -> Result<()> {
         acc
     });
 
-    println!(
-        "   Unique responses: {}/{}",
-        unique_warm.len(),
-        responses_warm.len()
-    );
+    println!("   Unique responses: {}/{}", unique_warm.len(), responses_warm.len());
     println!(
         "   Variance: {:.1}%",
         (unique_warm.len() as f64 / responses_warm.len() as f64) * 100.0
@@ -232,10 +218,7 @@ mod tests {
         let unique: std::collections::HashSet<_> = responses.iter().collect();
 
         // With temperature 0.7, we should see variance (multiple unique responses)
-        assert!(
-            unique.len() > 1,
-            "LLM should produce multiple different responses"
-        );
+        assert!(unique.len() > 1, "LLM should produce multiple different responses");
     }
 
     #[test]
@@ -252,10 +235,7 @@ mod tests {
 
         // Variance should be measurable (we have actual numbers)
         assert!(variance_pct > 0.0, "Variance percentage should be > 0");
-        assert!(
-            variance_pct <= 100.0,
-            "Variance percentage should be <= 100"
-        );
+        assert!(variance_pct <= 100.0, "Variance percentage should be <= 100");
 
         // With our simulation and temp=0.7, expect reasonable variance
         println!("Measured variance: {:.1}%", variance_pct);

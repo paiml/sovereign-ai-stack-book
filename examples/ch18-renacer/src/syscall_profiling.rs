@@ -7,6 +7,7 @@
 ///
 /// **VALIDATION:** `make run-ch18`
 use anyhow::Result;
+use std::cmp::Reverse;
 use std::collections::HashMap;
 use std::time::{Duration, Instant};
 
@@ -28,11 +29,7 @@ enum EventCategory {
 
 impl ProfileEvent {
     fn new(name: &str, duration_ns: u64, category: EventCategory) -> Self {
-        Self {
-            name: name.to_string(),
-            duration_ns,
-            category,
-        }
+        Self { name: name.to_string(), duration_ns, category }
     }
 }
 
@@ -44,10 +41,7 @@ struct Profiler {
 
 impl Profiler {
     fn new() -> Self {
-        Self {
-            events: Vec::new(),
-            active_spans: HashMap::new(),
-        }
+        Self { events: Vec::new(), active_spans: HashMap::new() }
     }
 
     fn start_span(&mut self, name: &str) {
@@ -57,11 +51,7 @@ impl Profiler {
     fn end_span(&mut self, name: &str, category: EventCategory) {
         if let Some(start) = self.active_spans.remove(name) {
             let duration = start.elapsed();
-            self.events.push(ProfileEvent::new(
-                name,
-                duration.as_nanos() as u64,
-                category,
-            ));
+            self.events.push(ProfileEvent::new(name, duration.as_nanos() as u64, category));
         }
     }
 
@@ -78,10 +68,7 @@ impl Profiler {
         let mut stats: HashMap<EventCategory, Vec<u64>> = HashMap::new();
 
         for event in &self.events {
-            stats
-                .entry(event.category)
-                .or_default()
-                .push(event.duration_ns);
+            stats.entry(event.category).or_default().push(event.duration_ns);
         }
 
         stats
@@ -93,7 +80,7 @@ impl Profiler {
     /// Get top N slowest events
     fn top_slowest(&self, n: usize) -> Vec<&ProfileEvent> {
         let mut events: Vec<_> = self.events.iter().collect();
-        events.sort_by(|a, b| b.duration_ns.cmp(&a.duration_ns));
+        events.sort_by_key(|e| Reverse(e.duration_ns));
         events.truncate(n);
         events
     }
@@ -118,13 +105,7 @@ impl AggregateStats {
         let min_ns = *durations.iter().min().unwrap_or(&0);
         let max_ns = *durations.iter().max().unwrap_or(&0);
 
-        Self {
-            count,
-            total_ns,
-            mean_ns,
-            min_ns,
-            max_ns,
-        }
+        Self { count, total_ns, mean_ns, min_ns, max_ns }
     }
 }
 
@@ -136,28 +117,17 @@ fn basic_demo() {
     let mut profiler = Profiler::new();
 
     // Record some events
-    profiler.record(ProfileEvent::new(
-        "matrix_mul",
-        1500000,
-        EventCategory::Compute,
-    ));
+    profiler.record(ProfileEvent::new("matrix_mul", 1500000, EventCategory::Compute));
     profiler.record(ProfileEvent::new("file_read", 5000000, EventCategory::IO));
     profiler.record(ProfileEvent::new("malloc", 50000, EventCategory::Memory));
-    profiler.record(ProfileEvent::new(
-        "vector_add",
-        200000,
-        EventCategory::Compute,
-    ));
+    profiler.record(ProfileEvent::new("vector_add", 200000, EventCategory::Compute));
     profiler.record(ProfileEvent::new("file_write", 3000000, EventCategory::IO));
 
     println!("   Recorded {} events", profiler.event_count());
     println!();
 
     let stats = profiler.aggregate_by_category();
-    println!(
-        "   {:>10} │ {:>6} │ {:>12} │ {:>12}",
-        "Category", "Count", "Total (ns)", "Mean (ns)"
-    );
+    println!("   {:>10} │ {:>6} │ {:>12} │ {:>12}", "Category", "Count", "Total (ns)", "Mean (ns)");
     println!("   ───────────┼────────┼──────────────┼─────────────");
 
     let mut sorted: Vec<_> = stats.iter().collect();
@@ -191,10 +161,7 @@ fn span_demo() {
     println!("   Captured {} spans", profiler.event_count());
 
     for event in &profiler.events {
-        println!(
-            "   - {}: {} ns ({:?})",
-            event.name, event.duration_ns, event.category
-        );
+        println!("   - {}: {} ns ({:?})", event.name, event.duration_ns, event.category);
     }
     println!();
 }
@@ -208,33 +175,17 @@ fn top_n_demo() {
 
     profiler.record(ProfileEvent::new("op_fast", 100, EventCategory::Compute));
     profiler.record(ProfileEvent::new("op_slow", 10000000, EventCategory::IO));
-    profiler.record(ProfileEvent::new(
-        "op_medium",
-        500000,
-        EventCategory::Memory,
-    ));
-    profiler.record(ProfileEvent::new(
-        "op_slower",
-        5000000,
-        EventCategory::Network,
-    ));
+    profiler.record(ProfileEvent::new("op_medium", 500000, EventCategory::Memory));
+    profiler.record(ProfileEvent::new("op_slower", 5000000, EventCategory::Network));
     profiler.record(ProfileEvent::new("op_fastest", 50, EventCategory::Compute));
 
     let top = profiler.top_slowest(3);
 
-    println!(
-        "   {:>4} │ {:>15} │ {:>12}",
-        "Rank", "Operation", "Duration (ns)"
-    );
+    println!("   {:>4} │ {:>15} │ {:>12}", "Rank", "Operation", "Duration (ns)");
     println!("   ─────┼─────────────────┼─────────────");
 
     for (i, event) in top.iter().enumerate() {
-        println!(
-            "   {:>4} │ {:>15} │ {:>12}",
-            i + 1,
-            event.name,
-            event.duration_ns
-        );
+        println!("   {:>4} │ {:>15} │ {:>12}", i + 1, event.name, event.duration_ns);
     }
     println!();
 }
@@ -259,10 +210,7 @@ fn determinism_demo() {
         }
 
         let stats = profiler.aggregate_by_category();
-        let compute_mean = stats
-            .get(&EventCategory::Compute)
-            .map(|s| s.mean_ns)
-            .unwrap_or(0.0);
+        let compute_mean = stats.get(&EventCategory::Compute).map(|s| s.mean_ns).unwrap_or(0.0);
 
         println!("   Run {}: Compute mean = {:.2} ns", run, compute_mean);
         results.push(compute_mean);
@@ -382,9 +330,7 @@ mod tests {
 
         let stats = profiler.aggregate_by_category();
 
-        let compute = stats
-            .get(&EventCategory::Compute)
-            .expect("compute stats exist");
+        let compute = stats.get(&EventCategory::Compute).expect("compute stats exist");
         assert_eq!(compute.count, 2);
         assert_eq!(compute.total_ns, 300);
 
@@ -419,12 +365,7 @@ mod tests {
                 profiler.record(event.clone());
             }
             let stats = profiler.aggregate_by_category();
-            results.push(
-                stats
-                    .get(&EventCategory::Compute)
-                    .expect("compute stats")
-                    .mean_ns,
-            );
+            results.push(stats.get(&EventCategory::Compute).expect("compute stats").mean_ns);
         }
 
         let first = results[0];

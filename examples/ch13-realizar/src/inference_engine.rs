@@ -26,11 +26,7 @@ enum Precision {
 
 impl Default for InferenceConfig {
     fn default() -> Self {
-        Self {
-            batch_size: 32,
-            num_threads: 4,
-            precision: Precision::F64,
-        }
+        Self { batch_size: 32, num_threads: 4, precision: Precision::F64 }
     }
 }
 
@@ -46,11 +42,7 @@ struct Model {
 impl Model {
     /// Load model with given weights
     fn new(weights: Vec<f64>, bias: f64) -> Self {
-        Self {
-            weights,
-            bias,
-            config: InferenceConfig::default(),
-        }
+        Self { weights, bias, config: InferenceConfig::default() }
     }
 
     /// Configure inference settings
@@ -62,12 +54,7 @@ impl Model {
 
     /// Single prediction
     fn predict(&self, x: &[f64]) -> f64 {
-        let sum: f64 = self
-            .weights
-            .iter()
-            .zip(x.iter())
-            .map(|(w, xi)| w * xi)
-            .sum();
+        let sum: f64 = self.weights.iter().zip(x.iter()).map(|(w, xi)| w * xi).sum();
         sum + self.bias
     }
 
@@ -220,19 +207,12 @@ fn uncertainty_demo() {
         (4.0, 10.0), // Expected: 9, actual target: 10 (outside bounds)
     ];
 
-    println!(
-        "   {:>4} │ {:>8} │ {:>12} │ {:>6}",
-        "x", "Target", "Bounds", "Hit?"
-    );
+    println!("   {:>4} │ {:>8} │ {:>12} │ {:>6}", "x", "Target", "Bounds", "Hit?");
     println!("   ─────┼──────────┼──────────────┼───────");
 
     for (x, target) in test_cases {
         let result = model.predict_with_bounds(&[x], uncertainty);
-        let in_bounds = if result.contains(target) {
-            "✅"
-        } else {
-            "❌"
-        };
+        let in_bounds = if result.contains(target) { "✅" } else { "❌" };
         println!(
             "   {:>4.1} │ {:>8.2} │ [{:.2}, {:.2}] │ {}",
             x, target, result.lower_bound, result.upper_bound, in_bounds
@@ -423,11 +403,7 @@ mod tests {
 
     #[test]
     fn test_config() {
-        let config = InferenceConfig {
-            batch_size: 64,
-            num_threads: 8,
-            precision: Precision::F32,
-        };
+        let config = InferenceConfig { batch_size: 64, num_threads: 8, precision: Precision::F32 };
 
         let model = Model::new(vec![1.0], 0.0).with_config(config);
         assert_eq!(model.config.batch_size, 64);

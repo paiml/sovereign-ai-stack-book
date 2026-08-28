@@ -37,11 +37,7 @@ struct ResourceConfig {
 
 impl Default for ResourceConfig {
     fn default() -> Self {
-        Self {
-            cpu_cores: 4,
-            memory_mb: 8192,
-            gpu_enabled: false,
-        }
+        Self { cpu_cores: 4, memory_mb: 8192, gpu_enabled: false }
     }
 }
 
@@ -78,11 +74,7 @@ struct ServiceHealth {
 
 impl ServiceHealth {
     fn new(name: &str, status: HealthStatus, latency_ms: u64) -> Self {
-        Self {
-            name: name.to_string(),
-            status,
-            latency_ms,
-        }
+        Self { name: name.to_string(), status, latency_ms }
     }
 }
 
@@ -96,21 +88,14 @@ struct DeploymentManager {
 
 impl DeploymentManager {
     fn new(config: DeploymentConfig) -> Self {
-        Self {
-            config,
-            services: Vec::new(),
-            metrics: HashMap::new(),
-        }
+        Self { config, services: Vec::new(), metrics: HashMap::new() }
     }
 
     fn deploy(&mut self) -> Result<(), String> {
         // Simulate deployment steps
-        self.services
-            .push(ServiceHealth::new("api", HealthStatus::Healthy, 15));
-        self.services
-            .push(ServiceHealth::new("model", HealthStatus::Healthy, 50));
-        self.services
-            .push(ServiceHealth::new("database", HealthStatus::Healthy, 5));
+        self.services.push(ServiceHealth::new("api", HealthStatus::Healthy, 15));
+        self.services.push(ServiceHealth::new("model", HealthStatus::Healthy, 50));
+        self.services.push(ServiceHealth::new("database", HealthStatus::Healthy, 5));
 
         self.metrics.insert("uptime".to_string(), 99.9);
         self.metrics.insert("requests_per_sec".to_string(), 1000.0);
@@ -120,17 +105,9 @@ impl DeploymentManager {
     }
 
     fn health_check(&self) -> HealthStatus {
-        if self
-            .services
-            .iter()
-            .all(|s| s.status == HealthStatus::Healthy)
-        {
+        if self.services.iter().all(|s| s.status == HealthStatus::Healthy) {
             HealthStatus::Healthy
-        } else if self
-            .services
-            .iter()
-            .any(|s| s.status == HealthStatus::Unhealthy)
-        {
+        } else if self.services.iter().any(|s| s.status == HealthStatus::Unhealthy) {
             HealthStatus::Unhealthy
         } else {
             HealthStatus::Degraded
@@ -153,10 +130,7 @@ fn config_demo() {
         DeploymentConfig::new(Environment::Production, "0.1.0"),
     ];
 
-    println!(
-        "   {:>12} │ {:>8} │ {:>8} │ {:>6}",
-        "Environment", "Replicas", "CPU", "Memory"
-    );
+    println!("   {:>12} │ {:>8} │ {:>8} │ {:>6}", "Environment", "Replicas", "CPU", "Memory");
     println!("   ─────────────┼──────────┼──────────┼────────");
 
     for config in configs {
@@ -244,9 +218,7 @@ fn determinism_demo() {
     }
 
     let first = results[0];
-    let all_identical = results
-        .iter()
-        .all(|r| r.0 == first.0 && (r.1 - first.1).abs() < 1e-10);
+    let all_identical = results.iter().all(|r| r.0 == first.0 && (r.1 - first.1).abs() < 1e-10);
 
     println!();
     if all_identical {
@@ -413,9 +385,6 @@ mod tests {
         }
 
         let first = results[0];
-        assert!(
-            results.iter().all(|&r| r == first),
-            "Deployment must be deterministic"
-        );
+        assert!(results.iter().all(|&r| r == first), "Deployment must be deterministic");
     }
 }

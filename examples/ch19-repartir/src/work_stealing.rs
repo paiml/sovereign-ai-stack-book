@@ -35,11 +35,7 @@ struct Worker {
 
 impl Worker {
     fn new(id: usize) -> Self {
-        Self {
-            id,
-            queue: VecDeque::new(),
-            processed: Vec::new(),
-        }
+        Self { id, queue: VecDeque::new(), processed: Vec::new() }
     }
 
     fn push(&mut self, work: WorkUnit) {
@@ -228,9 +224,8 @@ fn execution_demo() {
     println!();
 
     let mut scheduler = Scheduler::new(4);
-    let work: Vec<WorkUnit> = (0..12)
-        .map(|i| WorkUnit::new(i, i as u32 % 3, (i as u64 + 1) * 10))
-        .collect();
+    let work: Vec<WorkUnit> =
+        (0..12).map(|i| WorkUnit::new(i, i as u32 % 3, (i as u64 + 1) * 10)).collect();
 
     scheduler.distribute(work);
     scheduler.execute();
@@ -380,9 +375,6 @@ mod tests {
         }
 
         let first = &results[0];
-        assert!(
-            results.iter().all(|r| r == first),
-            "Scheduling must be deterministic"
-        );
+        assert!(results.iter().all(|r| r == first), "Scheduling must be deterministic");
     }
 }

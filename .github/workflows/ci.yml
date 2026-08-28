@@ -5,6 +5,9 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  # This lane had exactly one run on main in 155 days and no way to re-run it
+  # without pushing. Allow a deliberate re-verification.
+  workflow_dispatch:
 
 env:
   CARGO_TERM_COLOR: always
@@ -15,17 +18,39 @@ jobs:
     name: Test Examples (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
     strategy:
+      # The 2026-03-26 failure was windows-only at "Check formatting", and
+      # fail-fast cancelled ubuntu and macos before either recorded a single
+      # step. That destroyed the evidence needed to tell a real fmt diff from a
+      # CRLF artefact, and the lane stayed red and undiagnosed for 155 days.
+      # Every leg still has to pass; they just all get to report.
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+
+      - name: Read pinned toolchain
+        id: rust
+        shell: bash
+        run: |
+          channel="$(sed -n 's/^ *channel *= *"\([^"]*\)".*/\1/p' rust-toolchain.toml)"
+          test -n "$channel" || { echo "::error::no channel in rust-toolchain.toml"; exit 1; }
+          echo "channel=$channel" >> "$GITHUB_OUTPUT"
 
       - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@master
         with:
+          toolchain: ${{ steps.rust.outputs.channel }}
           components: rustfmt, clippy
+
+      - name: Report effective toolchain
+        shell: bash
+        run: |
+          rustc --version
+          cargo fmt --version
+          cargo clippy --version
 
       - name: Cache Rust dependencies
         uses: Swatinem/rust-cache@v2
@@ -40,8 +65,10 @@ jobs:
       - name: Check formatting
         run: cargo fmt --all -- --check
 
+      # --workspace: without it cargo lints only the root package, so this
+      # step was blind to all 22 chapter crates it claims to cover.
       - name: Run clippy
-        run: cargo clippy --all-targets --all-features -- -D warnings
+        run: cargo clippy --workspace --all-targets --all-features -- -D warnings
 
       - name: Build all examples
         run: cargo build --workspace --all-targets
@@ -56,7 +83,7 @@ jobs:
 
           echo "Testing Chapter 3..."
           cargo run --package ch03-trueno --bin simd_speedup
-          cargo run --package ch03-trueno --bin gpu_comparison || true
+          cargo run --package ch03-trueno --bin gpu_comparison
 
           echo "Testing Chapter 5..."
           cargo run --package ch05-pmat --bin quality_gates
@@ -69,10 +96,21 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+
+      - name: Read pinned toolchain
+        id: rust
+        shell: bash
+        run: |
+          channel="$(sed -n 's/^ *channel *= *"\([^"]*\)".*/\1/p' rust-toolchain.toml)"
+          test -n "$channel" || { echo "::error::no channel in rust-toolchain.toml"; exit 1; }
+          echo "channel=$channel" >> "$GITHUB_OUTPUT"
 
       - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ steps.rust.outputs.channel }}
+          components: rustfmt, clippy
 
       - name: Cache Rust dependencies
         uses: Swatinem/rust-cache@v2
@@ -94,23 +132,45 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+
+      - name: Read pinned toolchain
+        id: rust
+        shell: bash
+        run: |
+          channel="$(sed -n 's/^ *channel *= *"\([^"]*\)".*/\1/p' rust-toolchain.toml)"
+          test -n "$channel" || { echo "::error::no channel in rust-toolchain.toml"; exit 1; }
+          echo "channel=$channel" >> "$GITHUB_OUTPUT"
 
       - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@master
         with:
+          toolchain: ${{ steps.rust.outputs.channel }}
           components: clippy
+
+      - name: Report effective toolchain
+        run: |
+          rustc --version
+          cargo clippy --version
 
       - name: Cache Rust dependencies
         uses: Swatinem/rust-cache@v2
 
+      # --workspace: this gate is named "zero warnings" but without it cargo
+      # lints the root package alone. It passed over two real findings in
+      # ch05-pmat and ch18-renacer for the life of the repository.
       - name: Verify zero warnings
-        run: cargo clippy --all-targets --all-features -- -D warnings
+        run: cargo clippy --workspace --all-targets --all-features -- -D warnings
 
       - name: Check for TODO/FIXME (optional warning)
         run: |
-          if grep -r "TODO\|FIXME" examples/ --exclude-dir=target || true; then
-            echo "⚠️  Found TODO/FIXME comments (non-blocking)"
+          # `if grep ... || true` made this branch unconditional: it printed the
+          # warning whether or not a TODO existed, i.e. it reported a result it
+          # had not measured. `if` already swallows grep's exit status.
+          if grep -rn "TODO\|FIXME" examples/ --exclude-dir=target; then
+            echo "::warning::Found TODO/FIXME comments (non-blocking)"
+          else
+            echo "No TODO/FIXME comments found."
           fi
 
   scientific-reproducibility:
@@ -119,10 +179,20 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+
+      - name: Read pinned toolchain
+        id: rust
+        shell: bash
+        run: |
+          channel="$(sed -n 's/^ *channel *= *"\([^"]*\)".*/\1/p' rust-toolchain.toml)"
+          test -n "$channel" || { echo "::error::no channel in rust-toolchain.toml"; exit 1; }
+          echo "channel=$channel" >> "$GITHUB_OUTPUT"
 
       - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ steps.rust.outputs.channel }}
 
       - name: Cache Rust dependencies
         uses: Swatinem/rust-cache@v2
@@ -132,20 +202,20 @@ jobs:
         with:
           tool: cargo-nextest
 
-      - name: Verify "git clone → make test" workflow
+      - name: Verify "git clone -> make test" workflow
         run: |
-          echo "🧪 Testing scientific reproducibility..."
-          echo "This simulates: git clone → make test"
+          echo "Testing scientific reproducibility..."
+          echo "This simulates: git clone -> make test"
 
           make test
 
-          echo "✅ All tests passed - claims are reproducible!"
+          echo "All tests passed - claims are reproducible!"
 
   security:
     name: Security Audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: rustsec/audit-check@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -154,10 +224,102 @@ jobs:
     name: Documentation
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/checkout@v5
+
+      - name: Read pinned toolchain
+        id: rust
+        shell: bash
+        run: |
+          channel="$(sed -n 's/^ *channel *= *"\([^"]*\)".*/\1/p' rust-toolchain.toml)"
+          test -n "$channel" || { echo "::error::no channel in rust-toolchain.toml"; exit 1; }
+          echo "channel=$channel" >> "$GITHUB_OUTPUT"
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ steps.rust.outputs.channel }}
+
       - uses: Swatinem/rust-cache@v2
+
       - name: Build documentation
         run: cargo doc --no-deps --workspace
         env:
           RUSTDOCFLAGS: -D warnings
+
+  # ---------------------------------------------------------------------------
+  # The single status context the paiml org ruleset "Green Main" requires.
+  # The context is the JOB ID, so this job MUST stay literally `gate`.
+  # It measures the real lane: it fails unless EVERY job above reported success.
+  # `if: always()` alone would make it unconditionally green — the results are
+  # inspected below, and `skipped`/`cancelled` are NOT a pass.
+  # ---------------------------------------------------------------------------
+  gate:
+    name: gate
+    runs-on: ubuntu-latest
+    if: always()
+    needs:
+      - test
+      - validate-makefile
+      - quality-gates
+      - scientific-reproducibility
+      - security
+      - docs
+    steps:
+      - name: Aggregate required job results
+        env:
+          NEEDS_JSON: ${{ toJSON(needs) }}
+        run: |
+          set -euo pipefail
+
+          # One "<job>\t<result>" line per job this gate claims to cover.
+          REQUIRED=$(cat <<'EOF'
+          test	${{ needs.test.result }}
+          validate-makefile	${{ needs.validate-makefile.result }}
+          quality-gates	${{ needs.quality-gates.result }}
+          scientific-reproducibility	${{ needs.scientific-reproducibility.result }}
+          security	${{ needs.security.result }}
+          docs	${{ needs.docs.result }}
+          EOF
+          )
+
+          n=0
+          failed=0
+          echo "Upstream job results:"
+          while IFS=$'\t' read -r job result; do
+            job="${job#"${job%%[! ]*}"}"   # strip the heredoc indent
+            [ -n "$job" ] || continue
+            n=$((n + 1))
+            printf '  %-28s %s\n' "$job" "$result"
+            if [ "$result" != "success" ]; then
+              failed=$((failed + 1))
+            fi
+          done <<EOF
+          $REQUIRED
+          EOF
+
+          echo "checked $n upstream job(s); $failed did not report success"
+
+          # A gate that inspects nothing must never read as a pass.
+          if [ "$n" -eq 0 ]; then
+            echo "FAIL: denominator is zero — this gate measured nothing."
+            exit 1
+          fi
+
+          # Cross-check the list above against the actual `needs:` graph, so a
+          # job added to `needs:` but not listed here cannot ride through
+          # unmeasured. Each entry in the needs context has exactly one
+          # "result" key, whatever the key order.
+          declared=$(printf '%s' "$NEEDS_JSON" | grep -o '"result"' | wc -l | tr -d '[:space:]' || true)
+          if [ "$n" -ne "$declared" ]; then
+            echo "FAIL: gate lists $n job(s) but needs: declares $declared."
+            echo "      An upstream job is unaccounted for; update the REQUIRED list."
+            exit 1
+          fi
+
+          if [ "$failed" -ne 0 ]; then
+            echo "FAIL: $failed of $n required job(s) did not report success."
+            echo "      (skipped and cancelled are NOT a pass)"
+            exit 1
+          fi
+
+          echo "PASS: all $n required job(s) reported success."
