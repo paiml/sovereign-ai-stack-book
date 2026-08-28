@@ -245,3 +245,81 @@ jobs:
         run: cargo doc --no-deps --workspace
         env:
           RUSTDOCFLAGS: -D warnings
+
+  # ---------------------------------------------------------------------------
+  # The single status context the paiml org ruleset "Green Main" requires.
+  # The context is the JOB ID, so this job MUST stay literally `gate`.
+  # It measures the real lane: it fails unless EVERY job above reported success.
+  # `if: always()` alone would make it unconditionally green — the results are
+  # inspected below, and `skipped`/`cancelled` are NOT a pass.
+  # ---------------------------------------------------------------------------
+  gate:
+    name: gate
+    runs-on: ubuntu-latest
+    if: always()
+    needs:
+      - test
+      - validate-makefile
+      - quality-gates
+      - scientific-reproducibility
+      - security
+      - docs
+    steps:
+      - name: Aggregate required job results
+        env:
+          NEEDS_JSON: ${{ toJSON(needs) }}
+        run: |
+          set -euo pipefail
+
+          # One "<job>\t<result>" line per job this gate claims to cover.
+          REQUIRED=$(cat <<'EOF'
+          test	${{ needs.test.result }}
+          validate-makefile	${{ needs.validate-makefile.result }}
+          quality-gates	${{ needs.quality-gates.result }}
+          scientific-reproducibility	${{ needs.scientific-reproducibility.result }}
+          security	${{ needs.security.result }}
+          docs	${{ needs.docs.result }}
+          EOF
+          )
+
+          n=0
+          failed=0
+          echo "Upstream job results:"
+          while IFS=$'\t' read -r job result; do
+            job="${job#"${job%%[! ]*}"}"   # strip the heredoc indent
+            [ -n "$job" ] || continue
+            n=$((n + 1))
+            printf '  %-28s %s\n' "$job" "$result"
+            if [ "$result" != "success" ]; then
+              failed=$((failed + 1))
+            fi
+          done <<EOF
+          $REQUIRED
+          EOF
+
+          echo "checked $n upstream job(s); $failed did not report success"
+
+          # A gate that inspects nothing must never read as a pass.
+          if [ "$n" -eq 0 ]; then
+            echo "FAIL: denominator is zero — this gate measured nothing."
+            exit 1
+          fi
+
+          # Cross-check the list above against the actual `needs:` graph, so a
+          # job added to `needs:` but not listed here cannot ride through
+          # unmeasured. Each entry in the needs context has exactly one
+          # "result" key, whatever the key order.
+          declared=$(printf '%s' "$NEEDS_JSON" | grep -o '"result"' | wc -l | tr -d '[:space:]' || true)
+          if [ "$n" -ne "$declared" ]; then
+            echo "FAIL: gate lists $n job(s) but needs: declares $declared."
+            echo "      An upstream job is unaccounted for; update the REQUIRED list."
+            exit 1
+          fi
+
+          if [ "$failed" -ne 0 ]; then
+            echo "FAIL: $failed of $n required job(s) did not report success."
+            echo "      (skipped and cancelled are NOT a pass)"
+            exit 1
+          fi
+
+          echo "PASS: all $n required job(s) reported success."
